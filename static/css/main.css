@@ -1,0 +1,147 @@
+body, input, button, textarea {
+  font-family: 'Varela Round', Helvetica Neue, Helvetica, Arial, serif;
+}
+
+body {
+  font-size: 1em;
+  color: #F2F2F2;
+  font-weight: 400;
+  background: #394D73;
+  position: relative;
+}
+
+.top-10 {padding-top: 10%;}
+.width-auto {width: auto;}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+a {
+  text-decoration: none;
+  color: #5C82F2;
+}
+a:hover {
+  color: #B72EF2;
+}
+
+/*Typography*/
+h1, h2, h3, h4 {
+  font-size: 1.15em;
+  font-weight: normal;
+  margin: 0;
+  line-height: 1em;
+}
+h1 {
+  font-size: xx-large;
+  text-align: center;
+  line-height: 30px;
+}
+h2 {
+  margin: 0 0 10px;
+}
+h3 {
+  text-align: center;
+  padding: 40px 0 0 40px;
+  font-size: 1em;
+}
+h4 {
+  margin: 10px 0 0;
+  opacity: .7;
+  font-size: 2em;
+}
+h5 {
+    margin: 0;
+}
+p {
+  margin: 0;
+  line-height: 1.5em;
+}
+
+/*Form Elements*/
+form {
+  background: #C3B8D9;
+  width: 40%;
+  border-radius: 10px;
+  padding: 2%;
+  margin: 5%;
+}
+input {
+  width: 300px;
+  border: 0;
+  border-bottom: 2px solid #F2F2F2;
+  outline: 0;
+  background: #F2F2F2;
+  padding: 20px 10px 4px;
+  margin-bottom: 5%;
+  color: #2C3238;
+}
+input:focus {
+  border-color: #41A0F2;
+  color: #B72EF2;
+}
+
+.field {
+  margin: auto;
+  width: 300px;
+}
+
+textarea {
+  width: 100%;
+  border: 0;
+  border-bottom: 2px solid #D3D8DC;
+  outline: 0;
+  background: #fff;
+  padding: 20px 0 4px;
+  margin: 0 0 20px;
+  color: #777B7E;
+}
+textarea:focus {
+  border-color: #6ECDF7;
+  color: #2C3238;
+}
+button {
+  width: 100px;
+  margin: 2% auto;
+  padding: 10px 10px;
+  text-align: center;
+  background: #41A0F2;
+  color: #F2F2F2;
+  border: 0;
+  border-radius: 4px;
+  opacity: .8;
+  transition: .35s linear;
+}
+button:hover {
+  opacity: 1;
+}
+button.small {
+    padding: 1em 0.5em;
+    margin: 0 auto;
+    text-align: center;
+}
+#login {background: #54D930}
+#register {background: #BF5A5A}
+
+select {
+  color: #2C3238;
+}
+
+/*Notifications*/
+.notification {
+  text-align: center;
+  padding: 10px 20px;
+  border-radius: 4px;
+  color: #fff;
+}
+.success {
+  background: #54D930;
+  color: #F2F2F2;
+}
+.error {
+  background: #8E1600;
+  color: #F2F2F2;
+  margin-bottom: 20px;
+}
