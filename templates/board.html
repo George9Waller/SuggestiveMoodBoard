@@ -1,0 +1,16 @@
+{% extends "index.html" %}
+{% from 'macros.html' import render_field %}
+
+{% block body %}
+    {% block content %}
+        {% block nav %}
+            {{ super() }}
+        {% endblock %}
+        {% block messages %}
+            {{ super() }}
+        {% endblock %}
+        {% block pagecontent %}
+            <h1>You are through to a board</h1>
+        {% endblock %}
+    {% endblock %}
+{% endblock %}

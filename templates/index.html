@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+{% from 'macros.html' import render_field %}
+
+{% block title %}Boards{% endblock %}
+
+{% block head %}
+    {% block styles %}
+        {{ super() }}
+        <link rel="stylesheet" href="{{ url_for('.static', filename='/css/Navigation-with-Button.css') }}">
+        <link rel="stylesheet" href="{{ url_for('.static', filename='/css/Contact-Form-Clean.css') }}">
+    {% endblock %}
+{% endblock %}
+
+{% block body %}
+{% block content %}
+    {% block nav %}
+        <nav class="navbar navbar-light navbar-expand-md navigation-clean-button" style="background: #F2F2F2">
+        <div class="container"><a class="navbar-brand" href="{{ url_for('index') }}">Suggestive Moodboard</a><!--<button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">--><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse"
+                id="navcol-1">
+                <ul class="nav navbar-nav mr-auto">
+                    {% if board %}
+                        <li class="nav-item"><a class="nav-item" href="#">{{ board.Name }}</a></li>
+                        <li class="nav-item"><a class="btn btn-danger" role="button" href="/delete/board/{{ board.id }}">Delete</a></li>
+                    {% endif %}
+                </ul><span class="navbar-text actions" style="float: right"> <a class="login" href="#">Welcome {{ current_user.UserName }}</a><a class="btn btn-light action-button" role="button" href="{{ url_for('logout') }}">Logout</a></span></div>
+        </div>
+    </nav>
+    {% endblock %}
+    {% block messages %} {{ super() }} {% endblock %}
+    {% block pagecontent %}
+        <div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3" style="text-align: center;">
+                        <h1 style="text-align: center;font-size: 15pt;">Name</h1>
+                    </div>
+                    <div class="col-md-3" style="text-align: center;">
+                        <h1 style="text-align: center;font-size: 15pt;">Date Created</h1>
+                    </div>
+                    <div class="col-md-3">
+                        <h1 style="text-align: center;font-size: 15pt;">Event Date</h1>
+                    </div>
+                    <div class="col-md-3"></div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="container">
+                {% for board in boards %}
+                    <div class="row" style="padding: 2px; margin-top: 5px; margin-bottom: 5px; background: #F2F2F2">
+                        <div class="col-md-3" style="text-align: center">
+                            <p>{{ board.Name }}</p>
+                        </div>
+                        <div class="col-md-3" style="text-align: center;">
+                            <p>{{ board.Created }}</p>
+                        </div>
+                        <div class="col-md-3" style="text-align: center">
+                            <p>{{ board.EventDate }}</p>
+                        </div>
+                        <div class="col-md-3" style="text-align: center">
+                            <a class="btn btn-info" role="button" href="/{{ board.id }}">View</a>
+                        </div>
+                    </div>
+                {% endfor %}
+                <div class="row" style="padding: 2px">
+                    <a class="btn btn-primary" role="button" href="{{ url_for('new_board') }}">New Board</a>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+{% endblock %}
+{% endblock %}

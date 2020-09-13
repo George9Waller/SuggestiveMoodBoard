@@ -12,6 +12,7 @@
 {% endblock %}
 
 {% block content %}
+    {% block messages %}{{ super() }}{% endblock %}
 <div class="login-dark" style="background: url(&quot;static/img/Picture%20LX.jpg&quot;) center / contain repeat;">
         <div>
             <h1 style="text-align: center;padding: 40px;background: #2980ef;color: #ffffff;"><strong>Suggestive Moodboard</strong></h1>

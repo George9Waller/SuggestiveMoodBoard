@@ -5,6 +5,7 @@
 
 {% block head %}
     {% block styles %}
+        {{ super() }}
         <link rel="stylesheet" href="{{ url_for('.static', filename='/bootstrap/css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ url_for('.static', filename='/css/Login-Form-Dark.css') }}">
         <link rel="stylesheet" href="{{ url_for('.static', filename='/css/styles.css') }}">
@@ -13,6 +14,9 @@
 
 
 {% block content %}
+    {% block messages %}
+        {{ super() }}
+    {% endblock %}
     <div class="login-dark" style="background: url(&quot;static/img/Picture%20LX.jpg&quot;) center / contain repeat;">
         <div style="padding: 40px;background: #2980ef;">
             <h1 style="text-align: center;color: #ffffff;"><strong>Suggestive Moodboard</strong></h1>

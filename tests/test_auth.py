@@ -3,7 +3,7 @@ import os
 from peewee import *
 
 import app
-from models import User
+from models import User, Board
 
 TEST_DB = SqliteDatabase(':memory:')
 TEST_DB.connect(reuse_if_open=True)
@@ -15,8 +15,8 @@ class AppTestCase(unittest.TestCase):
     def setUp(self):
         app.app.config['TESTING'] = True
         app.app.config['WTF_CSRF_ENABLED'] = False
-        TEST_DB.drop_tables([User])
-        TEST_DB.create_tables([User])
+        TEST_DB.drop_tables([User, Board])
+        TEST_DB.create_tables([User, Board])
         self.app = app.app.test_client()
 
 
@@ -60,7 +60,7 @@ class UserModelTestCase(AppTestCase):
         """tests that a user with valid details can register"""
         rv = self.register('User1', 'email8@testing.com', 'Ryehouse80!', usertype='Designer')
         self.assertEqual(rv.status_code, 200)
-        self.assertIn(b'Welcome', rv.data)
+        self.assertIn(b'Registration successful', rv.data)
 
     def test_invalid_user_registration(self):
         """tests registering with invalid credentials"""

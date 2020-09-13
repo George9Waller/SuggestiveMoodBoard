@@ -3,7 +3,7 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 from flask_bcrypt import check_password_hash
 from flask_bootstrap import Bootstrap
 
-from Forms import forms_auth
+from Forms import forms_auth, forms_site
 import models
 
 DEBUG = True
@@ -32,6 +32,7 @@ def before_request():
     """Connect to the database before each request"""
     g.db = models.DATABASE
     g.db.connect(reuse_if_open=True)
+    g.user = current_user
 
 
 @app.after_request
@@ -88,9 +89,57 @@ def logout():
     return redirect(url_for('index'))
 
 
+@app.route('/add-board', methods=['GET', 'POST'])
+@login_required
+def new_board():
+    form = forms_site.NewBoard()
+    if form.validate_on_submit():
+        flash("Board Added", "success")
+        models.Board.create(User=g.user.id, Name=form.name.data,
+                            VenueSize=form.venuesize.data, EventDate=form.eventdate.data)
+        return redirect(url_for('index'))
+    return render_template('add-board.html', form=form)
+
+
+@app.route('/<int:boardid>')
+@login_required
+def board(boardid):
+    board = models.Board.get_board(boardid)
+    return render_template('board.html', board=board)
+
+
+@app.route('/delete/board/<int:boardid>', methods=['GET', 'POST'])
+@login_required
+def delete_board(boardid):
+    form = forms_site.DeleteBoardForm()
+    if form.validate_on_submit():
+        try:
+            models.Board.get(models.Board.id == boardid)
+        except models.DoesNotExist:
+            flash("Board does not exist", "error")
+            return redirect(url_for('index'))
+        else:
+            board = models.Board.get(models.Board.id == boardid)
+            if board.User != current_user:
+                flash('This is not your board!', "error")
+                return redirect(url_for('index'))
+            flash("Board Deleted", "success")
+            models.Board.delete_by_id(boardid)
+            return redirect(url_for('index'))
+    else:
+        try:
+            board = models.Board.get(models.Board.id == boardid)
+            return render_template('delete-board.html', form=form, board=board)
+        except models.DoesNotExist:
+            flash("Board does not exist", "error")
+            return redirect(url_for('index'))
+
+
 @app.route('/')
+@login_required
 def index():
-    return 'Hello World! Welcome'
+    boards = models.User.get_boards(g.user.id)
+    return render_template('index.html', boards=boards)
 
 
 if __name__ == 'app':

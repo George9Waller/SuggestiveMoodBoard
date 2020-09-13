@@ -1,0 +1,34 @@
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, SelectField, BooleanField
+from wtforms.validators import DataRequired, Regexp, ValidationError, Email, Length, EqualTo
+from wtforms.fields.html5 import DateField
+
+from models import User, Board
+
+
+class NewBoard(FlaskForm):
+    name = StringField(
+        'Name',
+        validators=[
+            DataRequired(),
+            Length(min=1, max=30, message="Name must be max 30 characters")
+        ]
+    )
+
+    venuesize = SelectField(
+        'Venue Size',
+        choices=['Small', 'Medium', 'Large'],
+        validators=[
+            DataRequired()
+        ]
+    )
+
+    eventdate = DateField(
+        'Event Date',
+        format='%Y-%m-%d',
+        validators=[DataRequired()]
+    )
+
+
+class DeleteBoardForm(FlaskForm):
+    confirm = BooleanField('Confirm you want to delete this board', validators=[DataRequired()])
