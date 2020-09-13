@@ -19,6 +19,7 @@ class User(UserMixin, Model):
         order_by = ('UserID',)
 
     def get_boards(self):
+        """returns all the boards with a user matching the supplied user, ordered by soonest first"""
         return Board.select().where(Board.User == self).order_by(Board.EventDate)
 
     @classmethod
@@ -49,6 +50,7 @@ class Board(Model):
         order_by = ('User',)
 
     def get_board(self):
+        """returns the board matching the supplied id"""
         return Board.get(Board.id == self)
 
     @classmethod

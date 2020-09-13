@@ -7,6 +7,7 @@ from models import User, Board
 
 
 class NewBoard(FlaskForm):
+    """Form for creating a board"""
     name = StringField(
         'Name',
         validators=[
@@ -31,4 +32,5 @@ class NewBoard(FlaskForm):
 
 
 class DeleteBoardForm(FlaskForm):
+    """Form for deleting a board with confirmation checkbox"""
     confirm = BooleanField('Confirm you want to delete this board', validators=[DataRequired()])

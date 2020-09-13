@@ -5,6 +5,7 @@ from wtforms.validators import DataRequired, Regexp, ValidationError, Email, Len
 from models import User
 
 
+# custom validators to verify if the username or email is already in use
 def name_exists(form, field):
     if User.select().where(User.UserName == field.data).exists():
         raise ValidationError('User with that username already exists!')
@@ -16,6 +17,7 @@ def email_exists(form, field):
 
 
 class RegisterFrom(FlaskForm):
+    """Form to register a new account"""
     username = StringField(
         'Username',
         validators=[
@@ -57,5 +59,6 @@ class RegisterFrom(FlaskForm):
 
 
 class LoginForm(FlaskForm):
+    """Form to login"""
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])

@@ -15,12 +15,14 @@ class AppTestCase(unittest.TestCase):
     def setUp(self):
         app.app.config['TESTING'] = True
         app.app.config['WTF_CSRF_ENABLED'] = False
+        # refreshes database tables between tests
         TEST_DB.drop_tables([User, Board])
         TEST_DB.create_tables([User, Board])
         self.app = app.app.test_client()
 
 
 class LoadPagesTestCase(AppTestCase):
+    """Tests get requests on the pages"""
     def test_index_page(self):
         rv = self.app.get('/', follow_redirects=True)
         self.assertEqual(rv.status_code, 200)

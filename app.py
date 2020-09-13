@@ -21,6 +21,7 @@ login_manager.login_view = 'login'
 
 @login_manager.user_loader
 def load_user(userid):
+    """tries to load the use matching the user id, catching the error if the user does not exist"""
     try:
         return models.User.get(models.User.id == userid)
     except models.DoesNotExist:
@@ -29,9 +30,10 @@ def load_user(userid):
 
 @app.before_request
 def before_request():
-    """Connect to the database before each request"""
+    """Connect to the database via the global variable before each request"""
     g.db = models.DATABASE
     g.db.connect(reuse_if_open=True)
+    # sets the global variable user to the current user
     g.user = current_user
 
 
@@ -44,6 +46,7 @@ def after_request(response):
 
 @app.route('/register', methods=('GET', 'POST'))
 def register():
+    """Handles user registration"""
     form = forms_auth.RegisterFrom()
     if form.validate_on_submit():
         flash("Registration successful", "success")
@@ -53,79 +56,99 @@ def register():
             usernum = 2
         else:
             usernum = 0
-        models.User.create_user(
+        """created new user"""
+        user = models.User.create_user(
             username=form.username.data,
             email=form.email.data,
             password=form.password.data,
             usertype=usernum
         )
+        # returns user to index after registration
         return redirect(url_for('index'))
+    # reloads page on unsuccessful registration
     return render_template('register.html', form=form)
 
 
 @app.route('/login', methods=('GET', 'POST'))
 def login():
+    """Handles user login"""
     form = forms_auth.LoginForm()
     if form.validate_on_submit():
+        """tries to match the username to an existing user"""
         try:
             user = models.User.get(models.User.UserName == form.username.data)
         except models.DoesNotExist:
             flash("Email and/or password do not match", "error")
         else:
+            """checks hashed password with database"""
             if check_password_hash(user.PasswordHash, form.password.data):
                 login_user(user)
                 flash("Login successful", "success")
                 return redirect(url_for('index'))
             else:
                 flash("Email and/or password do not match", "error")
+    # reloads page on unsuccessful login
     return render_template('login.html', form=form)
 
 
 @app.route('/logout')
 @login_required
 def logout():
+    """logs out user and redirects them to login"""
     logout_user()
     flash("Logout successful", "success")
-    return redirect(url_for('index'))
+    return redirect(url_for('login'))
 
 
 @app.route('/add-board', methods=['GET', 'POST'])
 @login_required
 def new_board():
+    """Handles creating a new board"""
     form = forms_site.NewBoard()
     if form.validate_on_submit():
         flash("Board Added", "success")
         models.Board.create(User=g.user.id, Name=form.name.data,
                             VenueSize=form.venuesize.data, EventDate=form.eventdate.data)
         return redirect(url_for('index'))
+    # reloads page on unsuccessful form
     return render_template('add-board.html', form=form)
 
 
 @app.route('/<int:boardid>')
 @login_required
 def board(boardid):
+    """loads a board - checking if the current user is owner"""
     board = models.Board.get_board(boardid)
-    return render_template('board.html', board=board)
+    if board.User == current_user:
+        return render_template('board.html', board=board)
+    else:
+        flash("This is not your board", "error")
+        return redirect(url_for('index'))
 
 
 @app.route('/delete/board/<int:boardid>', methods=['GET', 'POST'])
 @login_required
 def delete_board(boardid):
+    """delete board form, checking the board exists and the current user is its owner"""
     form = forms_site.DeleteBoardForm()
     if form.validate_on_submit():
+        # checks the board exists
         try:
             models.Board.get(models.Board.id == boardid)
         except models.DoesNotExist:
             flash("Board does not exist", "error")
             return redirect(url_for('index'))
         else:
+            # checks the current user owns the board
             board = models.Board.get(models.Board.id == boardid)
             if board.User != current_user:
                 flash('This is not your board!', "error")
                 return redirect(url_for('index'))
-            flash("Board Deleted", "success")
-            models.Board.delete_by_id(boardid)
-            return redirect(url_for('index'))
+            else:
+                flash("Board Deleted", "success")
+                models.Board.delete_by_id(boardid)
+                return redirect(url_for('index'))
+        # if the form is not valid - checks if the board exists to reload the form or redirects the user to index
     else:
         try:
             board = models.Board.get(models.Board.id == boardid)
@@ -138,6 +161,7 @@ def delete_board(boardid):
 @app.route('/')
 @login_required
 def index():
+    """index view showing the user their board(s)"""
     boards = models.User.get_boards(g.user.id)
     return render_template('index.html', boards=boards)
 
@@ -145,6 +169,7 @@ def index():
 if __name__ == 'app':
     models.initialise()
     try:
+        # creates a user for testing
         models.User.create_user(
             username="GeorgeWaller",
             email="george.waller3@gmail.com",
