@@ -90,6 +90,15 @@ class PostPagesTestCase(BoardHelperTestCase):
                            follow_redirects=True)
         self.assertIn(b'This is not your board!', rv.data)
 
+    def test_view_invalid_board(self):
+        """Tests trying to view a board which belongs to another user"""
+        self.newboard()
+        self.logout()
+        self.register('un1', 'email@test.com')
+        self.login('un1', 'P&ssw0rd')
+        rv = self.app.get('/1', follow_redirects=True)
+        self.assertIn(b'This is not your board', rv.data)
+
 
 if __name__ == '__main__':
     unittest.main()
