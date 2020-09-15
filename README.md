@@ -1,6 +1,8 @@
 # SuggestiveMoodBoard
 A mood board website aimed at designers. It will provide a tagging system with an intelligent algorithm providing colour suggestions based on existing ideas.
 
+## [Project Wiki](https://github.com/George9Waller/SuggestiveMoodBoard/wiki "Project Wiki")
+
 ---
 A projct by **George Waller**  
 [GitHub Page](https://github.com/George9Waller "GitHub")   
