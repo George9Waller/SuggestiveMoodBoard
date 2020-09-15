@@ -160,26 +160,83 @@ def delete_board(boardid):
             return redirect(url_for('index'))
 
 
+@app.route('/delete/idea/<int:ideaid>', methods=['GET', 'POST'])
+@login_required
+def delete_idea(ideaid):
+    """delete idea form, checking the idea exists and the current user is its owner"""
+    form = forms_site.DeleteIdeaForm()
+    if form.validate_on_submit():
+        # checks the board exists
+        try:
+            models.Idea.get(models.Idea.id == ideaid)
+        except models.DoesNotExist:
+            flash("Idea does not exist", "error")
+            return redirect(url_for('index'))
+        else:
+            # check who owns the idea
+            flash("Idea Deleted", "success")
+            models.Idea.delete_by_id(ideaid)
+            # Delete all tags ascociated with the idea
+            """TODO"""
+            return redirect(url_for('index'))
+        # if the form is not valid - checks if the idea exists to reload the form or redirects the user to index
+    else:
+        try:
+            idea = models.Idea.get(models.Idea.id == ideaid)
+            return render_template('delete-idea.html', form=form, idea=idea)
+        except models.DoesNotExist:
+            flash("Idea does not exist", "error")
+            return redirect(url_for('index'))
+
+
 @app.route('/<int:boardid>/<int:ideaid>', methods=['GET', 'POST'])
 @login_required
 def edit_idea(boardid, ideaid):
     """edit an existing idea"""
-    form = forms_site.IdeaForm()
+    # catches an invalid boardid or ideaid
+    try:
+        form = forms_site.IdeaForm()
+        idea = models.Idea.get_idea(ideaid)
+
+        # check current user is owner
+        if (models.Board.get_board(boardid).User != current_user):
+            flash("This is not your data", "error")
+            return redirect('/')
+
+        if form.validate_on_submit():
+            flash("Idea Updated", "success")
+            (models.Idea.update({models.Idea.Name: form.name.data, models.Idea.Content: form.content.data})
+             .where(models.Idea.id == ideaid).execute())
+            return redirect('/{}'.format(boardid))
+        else:
+            # load existing data into form
+            form.name.data = idea.Name
+            form.content.data = idea.Content
+        # reloads page on unsuccessful form
+        return render_template('idea.html', form=form, idea=idea, delete=True)
+    except models.DoesNotExist:
+        flash("error", "error")
+        return redirect('/')
 
 
 @app.route('/<int:boardid>/new-idea', methods=['GET', 'POST'])
 @login_required
 def new_idea(boardid):
     """create new idea"""
-    form = forms_site.IdeaForm()
-    print("Requested idea")
-    if form.validate_on_submit():
-        flash("Idea Created", "success")
-        models.Idea.create(Name=form.name.data.strip(), Content=form.content.data.strip(),
-                           Board=models.Board.get_board(boardid))
-        return redirect('/{}'.format(boardid))
-    # reloads page on unsuccessful form
-    return render_template('idea.html', form=form)
+    # catches an invalid boardid
+    try:
+        form = forms_site.IdeaForm()
+        print("Requested idea")
+        if form.validate_on_submit():
+            flash("Idea Created", "success")
+            models.Idea.create(Name=form.name.data.strip(), Content=form.content.data.strip(),
+                               Board=models.Board.get_board(boardid))
+            return redirect('/{}'.format(boardid))
+        # reloads page on unsuccessful form
+        return render_template('idea.html', form=form)
+    except models.DoesNotExist:
+        flash("error", "error")
+        return redirect('/')
 
 
 @app.route('/')

@@ -36,6 +36,11 @@ class DeleteBoardForm(FlaskForm):
     confirm = BooleanField('Confirm you want to delete this board', validators=[DataRequired()])
 
 
+class DeleteIdeaForm(FlaskForm):
+    """Form for deleting an idea with confirmation checkbox"""
+    confirm = BooleanField('Confirm you want to delete this idea', validators=[DataRequired()])
+
+
 class IdeaForm(FlaskForm):
     """Form for editing or creating an idea"""
     name = StringField(

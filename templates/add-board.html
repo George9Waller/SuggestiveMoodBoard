@@ -15,6 +15,7 @@
     {% block nav %}
         {{ super() }}
     {% endblock %}
+    {% block messages %} {{ super() }} {% endblock %}
     {% block pagecontent %}
         <div class="contact-clean">
         <form method="post" action="" form="form">

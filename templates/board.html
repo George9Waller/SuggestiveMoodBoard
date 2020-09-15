@@ -29,7 +29,9 @@
             {% for idea_row in board.get_ideas() | batch(4, '&nbsp;') %}
                 <div class="row">
                     {% for idea in idea_row %}
-                        <div class="col-md-3">
+                        <!-- Set colour to tag colour if present-->
+                        {% set colour = '#f2f2f2' %}
+                        <div class="col-md-3" onclick="location.href='/{{ board.id }}/{{ idea.id }}'" style="background: {{ colour }}">
                             <h4>{{ idea.Name }}</h4>
                             <p>{{ idea.Content | truncate(200) }}</p>
                         </div>

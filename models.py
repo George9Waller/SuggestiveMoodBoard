@@ -85,6 +85,15 @@ class Idea(Model):
         database = DATABASE
         order_by = ('Board',)
 
+    def get_idea(self):
+        """returns the idea matching the supplied id"""
+        return Idea.get(Idea.id == self)
+
+    def get_owner(self):
+        """returns User who owns the idea"""
+        idea = Idea.get_idea(self)
+        return idea.Board.User.id
+
 
 def initialise():
     DATABASE.connect()
