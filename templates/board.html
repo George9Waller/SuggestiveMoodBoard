@@ -10,7 +10,34 @@
             {{ super() }}
         {% endblock %}
         {% block pagecontent %}
-            <h1>You are through to a board</h1>
+            <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>Tag Selection</h4>
+                    <div class="btn-group" role="group"><button class="btn btn-primary" type="button" style="background: #ffffff;color: rgb(0,0,0);border-color: rgb(0,0,0);margin: 3px;">All</button><button class="btn btn-primary" type="button" style="background: #6d28aa;border-color: #6d28aa;margin: 3px;">Colour</button>
+                        <button
+                            class="btn btn-primary" type="button" style="background: #ff7247;border-color: #ff7247;margin: 3px;">Fixture Type</button><button class="btn btn-primary" type="button" style="background: #00b5d6;border-color: #00b5d6;margin: 3px;">Fixture Angle</button><button class="btn btn-primary" type="button" style="background: #d81c3f;border-color: #d81c3f;margin: 3px;">Custom Red</button>
+                            <button
+                                class="btn btn-primary" type="button" style="background: #1eb53a;border-color: #1eb53a;margin: 3px;">Custom Green</button><button class="btn btn-primary" type="button" style="margin: 3px;">Custom Blue</button><button class="btn btn-primary" type="button" style="background: #f9d616;border-color: #f9d616;color: rgb(0,0,0);margin: 3px;">Custom Yellow</button></div>
+                </div>
+                <button class="btn btn-primary" role="button" type="button" style="background: rgb(0,0,0);border-color: rgb(0,0,0); margin: 3px" onclick="location.href='/{{ board.id }}/new-idea'">Add Idea</button>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="container">
+            {% for idea_row in board.get_ideas() | batch(4, '&nbsp;') %}
+                <div class="row">
+                    {% for idea in idea_row %}
+                        <div class="col-md-3">
+                            <h4>{{ idea.Name }}</h4>
+                            <p>{{ idea.Content | truncate(200) }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
         {% endblock %}
     {% endblock %}
 {% endblock %}

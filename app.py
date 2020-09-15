@@ -147,6 +147,8 @@ def delete_board(boardid):
             else:
                 flash("Board Deleted", "success")
                 models.Board.delete_by_id(boardid)
+                # deletes all ideas associated with the board
+                models.Idea.delete().where(models.Idea.Board == models.Board.get_board(boardid))
                 return redirect(url_for('index'))
         # if the form is not valid - checks if the board exists to reload the form or redirects the user to index
     else:
@@ -156,6 +158,28 @@ def delete_board(boardid):
         except models.DoesNotExist:
             flash("Board does not exist", "error")
             return redirect(url_for('index'))
+
+
+@app.route('/<int:boardid>/<int:ideaid>', methods=['GET', 'POST'])
+@login_required
+def edit_idea(boardid, ideaid):
+    """edit an existing idea"""
+    form = forms_site.IdeaForm()
+
+
+@app.route('/<int:boardid>/new-idea', methods=['GET', 'POST'])
+@login_required
+def new_idea(boardid):
+    """create new idea"""
+    form = forms_site.IdeaForm()
+    print("Requested idea")
+    if form.validate_on_submit():
+        flash("Idea Created", "success")
+        models.Idea.create(Name=form.name.data.strip(), Content=form.content.data.strip(),
+                           Board=models.Board.get_board(boardid))
+        return redirect('/{}'.format(boardid))
+    # reloads page on unsuccessful form
+    return render_template('idea.html', form=form)
 
 
 @app.route('/')

@@ -53,6 +53,13 @@ class Board(Model):
         """returns the board matching the supplied id"""
         return Board.get(Board.id == self)
 
+    def get_ideas(self):
+        """returns all the ideas associated with the board"""
+        try:
+            return Idea.select().where(Idea.Board == self)
+        except DoesNotExist:
+            return None
+
     @classmethod
     def create_board(cls, user, name, venuesize='Small', eventdate=datetime.date.today):
         """class method to create a new board"""
@@ -67,7 +74,19 @@ class Board(Model):
             raise ValueError('Invalid details')
 
 
+class Idea(Model):
+    """Idea Model"""
+    id = PrimaryKeyField()
+    Board = ForeignKeyField(Board, related_name='ideas')
+    Name = CharField(max_length=30)
+    Content = TextField()
+
+    class Meta:
+        database = DATABASE
+        order_by = ('Board',)
+
+
 def initialise():
     DATABASE.connect()
-    DATABASE.create_tables([User, Board], safe=True)
+    DATABASE.create_tables([User, Board, Idea], safe=True)
     DATABASE.close()
