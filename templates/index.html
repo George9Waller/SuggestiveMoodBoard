@@ -23,7 +23,7 @@
                         <li class="nav-item"><a class="nav-item" href="#">{{ board.Name }}</a></li>
                         <li class="nav-item"><a class="btn btn-danger" role="button" href="/delete/board/{{ board.id }}">Delete</a></li>
                     {% endif %}
-                </ul><span class="navbar-text actions" style="float: right"> <a class="login" href="#">Welcome {{ current_user.UserName }}</a><a class="btn btn-light action-button" role="button" href="{{ url_for('logout') }}">Logout</a></span></div>
+                </ul><span class="navbar-text actions" style="float: right"> <a class="login" href="#">Welcome {{ current_user.UserName }}</a><a class="btn btn-light action-button" style="background: #6610f2" target="_blank" href="https://github.com/George9Waller/SuggestiveMoodBoard/wiki" role="button">Help</a><a class="btn btn-light action-button" role="button" href="{{ url_for('logout') }}">Logout</a></span></div>
         </div>
     </nav>
     {% endblock %}
