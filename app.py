@@ -174,11 +174,15 @@ def delete_idea(ideaid):
             return redirect(url_for('index'))
         else:
             # check who owns the idea
-            flash("Idea Deleted", "success")
-            models.Idea.delete_by_id(ideaid)
-            # Delete all tags ascociated with the idea
-            """TODO"""
-            return redirect(url_for('index'))
+            if models.Idea.get_owner(ideaid) == current_user.id:
+                flash("Idea Deleted", "success")
+                models.Idea.delete_by_id(ideaid)
+                # Delete all tags ascociated with the idea
+                """TODO"""
+                return redirect(url_for('index'))
+            else:
+                flash("Error, this is not your idea", "error")
+                return redirect(url_for('index'))
         # if the form is not valid - checks if the idea exists to reload the form or redirects the user to index
     else:
         try:
@@ -199,8 +203,13 @@ def edit_idea(boardid, ideaid):
         idea = models.Idea.get_idea(ideaid)
 
         # check current user is owner
-        if (models.Board.get_board(boardid).User != current_user):
+        if models.Board.get_board(boardid).User != current_user:
             flash("This is not your data", "error")
+            return redirect('/')
+
+        # checks idea is in specified board
+        if models.Idea.get_idea(ideaid).Board != models.Board.get_board(boardid):
+            flash("This idea is not in the specified board", "error")
             return redirect('/')
 
         if form.validate_on_submit():
