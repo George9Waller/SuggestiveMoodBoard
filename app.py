@@ -166,7 +166,7 @@ def delete_idea(ideaid):
     """delete idea form, checking the idea exists and the current user is its owner"""
     form = forms_site.DeleteIdeaForm()
     if form.validate_on_submit():
-        # checks the board exists
+        # checks the idea exists
         try:
             models.Idea.get(models.Idea.id == ideaid)
         except models.DoesNotExist:

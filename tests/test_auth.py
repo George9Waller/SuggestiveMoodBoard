@@ -3,7 +3,7 @@ import os
 from peewee import *
 
 import app
-from models import User, Board
+from models import User, Board, Idea
 
 TEST_DB = SqliteDatabase(':memory:')
 TEST_DB.connect(reuse_if_open=True)
@@ -16,8 +16,8 @@ class AppTestCase(unittest.TestCase):
         app.app.config['TESTING'] = True
         app.app.config['WTF_CSRF_ENABLED'] = False
         # refreshes database tables between tests
-        TEST_DB.drop_tables([User, Board])
-        TEST_DB.create_tables([User, Board])
+        TEST_DB.drop_tables([User, Board, Idea])
+        TEST_DB.create_tables([User, Board, Idea])
         self.app = app.app.test_client()
 
 
