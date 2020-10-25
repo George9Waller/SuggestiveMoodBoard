@@ -6,7 +6,7 @@ from flask_bootstrap import Bootstrap
 from Forms import forms_auth, forms_site
 import models
 
-DEBUG = False
+DEBUG = True
 # HOST = '127.0.0.1'
 # PORT = 5000
 
@@ -294,4 +294,4 @@ if __name__ == 'app':
         )
     except ValueError:
         pass
-    app.run(debug=DEBUG, host=HOST, port=PORT)
+    app.run(debug=DEBUG, use_reloader=True)
