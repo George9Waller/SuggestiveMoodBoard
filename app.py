@@ -2,6 +2,7 @@ from flask import Flask, g, render_template, flash, redirect, url_for, request
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_bcrypt import check_password_hash
 from flask_bootstrap import Bootstrap
+import os
 
 from Forms import forms_auth, forms_site
 import models
@@ -294,4 +295,4 @@ if __name__ == 'app':
         )
     except ValueError:
         pass
-    app.run(debug=DEBUG, port=8080, use_reloader=True)
+    app.run(debug=DEBUG, port=int(os.environ.get('PORT', 5000)), use_reloader=True)
