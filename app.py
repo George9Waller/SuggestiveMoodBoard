@@ -6,9 +6,9 @@ from flask_bootstrap import Bootstrap
 from Forms import forms_auth, forms_site
 import models
 
-DEBUG = True
-HOST = '127.0.0.1'
-PORT = 5000
+# DEBUG = True
+# HOST = '127.0.0.1'
+# PORT = 5000
 
 app = Flask(__name__)
 app.secret_key = '`^=m%"(6"N*b3;"_u{3$5=]JAb7"tE!ttX/-8+!SG=*W`Y%.h8jgJ[!:bS6VLy@s=g"Jvq'
