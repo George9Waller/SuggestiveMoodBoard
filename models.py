@@ -3,7 +3,9 @@ from flask_login import UserMixin
 from flask_bcrypt import generate_password_hash
 import datetime
 
-DATABASE = SqliteDatabase('moodboard.db')
+# DATABASE = SqliteDatabase('moodboard.db')
+DATABASE = PostgresqlDatabase('georgewaller', user='georgewaller', password='',
+                              host='localhost', port='5432')
 
 
 class User(UserMixin, Model):
