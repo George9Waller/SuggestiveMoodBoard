@@ -59,3 +59,13 @@
 textarea#content{
   height: 700px;
 }
+
+button.hover {
+  opacity: 0.6;
+  width: 10%;
+}
+
+button.hover:hover{
+  opacity: 1;
+  transition: 0.5s;
+}

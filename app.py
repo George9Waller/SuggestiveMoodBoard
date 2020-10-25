@@ -1,4 +1,4 @@
-from flask import Flask, g, render_template, flash, redirect, url_for
+from flask import Flask, g, render_template, flash, redirect, url_for, request
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_bcrypt import check_password_hash
 from flask_bootstrap import Bootstrap
@@ -122,10 +122,16 @@ def new_board():
 @app.route('/<int:boardid>')
 @login_required
 def board(boardid):
-    """loads a board - checking if the current user is owner"""
+    """loads a board - checking if the current user is owner + checks query string to filter ideas shown"""
     board = models.Board.get_board(boardid)
+    query = request.args.get('filter')
+    ideas = models.Idea.filter(models.Idea, query, board)
+
     if board.User == current_user:
-        return render_template('board.html', board=board)
+        if query:
+            return render_template('board.html', board=board, ideas=ideas, query=": {}".format(query), queryid=query)
+        else:
+            return render_template('board.html', board=board, ideas=ideas, query="", queryid=query)
     else:
         flash("This is not your board", "error")
         return redirect(url_for('index'))

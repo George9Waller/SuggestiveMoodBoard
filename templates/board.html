@@ -19,13 +19,21 @@
             <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h4>Tag Selection</h4>
-                    <div class="btn-group" role="group"><button class="btn btn-primary" type="button" style="background: #ffffff;color: rgb(0,0,0);border-color: rgb(0,0,0);margin: 3px;">All</button><button class="btn btn-primary" type="button" style="background: #6d28aa;border-color: #6d28aa;margin: 3px;">Colour</button>
-                        <button
-                            class="btn btn-primary" type="button" style="background: #ff7247;border-color: #ff7247;margin: 3px;">Fixture Type</button><button class="btn btn-primary" type="button" style="background: #00b5d6;border-color: #00b5d6;margin: 3px;">Fixture Angle</button><button class="btn btn-primary" type="button" style="background: #d81c3f;border-color: #d81c3f;margin: 3px;">Custom Red</button>
-                            <button
-                                class="btn btn-primary" type="button" style="background: #1eb53a;border-color: #1eb53a;margin: 3px;">Custom Green</button><button class="btn btn-primary" type="button" style="margin: 3px;">Custom Blue</button><button class="btn btn-primary" type="button" style="background: #f9d616;border-color: #f9d616;color: rgb(0,0,0);margin: 3px;">Custom Yellow</button></div>
+                    <h4>Tag Selection{{ query }}</h4>
+                    <div class="btn-group" role="group" style="width:100%">
+                        <button class="btn btn-primary hover" id="All" onclick="location.href='/{{ board.id }}?filter=All'" type="button" style="background: #0D0D0D;color: #F2F2F2;border-color: #F2F2F2;margin: 3px;">All</button>
+                        <button class="btn btn-primary hover" id="Colour" onclick="location.href='/{{ board.id }}?filter=Colour'" type="button" style="background: #6d28aa;border-color: #6d28aa;margin: 3px;">Colour</button>
+                        <button class="btn btn-primary hover" id="FixtureType" onclick="location.href='/{{ board.id }}?filter=FixtureType'" type="button" style="background: #ff7247;border-color: #ff7247;margin: 3px;">Fixture Type</button>
+                        <button class="btn btn-primary hover" id="FixtureAngle" onclick="location.href='/{{ board.id }}?filter=FixtureAngle'" type="button" style="background: #00b5d6;border-color: #00b5d6;margin: 3px;">Fixture Angle</button>
+                        <button class="btn btn-primary hover" id="Red" onclick="location.href='/{{ board.id }}?filter=Red'" type="button" style="background: #d81c3f;border-color: #d81c3f;margin: 3px;">Red</button>
+                        <button class="btn btn-primary hover" id="Green" onclick="location.href='/{{ board.id }}?filter=Green'" type="button" style="background: #1eb53a;border-color: #1eb53a;margin: 3px;">Green</button>
+                        <button class="btn btn-primary hover" id="Blue" onclick="location.href='/{{ board.id }}?filter=Blue'" type="button" style="margin: 3px;">Blue</button>
+                        <button class="btn btn-primary hover" id="Yellow" onclick="location.href='/{{ board.id }}?filter=Yellow'" type="button" style="background: #f9d616;border-color: #f9d616;color: rgb(0,0,0);margin: 3px;">Yellow</button></div>
                 </div>
+                <script>
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const button = document.getElementById(urlParams.get('filter')).style.opacity = 1;
+                </script>
                 <!--<button class="btn btn-primary" role="button" type="button" style="background: rgb(0,0,0);border-color: rgb(0,0,0); margin: 3px" onclick="location.href='/{{ board.id }}/new-idea'">Add Idea</button>-->
                 <br>
             </div>
@@ -33,7 +41,7 @@
     </div>
     <div>
         <div class="container">
-            {% for idea_row in board.get_ideas() | batch(4) %}
+            {% for idea_row in ideas | batch(4) %}
                 <div class="row">
                     {% for idea in idea_row %}
                         <!-- Set colour to tag colour if present-->
