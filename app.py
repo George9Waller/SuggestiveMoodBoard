@@ -18,6 +18,11 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
+colour_create = "#F2F2DA"
+colour_view = "#F2F2F2"
+colour_update = "#DAE9F2"
+colour_delete = "#959FA6"
+
 
 @login_manager.user_loader
 def load_user(userid):
@@ -111,7 +116,7 @@ def new_board():
                             VenueSize=form.venuesize.data, EventDate=form.eventdate.data)
         return redirect(url_for('index'))
     # reloads page on unsuccessful form
-    return render_template('add-board.html', form=form)
+    return render_template('add-board.html', form=form, colour=colour_create)
 
 
 @app.route('/<int:boardid>')
@@ -154,7 +159,7 @@ def delete_board(boardid):
     else:
         try:
             board = models.Board.get(models.Board.id == boardid)
-            return render_template('delete-board.html', form=form, board=board)
+            return render_template('delete-board.html', form=form, board=board, colour=colour_delete)
         except models.DoesNotExist:
             flash("Board does not exist", "error")
             return redirect(url_for('index'))
@@ -187,7 +192,7 @@ def delete_idea(ideaid):
     else:
         try:
             idea = models.Idea.get(models.Idea.id == ideaid)
-            return render_template('delete-idea.html', form=form, idea=idea)
+            return render_template('delete-idea.html', form=form, idea=idea, colour=colour_delete)
         except models.DoesNotExist:
             flash("Idea does not exist", "error")
             return redirect(url_for('index'))
@@ -222,7 +227,7 @@ def edit_idea(boardid, ideaid):
             form.name.data = idea.Name
             form.content.data = idea.Content
         # reloads page on unsuccessful form
-        return render_template('idea.html', form=form, idea=idea, delete=True)
+        return render_template('idea.html', form=form, idea=idea, delete=True, colour=colour_update)
     except models.DoesNotExist:
         flash("error", "error")
         return redirect('/')
@@ -242,7 +247,7 @@ def new_idea(boardid):
                                Board=models.Board.get_board(boardid))
             return redirect('/{}'.format(boardid))
         # reloads page on unsuccessful form
-        return render_template('idea.html', form=form)
+        return render_template('idea.html', form=form, colour=colour_create)
     except models.DoesNotExist:
         flash("error", "error")
         return redirect('/')

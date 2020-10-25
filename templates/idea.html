@@ -17,7 +17,7 @@
     {% endblock %}
     {% block messages %} {{ super() }} {% endblock %}
     {% block pagecontent %}
-        <div class="contact-clean">
+        <div class="contact-clean" style="background: #F2F2F2; position: absolute; top: 80px; bottom: 0; width: 100%">
         <form method="post" action="" form="form">
         {{ form.hidden_tag() }}
             <h2 class="text-center">Idea</h2>
@@ -26,6 +26,11 @@
                     {{ render_field(field) }}
                 {% endfor %}
             </div>
+            <div id="the-count" style="float: right; padding: 0.1rem 0 0 0; font-size: 0.875rem; border-radius: 3px;">
+                <span id="current">0</span>
+                <span id="max" style="background: transparent !important;">/ 1000</span>
+            </div>
+            <br>
             <div class="form-group" style="text-align: center;">
                 <div class="col"><button class="btn btn-primary" type="submit" style="text-align: center;">&nbspSave Idea</button><button class="btn btn-primary" onclick="history.back()" type="button" style="text-align: center; margin-left: 5px; background: #F2F2F2 !important; color: #000000">&nbspBack</button>
                 {% if delete %}
@@ -35,5 +40,8 @@
             </div>
         </form>
     </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <!-- adapted from: https://codepen.io/zabielski/pen/gPPywv -->
+        <script rel="script" src="{{ url_for('.static', filename='/js/character-count.js') }}"></script>
     {% endblock %}
 {% endblock %}

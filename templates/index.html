@@ -14,7 +14,12 @@
 {% block body %}
 {% block content %}
     {% block nav %}
-        <nav class="navbar navbar-light navbar-expand-md navigation-clean-button" style="background: #F2F2F2">
+        {% if colour %}
+            {% set colour = colour %}
+        {% else %}
+             {% set colour = "#F2F2F2" %}
+        {% endif %}
+        <nav class="navbar navbar-light navbar-expand-md navigation-clean-button" style="background: {{ colour }}">
         <div class="container"><a class="navbar-brand" href="{{ url_for('index') }}">Suggestive Moodboard</a><!--<button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">--><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse"
                 id="navcol-1">

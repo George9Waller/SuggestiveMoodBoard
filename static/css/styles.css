@@ -41,3 +41,15 @@
 
   padding: 15px 15px;
 }
+
+.delete-button{
+  transition: 0.5s;
+}
+
+.delete-button:hover{
+  color: red;
+}
+
+textarea#content{
+  height: 700px;
+}
