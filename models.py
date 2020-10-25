@@ -4,8 +4,9 @@ from flask_bcrypt import generate_password_hash
 import datetime
 
 # DATABASE = SqliteDatabase('moodboard.db')
-DATABASE = PostgresqlDatabase('georgewaller', user='georgewaller', password='',
-                              host='localhost', port='5432')
+DATABASE = PostgresqlDatabase('d5o38mub306f1k', user='gankiyhoomxwod',
+                              password='db71fb788e4548b27ff125a1d74531a46e863c384cf98aa687d124470dfc4266',
+                              host='ec2-54-228-209-117.eu-west-1.compute.amazonaws.com', port='5432')
 
 
 class User(UserMixin, Model):
