@@ -18,10 +18,10 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
-colour_create = "#F2F2DA"
-colour_view = "#F2F2F2"
-colour_update = "#DAE9F2"
-colour_delete = "#959FA6"
+colour_create = "#38A67E"  # green
+colour_view = "#F2F2F2"  # grey
+colour_update = "#78BFB8"  # teal
+colour_delete = "#F26835"  # orange
 
 
 @login_manager.user_loader

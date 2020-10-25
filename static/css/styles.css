@@ -28,9 +28,15 @@
 
 .navbar-brand{
   transition: 0.5s;
+  width: 200px !important;
 }
 
-.navbar-brand:hover{
+.sitename:hover a.navbar-brand span{
+  display: none;
+  transition: 0.5s;
+}
+.sitename:hover a.navbar-brand:after{
+  content: "Home";
   color: #2980ef !important;
 }
 
