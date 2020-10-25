@@ -14,3 +14,30 @@
   color: #C5A14E;
   margin-bottom: 20px;
 }
+
+.idea {
+  border: 2px solid transparent;
+  opacity: 0.6;
+  transition: 0.5s;
+}
+
+.idea:hover{
+  border: 2px solid black;
+  opacity: 1;
+}
+
+.navbar-brand{
+  transition: 0.5s;
+}
+
+.navbar-brand:hover{
+  color: #2980ef !important;
+}
+
+.boardname{
+  font-weight: bold;
+  font-size: 12pt;
+  color: #2980ef;
+
+  padding: 15px 15px;
+}

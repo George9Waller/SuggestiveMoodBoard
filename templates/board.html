@@ -1,6 +1,12 @@
 {% extends "index.html" %}
 {% from 'macros.html' import render_field %}
 
+{% block head %}
+    {% block styles %}
+        {{ super() }}
+    {% endblock %}
+{% endblock %}
+
 {% block body %}
     {% block content %}
         {% block nav %}
@@ -26,12 +32,12 @@
     </div>
     <div>
         <div class="container">
-            {% for idea_row in board.get_ideas() | batch(4, '&nbsp;') %}
+            {% for idea_row in board.get_ideas() | batch(4) %}
                 <div class="row">
                     {% for idea in idea_row %}
                         <!-- Set colour to tag colour if present-->
                         {% set colour = '#f2f2f2' %}
-                        <div class="col-md-3" onclick="location.href='/{{ board.id }}/{{ idea.id }}'" style="background: {{ colour }}">
+                        <div class="idea col-md-3" onclick="location.href='/{{ board.id }}/{{ idea.id }}'" style="background: {{ colour }};  border-radius: 10px">
                             <h4>{{ idea.Name }}</h4>
                             <p>{{ idea.Content | truncate(200) }}</p>
                         </div>
