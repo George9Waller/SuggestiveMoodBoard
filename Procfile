@@ -1,1 +1,1 @@
-web: gunicorn app:app.py --log-file=-
+web: gunicorn app:app --preload -b 0.0.0.0:8080
