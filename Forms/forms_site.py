@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SelectField, BooleanField, TextAreaField
+from wtforms_components import ColorField
 from wtforms.validators import DataRequired, Regexp, ValidationError, Email, Length, EqualTo
 from wtforms.fields.html5 import DateField
 
@@ -57,4 +58,39 @@ class IdeaForm(FlaskForm):
             DataRequired(),
             Length(min=1, max=1000, message="Content cannot be over 1000 characters")
         ]
+    )
+
+    """tags"""
+    colour = ColorField(
+        'Colour',
+        validators=[]
+    )
+
+    fixturetype = SelectField(
+        'Fixture Type',
+        validators=[],
+        choices=['', 'Fresnel', 'Profile', 'LED', 'Par', 'Mover-Wash', 'Mover-Beam', 'Mover-Spot', 'Special', 'Intelligent']
+    )
+
+    fixtureangle = SelectField(
+        'Fixture Angle',
+        validators=[],
+        choices=['', 'Face', 'Back', 'Side', 'Top', 'Overhead', 'Foot', 'Special']
+    )
+
+    red = StringField(
+        'Red',
+        validators=[Length(max=20)]
+    )
+    green = StringField(
+        'Green',
+        validators=[Length(max=20)]
+    )
+    blue = StringField(
+        'Blue',
+        validators=[Length(max=20)]
+    )
+    yellow = StringField(
+        'Yellow',
+        validators=[Length(max=20)]
     )

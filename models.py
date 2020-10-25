@@ -80,6 +80,14 @@ class Idea(Model):
     Board = ForeignKeyField(Board, related_name='ideas')
     Name = CharField(max_length=30)
     Content = TextField()
+    """tags"""
+    Colour = CharField(max_length=7, default='black')
+    FixtureType = CharField(max_length=20, default='')
+    FixtureAngle = CharField(max_length=20, default='')
+    Red = CharField(max_length=20, default='')
+    Green = CharField(max_length=20, default='')
+    Blue = CharField(max_length=20, default='')
+    Yellow = CharField(max_length=20, default='')
 
     class Meta:
         database = DATABASE
@@ -94,8 +102,14 @@ class Idea(Model):
         idea = Idea.get_idea(self)
         return idea.Board.User.id
 
+    def get_boardid(self):
+        """returns the id of the board it is on"""
+        idea = Idea.get_idea(self)
+        return idea.Board.id
+
 
 def initialise():
     DATABASE.connect()
+    DATABASE.drop_tables([Idea])
     DATABASE.create_tables([User, Board, Idea], safe=True)
     DATABASE.close()

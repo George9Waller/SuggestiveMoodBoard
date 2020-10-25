@@ -3,12 +3,12 @@ import os
 from peewee import *
 
 import app
-from models import User, Board
+from models import User, Board, Idea
 from tests.test_auth import UserModelTestCase
 
 TEST_DB = SqliteDatabase(':memory:')
 TEST_DB.connect(reuse_if_open=True)
-TEST_DB.create_tables([User, Board], safe=True)
+TEST_DB.create_tables([User, Board, Idea], safe=True)
 
 
 class BoardHelperTestCase(UserModelTestCase):

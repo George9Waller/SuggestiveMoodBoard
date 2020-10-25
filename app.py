@@ -151,9 +151,9 @@ def delete_board(boardid):
                 return redirect(url_for('index'))
             else:
                 flash("Board Deleted", "success")
-                models.Board.delete_by_id(boardid)
                 # deletes all ideas associated with the board
                 models.Idea.delete().where(models.Idea.Board == models.Board.get_board(boardid))
+                models.Board.delete_by_id(boardid)
                 return redirect(url_for('index'))
         # if the form is not valid - checks if the board exists to reload the form or redirects the user to index
     else:
@@ -181,10 +181,11 @@ def delete_idea(ideaid):
             # check who owns the idea
             if models.Idea.get_owner(ideaid) == current_user.id:
                 flash("Idea Deleted", "success")
+                boardid = models.Idea.get_idea(ideaid).Board.id
                 models.Idea.delete_by_id(ideaid)
                 # Delete all tags ascociated with the idea
                 """TODO"""
-                return redirect(url_for('index'))
+                return redirect('/{}'.format(boardid))
             else:
                 flash("Error, this is not your idea", "error")
                 return redirect(url_for('index'))
@@ -219,13 +220,24 @@ def edit_idea(boardid, ideaid):
 
         if form.validate_on_submit():
             flash("Idea Updated", "success")
-            (models.Idea.update({models.Idea.Name: form.name.data, models.Idea.Content: form.content.data})
+            (models.Idea.update({models.Idea.Name: form.name.data.strip(), models.Idea.Content: form.content.data.strip(),
+                                 models.Idea.Colour: form.colour.data, models.Idea.FixtureType: form.fixturetype.data,
+                                 models.Idea.FixtureAngle: form.fixtureangle.data, models.Idea.Red: form.red.data.strip(),
+                                 models.Idea.Green: form.green.data.strip(), models.Idea.Blue: form.blue.data.strip(),
+                                 models.Idea.Yellow: form.yellow.data.strip()})
              .where(models.Idea.id == ideaid).execute())
             return redirect('/{}'.format(boardid))
         else:
             # load existing data into form
             form.name.data = idea.Name
             form.content.data = idea.Content
+            form.colour.data = idea.Colour
+            form.fixturetype.data = idea.FixtureType
+            form.fixtureangle.data = idea.FixtureAngle
+            form.red.data = idea.Red
+            form.green.data = idea.Green
+            form.blue.data = idea.Blue
+            form.yellow.data = idea.Yellow
         # reloads page on unsuccessful form
         return render_template('idea.html', form=form, idea=idea, delete=True, colour=colour_update)
     except models.DoesNotExist:
@@ -244,7 +256,10 @@ def new_idea(boardid):
         if form.validate_on_submit():
             flash("Idea Created", "success")
             models.Idea.create(Name=form.name.data.strip(), Content=form.content.data.strip(),
-                               Board=models.Board.get_board(boardid))
+                               Board=models.Board.get_board(boardid), Colour=form.colour.data,
+                               FixtureType=form.fixturetype.data, FixtureAngle=form.fixtureangle.data,
+                               Red=form.red.data.strip(), Green=form.green.data.strip(), Blue=form.blue.data.strip(),
+                               Yellow=form.yellow.data.strip())
             return redirect('/{}'.format(boardid))
         # reloads page on unsuccessful form
         return render_template('idea.html', form=form, colour=colour_create)

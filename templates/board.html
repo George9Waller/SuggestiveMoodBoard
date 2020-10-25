@@ -26,7 +26,8 @@
                             <button
                                 class="btn btn-primary" type="button" style="background: #1eb53a;border-color: #1eb53a;margin: 3px;">Custom Green</button><button class="btn btn-primary" type="button" style="margin: 3px;">Custom Blue</button><button class="btn btn-primary" type="button" style="background: #f9d616;border-color: #f9d616;color: rgb(0,0,0);margin: 3px;">Custom Yellow</button></div>
                 </div>
-                <button class="btn btn-primary" role="button" type="button" style="background: rgb(0,0,0);border-color: rgb(0,0,0); margin: 3px" onclick="location.href='/{{ board.id }}/new-idea'">Add Idea</button>
+                <!--<button class="btn btn-primary" role="button" type="button" style="background: rgb(0,0,0);border-color: rgb(0,0,0); margin: 3px" onclick="location.href='/{{ board.id }}/new-idea'">Add Idea</button>-->
+                <br>
             </div>
         </div>
     </div>
@@ -36,14 +37,25 @@
                 <div class="row">
                     {% for idea in idea_row %}
                         <!-- Set colour to tag colour if present-->
-                        {% set colour = '#f2f2f2' %}
-                        <div class="idea col-md-3" onclick="location.href='/{{ board.id }}/{{ idea.id }}'" style="background: {{ colour }};  border-radius: 10px">
+                        {% if idea.Colour == '' %}
+                            {% set colour = '#f2f2f2' %}
+                        {% endif %}
+                        <div class="idea col-md-3" onclick="location.href='/{{ board.id }}/{{ idea.id }}'" style="background: #f2f2f2;  border-radius: 10px">
                             <h4>{{ idea.Name }}</h4>
                             <p>{{ idea.Content | truncate(200) }}</p>
+                            {% if idea.Colour != 'black' %}
+                                <canvas style="background: {{ idea.Colour }}; width: 100%; height: 10px"></canvas>
+                            {% endif %}
                         </div>
                     {% endfor %}
                 </div>
             {% endfor %}
+                <br>
+                <div class="row">
+                    <div class="idea col-md-3" onclick="location.href='/{{ board.id }}/new-idea'" style="background: #38A67E;  border-radius: 10px; height: 50px">
+                        <h4 style="vertical-align: center; text-align: center">New Idea</h4>
+                    </div>
+                </div>
         </div>
     </div>
         {% endblock %}

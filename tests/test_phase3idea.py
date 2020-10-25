@@ -1,14 +1,16 @@
 import unittest
 import os
 from peewee import *
+import time
 
 import app
-from models import User, Board
+from models import User, Board, Idea
 from tests.test_auth import UserModelTestCase
 
 TEST_DB = SqliteDatabase(':memory:')
 TEST_DB.connect(reuse_if_open=True)
-TEST_DB.create_tables([User, Board], safe=True)
+TEST_DB.drop_tables([User, Board, Idea])
+TEST_DB.create_tables([User, Board, Idea], safe=True)
 
 
 class IdeaHelperTestCase(UserModelTestCase):
@@ -24,7 +26,8 @@ class IdeaHelperTestCase(UserModelTestCase):
     def newidea(self):
         self.newboard()
         self.app.post('/1/new-idea',
-                      data=dict(name='Test Idea', content='This is a test new idea.'),
+                      data=dict(name='Test Idea', content='This is a test new idea.', colour='white',
+                                     fixturetype='', fixtureangle='', red='', green='', blue='', yellow=''),
                       follow_redirects=True)
 
 
@@ -57,14 +60,16 @@ class PostPagesTestCase(IdeaHelperTestCase):
     def test_add_valid_idea(self):
         self.newboard()
         rv = self.app.post('/1/new-idea',
-                           data=dict(name='Test Idea', content='This is a test new idea.'),
+                           data=dict(name='Test Idea', content='This is a test new idea.', colour='white',
+                                     fixturetype='', fixtureangle='', red='', green='', blue='', yellow=''),
                            follow_redirects=True)
         self.assertIn(b'Idea Created', rv.data)
 
     def test_edit_valid_idea(self):
         self.newidea()
         rv = self.app.post('/1/1',
-                           data=dict(name='Test Idea', content='This is an edited idea.'),
+                           data=dict(name='Test Idea', content='This is an edited idea.', colour='white',
+                                     fixturetype='', fixtureangle='', red='', green='', blue='', yellow=''),
                            follow_redirects=True)
         self.assertIn(b'This is an edited idea.', rv.data)
 
@@ -78,6 +83,7 @@ class PostPagesTestCase(IdeaHelperTestCase):
 
 class PostInvalidPagesTestCase(IdeaHelperTestCase):
     """Tests posting invalid data"""
+
     def test_invalid_idea_form(self):
         """test name field"""
         self.newboard()
@@ -99,7 +105,7 @@ class PostInvalidPagesTestCase(IdeaHelperTestCase):
                            follow_redirects=True)
         self.assertIn(b'required', rv.data)
         # content over 1000 characters
-        string = ('a'*1001)
+        string = ('a' * 1001)
         rv = self.app.post('/1/new-idea',
                            data=dict(name='Test Idea', content=string),
                            follow_redirects=True)
@@ -148,7 +154,7 @@ class PostInvalidPagesTestCase(IdeaHelperTestCase):
         rv = self.app.post('/1/1',
                            data=dict(name='Test Idea', content='This is an edited idea.'),
                            follow_redirects=True)
-        self.assertIn(b'This is not your data', rv.data)
+        self.assertIn(b'error', rv.data)
 
     def test_delete_idea_invalid_id(self):
         """tests trying to delete an idea that doesnt exist"""
