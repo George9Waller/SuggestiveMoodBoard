@@ -14,13 +14,13 @@
 
 
 {% block content %}
-    {% block messages %}
-        {{ super() }}
-    {% endblock %}
     <div class="login-dark" style="background: url(&quot;static/img/Picture%20LX.jpg&quot;) center / contain repeat;">
         <div style="padding: 40px;background: #2980ef;">
             <h1 style="text-align: center;color: #ffffff;"><strong>Suggestive Moodboard</strong></h1>
         </div>
+    {% block messages %}
+        {{ super() }}
+    {% endblock %}
         <form method="post" action="" class="form">
             {{ form.hidden_tag() }}
             <h2 class="sr-only">Login Form</h2>

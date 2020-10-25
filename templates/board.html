@@ -51,6 +51,31 @@
                         <div class="idea col-md-3" onclick="location.href='/{{ board.id }}/{{ idea.id }}'" style="background: #f2f2f2;  border-radius: 10px">
                             <h4>{{ idea.Name }}</h4>
                             <p>{{ idea.Content | truncate(200) }}</p>
+                            <!--Fixture Type-->
+                            {% if idea.FixtureType != '' %}
+                                <p style="color: #c2571a">Fixture Type: {{ idea.FixtureType }}</p>
+                            {% endif %}
+                            <!--Fixture Angle-->
+                            {% if idea.FixtureAngle != '' %}
+                                <p style="color: #107896">Fixture Angle: {{ idea.FixtureAngle }}</p>
+                            {% endif %}
+                            <!--Red-->
+                            {% if idea.Red != '' %}
+                                <p style="color: #9a2617">Red: {{ idea.Red }}</p>
+                            {% endif %}
+                            <!--Green-->
+                            {% if idea.Green != '' %}
+                                <p style="color: #168C40">Green: {{ idea.Green }}</p>
+                            {% endif %}
+                            <!--Blue-->
+                            {% if idea.Blue != '' %}
+                                <p style="color: #093145">Blue: {{ idea.Blue }}</p>
+                            {% endif %}
+                            <!--Yellow-->
+                            {% if idea.Yellow != '' %}
+                                <p style="color: #bca136">Yellow: {{ idea.Yellow }}</p>
+                            {% endif %}
+                            <!--Colour-->
                             {% if idea.Colour != 'black' %}
                                 <canvas style="background: {{ idea.Colour }}; width: 100%; height: 10px"></canvas>
                             {% endif %}
