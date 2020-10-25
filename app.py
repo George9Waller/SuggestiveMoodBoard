@@ -294,4 +294,4 @@ if __name__ == 'app':
         )
     except ValueError:
         pass
-    app.run(debug=DEBUG, port=80, use_reloader=True)
+    app.run(debug=DEBUG, port=8080, use_reloader=True)

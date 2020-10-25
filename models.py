@@ -118,15 +118,15 @@ class Idea(Model):
         elif query == 'FixtureType':
             ideas = Idea.select().where((Idea.Board == board) & (Idea.FixtureType != ''))
         elif query == 'FixtureAngle':
-            ideas = Idea.select().where(Idea.Board == board & (Idea.FixtureAngle != ''))
+            ideas = Idea.select().where((Idea.Board == board) & (Idea.FixtureAngle != ''))
         elif query == 'Red':
-            ideas = Idea.select().where(Idea.Board == board & (Idea.Red != ''))
+            ideas = Idea.select().where((Idea.Board == board) & (Idea.Red != ''))
         elif query == 'Green':
-            ideas = Idea.select().where(Idea.Board == board & (Idea.Green != ''))
+            ideas = Idea.select().where((Idea.Board == board) & (Idea.Green != ''))
         elif query == 'Blue':
-            ideas = Idea.select().where(Idea.Board == board & (Idea.Blue != ''))
+            ideas = Idea.select().where((Idea.Board == board) & (Idea.Blue != ''))
         elif query == 'Yellow':
-            ideas = Idea.select().where(Idea.Board == board & (Idea.Yellow != ''))
+            ideas = Idea.select().where((Idea.Board == board) & (Idea.Yellow != ''))
         else:
             ideas = Idea.select().where(Idea.Board == board)
         return ideas
