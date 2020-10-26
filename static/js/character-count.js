@@ -6,7 +6,7 @@
       max = $('#maximum'),
       theCount = $('#the-count');
 
-        limittext(characterCount, 1000)
+        limittext(characterCount, 1000, 'content')
 
     current.text(characterCount);
 
@@ -56,8 +56,33 @@
 
     });
 
-    function limittext(charactercount, limit){
-        content = document.getElementById('content')
+    function limittext(charactercount, limit, id){
+        content = document.getElementById(id)
         if (charactercount > limit)
         {content.value = content.value.substring(0, limit)}
     }
+
+    $('#red').keyup(function() {
+        console.log('keyup function run')
+        let characterCount = $(this).val().length;
+        limittext(characterCount, 20, 'red')});
+
+    $('#green').keyup(function() {
+        console.log('keyup function run')
+        let characterCount = $(this).val().length;
+        limittext(characterCount, 20, 'green')});
+
+    $('#blue').keyup(function() {
+        console.log('keyup function run')
+        let characterCount = $(this).val().length;
+        limittext(characterCount, 20, 'blue')});
+
+    $('#yellow').keyup(function() {
+        console.log('keyup function run')
+        let characterCount = $(this).val().length;
+        limittext(characterCount, 20, 'yellow')});
+
+    $('#name').keyup(function() {
+        console.log('keyup function run')
+        let characterCount = $(this).val().length;
+        limittext(characterCount, 30, 'name')});

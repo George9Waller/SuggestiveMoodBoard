@@ -22,7 +22,21 @@
         {{ form.hidden_tag() }}
             <h2 class="text-center">Add Board</h2>
             <div class="form-group">
-                {{ form.name.label }}{{ form.name(class="form-control") }} <br>
+                {{ form.name.label }}{{ form.name(class="form-control") }}
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+                <script>
+                    $('#name').keyup(function() {
+                    console.log('keyup function run')
+                    let characterCount = $(this).val().length;
+                    limittext(characterCount, 30, 'name')});
+
+                    function limittext(charactercount, limit, id){
+                    content = document.getElementById(id)
+                    if (charactercount > limit)
+                    {content.value = content.value.substring(0, limit)}
+    }
+                </script>
+                <br>
                 {{ form.venuesize.label }} {{ form.venuesize(class="form-control") }} <br>
                 {{ form.eventdate.label }}{{ form.eventdate(class="form-control") }} <br>
             </div>

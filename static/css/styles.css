@@ -69,3 +69,11 @@ button.hover:hover{
   opacity: 1;
   transition: 0.5s;
 }
+
+.valid {
+  color: green;
+}
+
+.invalid {
+  color: #9a2617;
+}
