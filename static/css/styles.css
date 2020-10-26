@@ -62,7 +62,9 @@ textarea#content{
 
 button.hover {
   opacity: 0.6;
-  width: 10%;
+  width: 100px;
+
+  left: 0;
 }
 
 button.hover:hover{

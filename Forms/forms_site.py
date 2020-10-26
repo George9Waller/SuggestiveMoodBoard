@@ -55,8 +55,7 @@ class IdeaForm(FlaskForm):
     content = TextAreaField(
         'Content',
         validators=[
-            DataRequired(),
-            Length(min=1, max=1000, message="Content cannot be over 1000 characters")
+            Length(min=0, max=1000, message="Content cannot be over 1000 characters")
         ]
     )
 

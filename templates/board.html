@@ -16,31 +16,31 @@
             {{ super() }}
         {% endblock %}
         {% block pagecontent %}
-            <div class="container">
-            <div class="row">
-                <div class="col-md-12">
+
+
+    <div>
+        <div class="container ideatable" style="display: flex; width: 90%!important;">
+        <div class="flexchild" style="margin-right: 20px; width: 20%; position: fixed; left: 10px">
+            <div class="sidebar">
                     <h4>Tag Selection{{ query }}</h4>
-                    <div class="btn-group" role="group" style="width:100%; display: flex; justify-content: center">
-                        <button class="btn btn-primary hover" id="All" onclick="location.href='/{{ board.id }}?filter=All'" type="button" style="background: #0D0D0D;color: #F2F2F2;border-color: #F2F2F2;margin: 3px;">All</button>
-                        <button class="btn btn-primary hover" id="Colour" onclick="location.href='/{{ board.id }}?filter=Colour'" type="button" style="background: #6d28aa;border-color: #6d28aa;margin: 3px;">Colour</button>
-                        <button class="btn btn-primary hover" id="FixtureType" onclick="location.href='/{{ board.id }}?filter=FixtureType'" type="button" style="background: #ff7247;border-color: #ff7247;margin: 3px;">Fixture Type</button>
+                    <div class="btn-group" role="group" style="display: flex; justify-content: space-between; transform: rotate(-90deg); left: -400px; top: 550px; position: fixed">
+                        <button class="btn btn-primary hover" id="Yellow" onclick="location.href='/{{ board.id }}?filter=Yellow'" type="button" style="background: #f9d616;border-color: #f9d616;color: rgb(0,0,0);margin: 3px;">User Yellow</button>
+                        <button class="btn btn-primary hover" id="Blue" onclick="location.href='/{{ board.id }}?filter=Blue'" type="button" style="margin: 3px;">User Blue</button>
+                        <button class="btn btn-primary hover" id="Green" onclick="location.href='/{{ board.id }}?filter=Green'" type="button" style="background: #1eb53a;border-color: #1eb53a;margin: 3px;">User Green</button>
+                        <button class="btn btn-primary hover" id="Red" onclick="location.href='/{{ board.id }}?filter=Red'" type="button" style="background: #d81c3f;border-color: #d81c3f;margin: 3px;">User Red</button>
                         <button class="btn btn-primary hover" id="FixtureAngle" onclick="location.href='/{{ board.id }}?filter=FixtureAngle'" type="button" style="background: #00b5d6;border-color: #00b5d6;margin: 3px;">Fixture Angle</button>
-                        <button class="btn btn-primary hover" id="Red" onclick="location.href='/{{ board.id }}?filter=Red'" type="button" style="background: #d81c3f;border-color: #d81c3f;margin: 3px;">Custom Red</button>
-                        <button class="btn btn-primary hover" id="Green" onclick="location.href='/{{ board.id }}?filter=Green'" type="button" style="background: #1eb53a;border-color: #1eb53a;margin: 3px;">Custom Green</button>
-                        <button class="btn btn-primary hover" id="Blue" onclick="location.href='/{{ board.id }}?filter=Blue'" type="button" style="margin: 3px;">Custom Blue</button>
-                        <button class="btn btn-primary hover" id="Yellow" onclick="location.href='/{{ board.id }}?filter=Yellow'" type="button" style="background: #f9d616;border-color: #f9d616;color: rgb(0,0,0);margin: 3px;">Custom Yellow</button></div>
+                        <button class="btn btn-primary hover" id="FixtureType" onclick="location.href='/{{ board.id }}?filter=FixtureType'" type="button" style="background: #ff7247;border-color: #ff7247;margin: 3px;">Fixture Type</button>
+                        <button class="btn btn-primary hover" id="Colour" onclick="location.href='/{{ board.id }}?filter=Colour'" type="button" style="background: #6d28aa;border-color: #6d28aa;margin: 3px;">Colour</button>
+                        <button class="btn btn-primary hover" id="All" onclick="location.href='/{{ board.id }}?filter=All'" type="button" style="background: #0D0D0D;color: #F2F2F2;border-color: #F2F2F2;margin: 3px;">All</button>
                 </div>
                 <script>
                     const urlParams = new URLSearchParams(window.location.search);
                     const button = document.getElementById(urlParams.get('filter')).style.opacity = 1;
                 </script>
-                <!--<button class="btn btn-primary" role="button" type="button" style="background: rgb(0,0,0);border-color: rgb(0,0,0); margin: 3px" onclick="location.href='/{{ board.id }}/new-idea'">Add Idea</button>-->
                 <br>
             </div>
         </div>
-    </div>
-    <div>
-        <div class="container ideatable">
+        <div class="flexchild">
             {% for idea_row in ideas | batch(4) %}
                 <div class="row" style="display: flex; justify-content: space-between; align-items: center; padding-top: 20px">
                     {% for idea in idea_row %}
@@ -90,6 +90,7 @@
 {#                    </div>#}
 {#                </div>#}
                 <button class="bottomright btn btn-success btn-lg" type="button" onclick="location.href='/{{ board.id }}/new-idea'">Add Idea</button>
+        </div>
         </div>
     </div>
         {% endblock %}

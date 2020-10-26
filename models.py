@@ -3,15 +3,19 @@ from flask_login import UserMixin
 from flask_bcrypt import generate_password_hash
 import datetime
 
-"""For testing use SQLite database"""
-#DATABASE = SqliteDatabase('moodboard.db')
-"""For deployment use Postgres database"""
-try:
-    DATABASE = PostgresqlDatabase('d5o38mub306f1k', user='gankiyhoomxwod',
-                              password='db71fb788e4548b27ff125a1d74531a46e863c384cf98aa687d124470dfc4266',
-                              host='ec2-54-228-209-117.eu-west-1.compute.amazonaws.com', port='5432')
-except OperationalError:
-    DATABASE = SqliteDatabase('database.db')
+testing = False
+
+if testing:
+    """For testing use SQLite database"""
+    DATABASE = SqliteDatabase('moodboard.db')
+else:
+    """For deployment use Postgres database"""
+    try:
+        DATABASE = PostgresqlDatabase('d5o38mub306f1k', user='gankiyhoomxwod',
+                                  password='db71fb788e4548b27ff125a1d74531a46e863c384cf98aa687d124470dfc4266',
+                                  host='ec2-54-228-209-117.eu-west-1.compute.amazonaws.com', port='5432')
+    except OperationalError:
+        DATABASE = SqliteDatabase('database.db')
 
 
 class User(UserMixin, Model):
