@@ -17,7 +17,7 @@
 
 .idea {
   border: 2px solid transparent;
-  opacity: 0.6;
+  opacity: 0.8;
   transition: 0.5s;
 }
 
@@ -76,4 +76,10 @@ button.hover:hover{
 
 .invalid {
   color: #9a2617;
+}
+
+@media (min-width: 1800px){
+  .ideatable{
+    width: 1700px !important;
+  }
 }

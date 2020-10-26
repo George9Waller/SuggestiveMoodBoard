@@ -4,9 +4,12 @@ from flask_bcrypt import generate_password_hash
 import datetime
 
 # DATABASE = SqliteDatabase('moodboard.db')
-DATABASE = PostgresqlDatabase('d5o38mub306f1k', user='gankiyhoomxwod',
+try:
+    DATABASE = PostgresqlDatabase('d5o38mub306f1k', user='gankiyhoomxwod',
                               password='db71fb788e4548b27ff125a1d74531a46e863c384cf98aa687d124470dfc4266',
                               host='ec2-54-228-209-117.eu-west-1.compute.amazonaws.com', port='5432')
+except OperationalError:
+    DATABASE = SqliteDatabase('database.db')
 
 
 class User(UserMixin, Model):
@@ -24,6 +27,10 @@ class User(UserMixin, Model):
     def get_boards(self):
         """returns all the boards with a user matching the supplied user, ordered by soonest first"""
         return Board.select().where(Board.User == self).order_by(Board.EventDate)
+
+    def get_user_by_email(self):
+        """returns user object matching given email"""
+        return User.select().where(User.Email == self)
 
     @classmethod
     def create_user(cls, username, email, password, usertype=0):
@@ -114,7 +121,7 @@ class Idea(Model):
         """Returns a filtered selection of ideas from the query"""
         print("Query recieved:{}".format(query))
         if query == 'Colour':
-            ideas = Idea.select().where((Idea.Board == board) & (Idea.Colour != 'black'))
+            ideas = Idea.select().where((Idea.Board == board) & ((Idea.Colour != 'black') & (Idea.Colour != '')))
         elif query == 'FixtureType':
             ideas = Idea.select().where((Idea.Board == board) & (Idea.FixtureType != ''))
         elif query == 'FixtureAngle':

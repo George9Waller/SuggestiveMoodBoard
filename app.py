@@ -5,6 +5,7 @@ from flask_bootstrap import Bootstrap
 import os
 
 from Forms import forms_auth, forms_site
+import sampleideas
 import models
 
 DEBUG = True
@@ -55,7 +56,7 @@ def register():
     """Handles user registration"""
     form = forms_auth.RegisterFrom()
     if form.validate_on_submit():
-        flash("Registration successful", "success")
+        flash("Registration successful, a sample board has been created for you", "success")
         if form.usertype.data == 'Technician':
             usernum = 1
         elif form.usertype.data == 'Student':
@@ -69,6 +70,11 @@ def register():
             password=form.password.data,
             usertype=usernum
         )
+        # Creates sample board to show the user an example of the solution
+        sampleboard = models.Board.create(User=models.User.get_user_by_email(form.email.data),
+                                          Name='100 in the style of Complicité',
+                                          VenueSize='Small', EventDate='2020-10-08')
+        sampleideas.addideas(sampleboard)
         # returns user to index after registration
         return redirect(url_for('index'))
     # reloads page on unsuccessful registration
@@ -227,11 +233,12 @@ def edit_idea(boardid, ideaid):
 
         if form.validate_on_submit():
             flash("Idea Updated", "success")
-            (models.Idea.update({models.Idea.Name: form.name.data.strip(), models.Idea.Content: form.content.data.strip(),
-                                 models.Idea.Colour: form.colour.data, models.Idea.FixtureType: form.fixturetype.data,
-                                 models.Idea.FixtureAngle: form.fixtureangle.data, models.Idea.Red: form.red.data.strip(),
-                                 models.Idea.Green: form.green.data.strip(), models.Idea.Blue: form.blue.data.strip(),
-                                 models.Idea.Yellow: form.yellow.data.strip()})
+            (models.Idea.update(
+                {models.Idea.Name: form.name.data.strip(), models.Idea.Content: form.content.data.strip(),
+                 models.Idea.Colour: form.colour.data, models.Idea.FixtureType: form.fixturetype.data,
+                 models.Idea.FixtureAngle: form.fixtureangle.data, models.Idea.Red: form.red.data.strip(),
+                 models.Idea.Green: form.green.data.strip(), models.Idea.Blue: form.blue.data.strip(),
+                 models.Idea.Yellow: form.yellow.data.strip()})
              .where(models.Idea.id == ideaid).execute())
             return redirect('/{}'.format(boardid))
         else:
