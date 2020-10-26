@@ -3,7 +3,9 @@ from flask_login import UserMixin
 from flask_bcrypt import generate_password_hash
 import datetime
 
-# DATABASE = SqliteDatabase('moodboard.db')
+"""For testing use SQLite database"""
+#DATABASE = SqliteDatabase('moodboard.db')
+"""For deployment use Postgres database"""
 try:
     DATABASE = PostgresqlDatabase('d5o38mub306f1k', user='gankiyhoomxwod',
                               password='db71fb788e4548b27ff125a1d74531a46e863c384cf98aa687d124470dfc4266',

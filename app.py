@@ -302,4 +302,9 @@ if __name__ == 'app':
         )
     except ValueError:
         pass
-    app.run(debug=DEBUG, port=int(os.environ.get('PORT', 5000)), use_reloader=True, host='0.0.0.0')
+
+    # different host for web server
+    if os.uname().nodename == 'Georges-MacBook-Pro-2.local':
+        app.run(debug=DEBUG, port=int(os.environ.get('PORT', 5000)), use_reloader=True, host='127.0.0.1')
+    else:
+        app.run(debug=DEBUG, port=int(os.environ.get('PORT', 5000)), use_reloader=True, host='0.0.0.0')

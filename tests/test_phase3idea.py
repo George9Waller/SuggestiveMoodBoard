@@ -115,7 +115,7 @@ class PostInvalidPagesTestCase(IdeaHelperTestCase):
         """Test adding new idea to invalid board"""
         self.register()
         self.login('un', 'P&ssw0rd')
-        rv = self.app.post('/1/new-idea',
+        rv = self.app.post('/2/new-idea',
                            data=dict(name='Test Idea', content='This is a test new idea.'),
                            follow_redirects=True)
         self.assertIn(b'error', rv.data)
@@ -135,12 +135,12 @@ class PostInvalidPagesTestCase(IdeaHelperTestCase):
         """test editing an idea with invalid ids"""
         # invalid boardid
         self.newidea()
-        rv = self.app.post('/2/1',
+        rv = self.app.post('/3/1',
                            data=dict(name='Test Idea', content='This is an edited idea.'),
                            follow_redirects=True)
         self.assertIn(b'error', rv.data)
         # invalid ideaid
-        rv = self.app.post('/1/2',
+        rv = self.app.post('/1/35',
                            data=dict(name='Test Idea', content='This is an edited idea.'),
                            follow_redirects=True)
         self.assertIn(b'error', rv.data)
@@ -159,7 +159,7 @@ class PostInvalidPagesTestCase(IdeaHelperTestCase):
     def test_delete_idea_invalid_id(self):
         """tests trying to delete an idea that doesnt exist"""
         self.newidea()
-        rv = self.app.post('/delete/idea/2',
+        rv = self.app.post('/delete/idea/35',
                            data=dict(confirm=True),
                            follow_redirects=True)
         self.assertIn(b'Idea does not exist', rv.data)

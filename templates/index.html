@@ -53,7 +53,7 @@
         <div>
             <div class="container">
                 {% for board in boards %}
-                    <div class="row" style="padding: 2px; margin-top: 5px; margin-bottom: 5px; background: #F2F2F2">
+                    <div class="row" style="padding: 5px; margin-top: 5px; margin-bottom: 5px; background: #F2F2F2; border-radius: 5px">
                         <div class="col-md-3" style="text-align: center">
                             <p>{{ board.Name }}</p>
                         </div>
@@ -69,7 +69,7 @@
                     </div>
                 {% endfor %}
                 <div class="row" style="padding: 2px">
-                    <a class="btn btn-primary" role="button" href="{{ url_for('new_board') }}">New Board</a>
+                    <a class="bottomright btn btn-primary btn-lg" role="button" href="{{ url_for('new_board') }}">New Board</a>
                 </div>
             </div>
         </div>

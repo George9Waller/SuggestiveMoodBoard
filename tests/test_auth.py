@@ -5,7 +5,7 @@ from peewee import *
 import app
 from models import User, Board, Idea
 
-TEST_DB = SqliteDatabase(':memory:')
+TEST_DB = SqliteDatabase('database.db')
 TEST_DB.connect(reuse_if_open=True)
 TEST_DB.create_tables([User], safe=True)
 

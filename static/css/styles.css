@@ -83,3 +83,11 @@ button.hover:hover{
     width: 1700px !important;
   }
 }
+
+.bottomright {
+  position: fixed;
+  bottom: -4px;
+  right:-4px;
+  width: 10%;
+  height: 5%;
+}
