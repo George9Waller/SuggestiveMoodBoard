@@ -18,13 +18,13 @@
         {% block pagecontent %}
 
 
-    <div style="padding-top: 20px">
+    <div class="ideacontainor">
         <div class="container ideatable" style="display: flex; width: 90%!important;">
         <div class="flexchild" style="margin-right: 20px; width: 20%; position: fixed; left: 10px">
             <div class="sidebar" style="display: flex; position: fixed; top: 80px; width: 5%; height: 100%; left: 0">
                     <!--<h4>Tag Selection{{ query }}</h4>-->
-                    <div class="rotated-sidebar btn-group" role="group" style="display: flex; flex-wrap: wrap;">
-                        {% for tag in tags %}
+                    <div class="rotated-sidebar btn-group" role="group" style="display: flex; flex-wrap: wrap; flex-direction: row">
+                        {% for tag in tags|reverse %}
                             <button class="btn btn-primary hover" id="{{ tag.Name }}" onclick="location.href='/{{ board.id }}?filter={{ tag.Name }}'" type="button" style="background: {{ tag.Colour }};border-color: {{ tag.Colour }};margin: 3px; size: 18pt">{{ tag.Name }}</button>
                         {% endfor %}
                         <button class="btn btn-primary hover" id="Colour" onclick="location.href='/{{ board.id }}?filter=Colour'" type="button" style="background: #6d28aa;border-color: #6d28aa;margin: 3px;">Colour</button>
