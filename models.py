@@ -167,6 +167,6 @@ class Idea_Tag(Model):
 
 def initialise():
     DATABASE.connect()
-    # DATABASE.drop_tables([Idea_Tag])
+    # DATABASE.drop_tables([User, Board, Idea, Tag, Idea_Tag])
     DATABASE.create_tables([User, Board, Idea, Tag, Idea_Tag], safe=True)
     DATABASE.close()

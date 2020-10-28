@@ -246,22 +246,15 @@ def edit_idea(boardid, ideaid):
                 {models.Idea.Name: form.name.data.strip(), models.Idea.Content: form.content.data.strip(),
                  models.Idea.Colour: form.colour.data})
              .where(models.Idea.id == ideaid).execute())
-            print(form.addtotag.data)
             # create tag linkers
-            tags = models.Tag.select(models.Tag.id).where(models.Tag.Board == board)
-            # TODO delete unselected tags
 
             # delete all links for idea
-            print('deleting:')
             for todelete in models.Idea_Tag.select().where(models.Idea_Tag.Idea == idea):
-                print(todelete.Idea, todelete.Tag)
                 models.Idea_Tag.delete_instance(todelete)
 
             # create all links from selection data
-            print('creating')
             for tagid in form.addtotag.data:
                 sample = models.Idea_Tag.create(Idea=idea, Tag=models.Tag.gettagbyid(tagid))
-                print(sample.Idea, sample.Tag)
 
             return redirect('/{}'.format(boardid))
         else:
@@ -270,12 +263,10 @@ def edit_idea(boardid, ideaid):
             links = list(links)
             # use list comprehension to convert the list of dictionaries to a list of the values
             links = [l['Tag'] for l in links]
-            print(links)
             # mapping the list of int to strings
             linkstr = []
             for link in links:
                 linkstr.append(str(link))
-            print(linkstr)
             form.name.data = idea.Name
             form.content.data = idea.Content
             form.colour.data = idea.Colour
