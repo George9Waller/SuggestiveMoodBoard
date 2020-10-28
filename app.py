@@ -136,6 +136,10 @@ def board(boardid):
     ideas = models.Idea.filter(models.Idea, query, board)
     tags = models.Tag.select().where(models.Tag.Board == board)
 
+    # TODO Display tags under ideas
+    # for idea in ideas:
+    #     idea.tags = models.Tag.select().join(models.Idea_Tag).where(models.Idea_Tag.Idea == idea)
+
     if board.User == current_user:
         if query:
             return render_template('board.html', board=board, ideas=ideas, query=": {}".format(query), queryid=query, tags=tags)
@@ -245,11 +249,20 @@ def edit_idea(boardid, ideaid):
             print(form.addtotag.data)
             # create tag linkers
             tags = models.Tag.select(models.Tag.id).where(models.Tag.Board == board)
-            for tag in tags:
-                print(tag)
+            # TODO delete unselected tags
 
+            # delete all links for idea
+            print('deleting:')
+            for todelete in models.Idea_Tag.select().where(models.Idea_Tag.Idea == idea):
+                print(todelete.Idea, todelete.Tag)
+                models.Idea_Tag.delete_instance(todelete)
+
+            # create all links from selection data
+            print('creating')
             for tagid in form.addtotag.data:
-                models.Idea_Tag.get_or_create(Idea=idea, Tag=models.Tag.gettagbyid(tagid))
+                sample = models.Idea_Tag.create(Idea=idea, Tag=models.Tag.gettagbyid(tagid))
+                print(sample.Idea, sample.Tag)
+
             return redirect('/{}'.format(boardid))
         else:
             # load existing data into form
@@ -257,12 +270,16 @@ def edit_idea(boardid, ideaid):
             links = list(links)
             # use list comprehension to convert the list of dictionaries to a list of the values
             links = [l['Tag'] for l in links]
+            print(links)
             # mapping the list of int to strings
-            links = map(str, links)
+            linkstr = []
+            for link in links:
+                linkstr.append(str(link))
+            print(linkstr)
             form.name.data = idea.Name
             form.content.data = idea.Content
             form.colour.data = idea.Colour
-            form.addtotag.data = links
+            form.addtotag.data = linkstr
         # reloads page on unsuccessful form
         return render_template('idea.html', form=form, idea=idea, delete=True, colour=colour_update)
     except models.DoesNotExist:
