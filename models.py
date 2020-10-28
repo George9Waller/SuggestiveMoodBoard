@@ -1,6 +1,7 @@
 from peewee import *
 from flask_login import UserMixin
 from flask_bcrypt import generate_password_hash
+from flask import flash
 import datetime
 
 testing = False
@@ -98,12 +99,6 @@ class Idea(Model):
     Content = TextField()
     """tags"""
     Colour = CharField(max_length=7, default='black')
-    FixtureType = CharField(max_length=20, default='')
-    FixtureAngle = CharField(max_length=20, default='')
-    Red = CharField(max_length=20, default='')
-    Green = CharField(max_length=20, default='')
-    Blue = CharField(max_length=20, default='')
-    Yellow = CharField(max_length=20, default='')
 
     class Meta:
         database = DATABASE
@@ -127,26 +122,51 @@ class Idea(Model):
         """Returns a filtered selection of ideas from the query"""
         print("Query recieved:{}".format(query))
         if query == 'Colour':
-            ideas = Idea.select().where((Idea.Board == board) & ((Idea.Colour != 'black') & (Idea.Colour != '')))
-        elif query == 'FixtureType':
-            ideas = Idea.select().where((Idea.Board == board) & (Idea.FixtureType != ''))
-        elif query == 'FixtureAngle':
-            ideas = Idea.select().where((Idea.Board == board) & (Idea.FixtureAngle != ''))
-        elif query == 'Red':
-            ideas = Idea.select().where((Idea.Board == board) & (Idea.Red != ''))
-        elif query == 'Green':
-            ideas = Idea.select().where((Idea.Board == board) & (Idea.Green != ''))
-        elif query == 'Blue':
-            ideas = Idea.select().where((Idea.Board == board) & (Idea.Blue != ''))
-        elif query == 'Yellow':
-            ideas = Idea.select().where((Idea.Board == board) & (Idea.Yellow != ''))
+            return Idea.select().where((Idea.Board == board) & ((Idea.Colour != 'black') & (Idea.Colour != '')))
+        elif query == 'All':
+            return Idea.select().where(Idea.Board == board)
+        elif query is None:
+            return Idea.select().where(Idea.Board == board)
+        elif query:
+            print('run custom query')
+            return Idea.select().join(Idea_Tag).join(Tag).where(Tag.Name == query)
         else:
+            flash("Tag not recognised", "error")
             ideas = Idea.select().where(Idea.Board == board)
         return ideas
 
 
+class Tag(Model):
+    id = PrimaryKeyField()
+    Board = ForeignKeyField(Board, related_name='Tags')
+    Name = CharField(max_length=30)
+    Colour = CharField(max_length=7)
+
+    def gettagbyid(self):
+        """returns the tag object matching the id"""
+        return Tag.get(Tag.id == self)
+
+    class Meta:
+        database = DATABASE
+        order_by = ('Board',)
+
+
+class Idea_Tag(Model):
+    id = PrimaryKeyField
+    Idea = ForeignKeyField(Idea, related_name='Tag linker')
+    Tag = ForeignKeyField(Tag, related_name='Tag linker')
+
+    def gettagids(self):
+        """gets the tag ids for the supplied idea"""
+        return Idea_Tag.select(Idea_Tag.Tag).where(Idea_Tag.Idea == self).dicts()
+
+    class Meta:
+        database = DATABASE
+        order_by = ('Board',)
+
+
 def initialise():
     DATABASE.connect()
-    # DATABASE.drop_tables([Idea])
-    DATABASE.create_tables([User, Board, Idea], safe=True)
+    # DATABASE.drop_tables([Idea_Tag])
+    DATABASE.create_tables([User, Board, Idea, Tag, Idea_Tag], safe=True)
     DATABASE.close()

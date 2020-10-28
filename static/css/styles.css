@@ -1,9 +1,11 @@
 /*Notifications*/
 .notification {
   text-align: center;
-  padding: 10px 20px;
+  padding: 15px 30px;
   border-radius: 4px;
   color: #fff;
+  width: 30%;
+  margin: auto;
 }
 .success {
   background: #70DA8B;
@@ -62,7 +64,8 @@ textarea#content{
 
 button.hover {
   opacity: 0.6;
-  width: 100px;
+  padding-left: 10px;
+  padding-right: 10px;
 
   left: 0;
 }
@@ -92,4 +95,49 @@ button.hover:hover{
   right:-4px;
   width: 10%;
   height: 5%;
+}
+
+#addtotag {
+  height: 100%;
+}
+
+.rotated-sidebar {
+    flex-direction: row-reverse;
+    justify-content: center;
+    align-content: center;
+    width: 90vw;
+    position: fixed!important;
+    margin: auto;
+    transition: 0.5s;
+  transition-timing-function: ease-out;
+}
+
+@media (min-height: 1000px) {
+  .rotated-sidebar {
+    justify-content: flex-end;
+    align-content: flex-start;
+    transform: rotate(-90deg) translate(0, 150px);
+    transform-origin: right bottom;
+    left: -890px;
+    width: 900px;
+    height: 150px;
+    top: -10px;
+    position: fixed!important;
+    transition: 0.5s;
+  }
+}
+
+@media (min-height: 1200px) {
+  .rotated-sidebar {
+    justify-content: flex-end;
+    align-content: flex-start;
+    transform: rotate(-90deg) translate(0, 150px);
+    transform-origin: right bottom;
+    left: -1040px;
+    width: 1050px;
+    height: 150px;
+    top: -10px;
+    position: fixed!important;
+    transition: 0.5s;
+  }
 }

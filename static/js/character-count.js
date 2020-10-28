@@ -45,11 +45,8 @@
     }
 
     if (characterCount >= 900) {
-    maximum.css('background', '#FF41364D');
-    current.css('background', '#FF41364D');
     theCount.css('font-weight','bold');
     } else {
-    maximum.css('background','#001f3f4D');
     theCount.css('font-weight','normal');
     }
 

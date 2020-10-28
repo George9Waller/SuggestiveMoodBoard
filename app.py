@@ -2,6 +2,7 @@ from flask import Flask, g, render_template, flash, redirect, url_for, request
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_bcrypt import check_password_hash
 from flask_bootstrap import Bootstrap
+from wtforms import BooleanField
 import os
 
 from Forms import forms_auth, forms_site
@@ -133,12 +134,13 @@ def board(boardid):
     board = models.Board.get_board(boardid)
     query = request.args.get('filter')
     ideas = models.Idea.filter(models.Idea, query, board)
+    tags = models.Tag.select().where(models.Tag.Board == board)
 
     if board.User == current_user:
         if query:
-            return render_template('board.html', board=board, ideas=ideas, query=": {}".format(query), queryid=query)
+            return render_template('board.html', board=board, ideas=ideas, query=": {}".format(query), queryid=query, tags=tags)
         else:
-            return render_template('board.html', board=board, ideas=ideas, query="", queryid=query)
+            return render_template('board.html', board=board, ideas=ideas, query="", queryid=query, tags=tags)
     else:
         flash("This is not your board", "error")
         return redirect(url_for('index'))
@@ -218,7 +220,10 @@ def edit_idea(boardid, ideaid):
     """edit an existing idea"""
     # catches an invalid boardid or ideaid
     try:
+        board = models.Board.get_board(boardid)
+        tags = models.Tag.select().where(models.Tag.Board ==board)
         form = forms_site.IdeaForm()
+        form.addtotag.choices = [(tag.id, tag.Name) for tag in tags]
         idea = models.Idea.get_idea(ideaid)
 
         # check current user is owner
@@ -235,23 +240,29 @@ def edit_idea(boardid, ideaid):
             flash("Idea Updated", "success")
             (models.Idea.update(
                 {models.Idea.Name: form.name.data.strip(), models.Idea.Content: form.content.data.strip(),
-                 models.Idea.Colour: form.colour.data, models.Idea.FixtureType: form.fixturetype.data,
-                 models.Idea.FixtureAngle: form.fixtureangle.data, models.Idea.Red: form.red.data.strip(),
-                 models.Idea.Green: form.green.data.strip(), models.Idea.Blue: form.blue.data.strip(),
-                 models.Idea.Yellow: form.yellow.data.strip()})
+                 models.Idea.Colour: form.colour.data})
              .where(models.Idea.id == ideaid).execute())
+            print(form.addtotag.data)
+            # create tag linkers
+            tags = models.Tag.select(models.Tag.id).where(models.Tag.Board == board)
+            for tag in tags:
+                print(tag)
+
+            for tagid in form.addtotag.data:
+                models.Idea_Tag.get_or_create(Idea=idea, Tag=models.Tag.gettagbyid(tagid))
             return redirect('/{}'.format(boardid))
         else:
             # load existing data into form
+            links = models.Idea_Tag.gettagids(idea)
+            links = list(links)
+            # use list comprehension to convert the list of dictionaries to a list of the values
+            links = [l['Tag'] for l in links]
+            # mapping the list of int to strings
+            links = map(str, links)
             form.name.data = idea.Name
             form.content.data = idea.Content
             form.colour.data = idea.Colour
-            form.fixturetype.data = idea.FixtureType
-            form.fixtureangle.data = idea.FixtureAngle
-            form.red.data = idea.Red
-            form.green.data = idea.Green
-            form.blue.data = idea.Blue
-            form.yellow.data = idea.Yellow
+            form.addtotag.data = links
         # reloads page on unsuccessful form
         return render_template('idea.html', form=form, idea=idea, delete=True, colour=colour_update)
     except models.DoesNotExist:
@@ -270,16 +281,32 @@ def new_idea(boardid):
         if form.validate_on_submit():
             flash("Idea Created", "success")
             models.Idea.create(Name=form.name.data.strip(), Content=form.content.data.strip(),
-                               Board=models.Board.get_board(boardid), Colour=form.colour.data,
-                               FixtureType=form.fixturetype.data, FixtureAngle=form.fixtureangle.data,
-                               Red=form.red.data.strip(), Green=form.green.data.strip(), Blue=form.blue.data.strip(),
-                               Yellow=form.yellow.data.strip())
+                               Board=models.Board.get_board(boardid), Colour=form.colour.data)
             return redirect('/{}'.format(boardid))
         # reloads page on unsuccessful form
         return render_template('idea.html', form=form, colour=colour_create)
     except models.DoesNotExist:
         flash("error", "error")
         return redirect('/')
+
+
+@app.route('/<int:boardid>/add-tag', methods=['GET', 'POST'])
+@login_required
+def add_tag(boardid):
+    """Add tag to a board"""
+    # catches invalid board id
+    try:
+        form = forms_site.AddTagForm()
+        if form.validate_on_submit():
+            flash("Tag added", "success")
+            models.Tag.create(Name=form.name.data.strip(), Colour=form.colour.data, Board=models.Board.get_board(boardid))
+            return redirect('/{}'.format(boardid))
+        # reloads form on unsuccessful attempt
+        return render_template('tag.html', form=form)
+    except models.DoesNotExist:
+        flash("error", "error")
+        return redirect('/')
+
 
 
 @app.route('/')

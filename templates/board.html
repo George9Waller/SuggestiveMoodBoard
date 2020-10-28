@@ -18,20 +18,18 @@
         {% block pagecontent %}
 
 
-    <div>
+    <div style="padding-top: 20px">
         <div class="container ideatable" style="display: flex; width: 90%!important;">
         <div class="flexchild" style="margin-right: 20px; width: 20%; position: fixed; left: 10px">
-            <div class="sidebar">
-                    <h4>Tag Selection{{ query }}</h4>
-                    <div class="btn-group" role="group" style="display: flex; justify-content: space-between; transform: rotate(-90deg); left: -400px; top: 550px; position: fixed">
-                        <button class="btn btn-primary hover" id="Yellow" onclick="location.href='/{{ board.id }}?filter=Yellow'" type="button" style="background: #f9d616;border-color: #f9d616;color: rgb(0,0,0);margin: 3px;">User Yellow</button>
-                        <button class="btn btn-primary hover" id="Blue" onclick="location.href='/{{ board.id }}?filter=Blue'" type="button" style="margin: 3px;">User Blue</button>
-                        <button class="btn btn-primary hover" id="Green" onclick="location.href='/{{ board.id }}?filter=Green'" type="button" style="background: #1eb53a;border-color: #1eb53a;margin: 3px;">User Green</button>
-                        <button class="btn btn-primary hover" id="Red" onclick="location.href='/{{ board.id }}?filter=Red'" type="button" style="background: #d81c3f;border-color: #d81c3f;margin: 3px;">User Red</button>
-                        <button class="btn btn-primary hover" id="FixtureAngle" onclick="location.href='/{{ board.id }}?filter=FixtureAngle'" type="button" style="background: #00b5d6;border-color: #00b5d6;margin: 3px;">Fixture Angle</button>
-                        <button class="btn btn-primary hover" id="FixtureType" onclick="location.href='/{{ board.id }}?filter=FixtureType'" type="button" style="background: #ff7247;border-color: #ff7247;margin: 3px;">Fixture Type</button>
+            <div class="sidebar" style="display: flex; position: fixed; top: 80px; width: 5%; height: 100%; left: 0">
+                    <!--<h4>Tag Selection{{ query }}</h4>-->
+                    <div class="rotated-sidebar btn-group" role="group" style="display: flex; flex-wrap: wrap;">
+                        {% for tag in tags %}
+                            <button class="btn btn-primary hover" id="{{ tag.Name }}" onclick="location.href='/{{ board.id }}?filter={{ tag.Name }}'" type="button" style="background: {{ tag.Colour }};border-color: {{ tag.Colour }};margin: 3px; size: 18pt">{{ tag.Name }}</button>
+                        {% endfor %}
                         <button class="btn btn-primary hover" id="Colour" onclick="location.href='/{{ board.id }}?filter=Colour'" type="button" style="background: #6d28aa;border-color: #6d28aa;margin: 3px;">Colour</button>
                         <button class="btn btn-primary hover" id="All" onclick="location.href='/{{ board.id }}?filter=All'" type="button" style="background: #0D0D0D;color: #F2F2F2;border-color: #F2F2F2;margin: 3px;">All</button>
+                        <button class="btn btn-primary hover" id="Add" onclick="location.href='/{{ board.id }}/add-tag'" type="button" style="background: #ff7247;border-color: #ff7247;margin: 3px; size: 22pt">+</button>
                 </div>
                 <script>
                     const urlParams = new URLSearchParams(window.location.search);
@@ -40,6 +38,7 @@
                 <br>
             </div>
         </div>
+        <br>
         <div class="flexchild">
             {% for idea_row in ideas | batch(4) %}
                 <div class="row" style="display: flex; justify-content: space-between; align-items: center; padding-top: 20px">
@@ -89,7 +88,7 @@
 {#                        <h4 style="vertical-align: center; text-align: center">New Idea</h4>#}
 {#                    </div>#}
 {#                </div>#}
-                <button class="bottomright btn btn-success btn-lg" type="button" onclick="location.href='/{{ board.id }}/new-idea'">Add Idea</button>
+                <button class="btn btn-success" type="button" onclick="location.href='/{{ board.id }}/new-idea'" style="position: fixed; top: 22px; left: 20px;">Add Idea</button>
         </div>
         </div>
     </div>

@@ -1,0 +1,37 @@
+{% extends "index.html" %}
+{% from 'macros.html' import render_field %}
+
+{% block title %}Tag{% endblock %}
+
+{% block head %}
+    {% block styles %}
+        {{ super() }}
+        <link rel="stylesheet" href="{{ url_for('.static', filename='/css/Navigation-with-Button.css') }}">
+        <link rel="stylesheet" href="{{ url_for('.static', filename='/css/Contact-Form-Clean.css') }}">
+    {% endblock %}
+{% endblock %}
+
+{% block content %}
+    {% block nav %}
+        {{ super() }}
+    {% endblock %}
+    {% block messages %} {{ super() }} {% endblock %}
+    {% block pagecontent %}
+        <div class="contact-clean" style="background: #F2F2F2; position: fixed; width: 100%; height: 100%">
+        <form method="post" action="" form="form">
+        {{ form.hidden_tag() }}
+            <h2 class="text-center">Tag</h2>
+            <div class="form-group">
+                {% for field in form %}
+                    {{ render_field(field) }}
+                {% endfor %}
+            </div>
+            <br>
+            <div class="form-group" style="text-align: center;">
+                <div class="col"><button class="btn btn-primary" type="submit" style="text-align: center;">&nbspAdd Tag</button><button class="btn btn-primary" onclick="history.back()" type="button" style="text-align: center; margin-left: 5px; background: #F2F2F2 !important; color: #000000">&nbspBack</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    {% endblock %}
+{% endblock %}
