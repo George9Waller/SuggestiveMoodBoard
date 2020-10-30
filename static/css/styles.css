@@ -8,12 +8,14 @@
   margin: auto;
 }
 .success {
-  background: #70DA8B;
-  color: #4DA463;
+  background: #DCEDC8;
+  color: #33691E;
+  margin-bottom: 20px;
 }
+
 .error {
-  background: #FFE6B2;
-  color: #C5A14E;
+  background: #FFCCBC;
+  color: #b71c1c;
   margin-bottom: 20px;
 }
 
