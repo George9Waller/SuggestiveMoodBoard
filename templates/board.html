@@ -19,8 +19,7 @@
 
 
     <div class="ideacontainor">
-        <div class="container ideatable" style="display: flex; width: 90%!important;">
-        <div class="flexchild" style="margin-right: 20px; width: 20%; position: fixed; left: 10px">
+    <div class="flexchild" style="margin-right: 20px; width: 20%; position: fixed; left: 10px">
             <div class="sidebar" style="display: flex; position: fixed; top: 80px; width: 5%; height: 100%; left: 0">
                     <!--<h4>Tag Selection{{ query }}</h4>-->
                     <div class="rotated-sidebar btn-group" role="group" style="display: flex; flex-wrap: wrap; flex-direction: row">
@@ -29,7 +28,18 @@
                         {% endfor %}
                         <button class="btn btn-primary hover" id="Colour" onclick="location.href='/{{ board.id }}?filter=Colour'" type="button" style="background: #6d28aa;border-color: #6d28aa;margin: 3px;">Colour</button>
                         <button class="btn btn-primary hover" id="All" onclick="location.href='/{{ board.id }}?filter=All'" type="button" style="background: #0D0D0D;color: #F2F2F2;border-color: #F2F2F2;margin: 3px;">All</button>
-                        <button class="btn btn-primary hover" id="Add" onclick="location.href='/{{ board.id }}/add-tag'" type="button" style="background: #ff7247;border-color: #ff7247;margin: 3px; size: 22pt">+</button>
+                        <button class="btn btn-primary hover" id="Add" onclick="location.href='/{{ board.id }}/delete-tag'" type="button" style="background: transparent;border: transparent; margin: 1px; size: 22pt; opacity: 1">
+                            <svg width="1.8em" height="1.8em" viewBox="0 0 16 16" class="bi bi-trash icon-delete-hover" fill="black" xmlns="http://www.w3.org/2000/svg">
+                               <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                               <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                            </svg>
+                        </button>
+                        <button class="btn btn-primary hover" id="Add" onclick="location.href='/{{ board.id }}/add-tag'" type="button" style="background: transparent;border: transparent; margin: 3px; size: 22pt; opacity: 1">
+                            <svg width="1.8em" height="1.8em" viewBox="0 0 16 16" class="bi bi-plus-square icon-edit-hover" fill="black" xmlns="http://www.w3.org/2000/svg">
+                               <path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                               <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                            </svg>
+                        </button>
                 </div>
                 <script>
                     const urlParams = new URLSearchParams(window.location.search);
@@ -38,49 +48,34 @@
                 <br>
             </div>
         </div>
-        <br>
-        <div class="flexchild">
-            {% for idea_row in ideas | batch(4) %}
-                <div class="row" style="display: flex; justify-content: space-between; align-items: center; padding-top: 20px">
-                    {% for idea in idea_row %}
-                        <!-- Set colour to tag colour if present-->
-                        {% if idea.Colour == '' %}
-                            {% set colour = '#f2f2f2' %}
-                        {% endif %}
-                        <div class="idea col-md-3" onclick="location.href='/{{ board.id }}/{{ idea.id }}'" style="background: #f2f2f2;  border-radius: 10px; height: 100%; width: 22%">
+        <div class="ideatable" style="display: flex; width: 90%!important; justify-content: space-between; align-items: center; padding-top: 20px; flex-wrap: wrap; align-content: stretch; padding-right: 15px; padding-left: 15px; margin-right: auto; margin-left: auto;">
+                    {% for idea in ideas %}
+                        <div class="idea" style="background: #f2f2f2;  border-radius: 10px; height: auto; width: auto; margin: 1%; padding: 10px; max-width: 18%;min-width: 200px; position: relative; flex: auto;display: block">
+                            <button class="btn btn-sm" style="position: absolute; top:1em; right:1em; padding: 0; margin: 5px" onclick="location.href='/{{ board.id }}/{{ idea.id }}'">
+                                <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-pencil-square icon-edit-hover" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                </svg>
+                            </button>
+                            <button class="btn btn-sm" style="position: absolute; top:1em; right:3.5em; padding: 0; margin: 5px" onclick="location.href='/delete/idea/{{ idea.id }}'">
+                                <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-trash icon-delete-hover" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                    <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                </svg>
+                            </button>
                             <h4>{{ idea.Name }}</h4>
                             <p>{{ idea.Content | truncate(200) }}</p>
-                            <!--Fixture Type-->
-                            {% if idea.FixtureType != '' %}
-                                <p style="color: #c2571a">Fixture Type: {{ idea.FixtureType }}</p>
-                            {% endif %}
-                            <!--Fixture Angle-->
-                            {% if idea.FixtureAngle != '' %}
-                                <p style="color: #107896">Fixture Angle: {{ idea.FixtureAngle }}</p>
-                            {% endif %}
-                            <!--Red-->
-                            {% if idea.Red != '' %}
-                                <p style="color: #9a2617">Red: {{ idea.Red }}</p>
-                            {% endif %}
-                            <!--Green-->
-                            {% if idea.Green != '' %}
-                                <p style="color: #168C40">Green: {{ idea.Green }}</p>
-                            {% endif %}
-                            <!--Blue-->
-                            {% if idea.Blue != '' %}
-                                <p style="color: #093145">Blue: {{ idea.Blue }}</p>
-                            {% endif %}
-                            <!--Yellow-->
-                            {% if idea.Yellow != '' %}
-                                <p style="color: #bca136">Yellow: {{ idea.Yellow }}</p>
-                            {% endif %}
+                            <!-- Tags -->
+                            <div style="display: flex; justify-content: flex-start; flex-wrap: wrap">
+                                {% for tag in idea.tags %}
+                                    <button class="btn hover btn-sm" id="{{ tag.Name }}" onclick="location.href='/{{ board.id }}?filter={{ tag.Name }}'" type="button" style="background: {{ tag.Colour }};margin: 3px; font-size: xx-small; color: white; padding: 2px">{{ tag.Name }}</button>
+                                {% endfor %}
+                            </div>
                             <!--Colour-->
-                            {% if idea.Colour != 'black' %}
+                            {% if idea.Colour != 'black' and idea.Colour != '' %}
                                 <canvas style="background: {{ idea.Colour }}; width: 100%; height: 10px"></canvas>
                             {% endif %}
                         </div>
-                    {% endfor %}
-                </div>
             {% endfor %}
                 <br>
 {#                <div class="row">#}
@@ -88,9 +83,14 @@
 {#                        <h4 style="vertical-align: center; text-align: center">New Idea</h4>#}
 {#                    </div>#}
 {#                </div>#}
-                <button class="btn btn-success" type="button" onclick="location.href='/{{ board.id }}/new-idea'" style="position: fixed; top: 22px; left: 20px;">Add Idea</button>
+                <button class="btn btn-success" type="button" onclick="location.href='/{{ board.id }}/new-idea'" style="position: fixed; top: 22px; left: 20px; display: flex; align-items: center">
+                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-plus-square-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                       <path fill-rule="evenodd" d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
+                    </svg>
+                    <span style="padding-left: 8px">Idea</span>
+                </button>
         </div>
-        </div>
+
     </div>
         {% endblock %}
     {% endblock %}

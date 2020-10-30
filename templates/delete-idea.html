@@ -8,7 +8,7 @@
         <div class="contact-clean" style="background: {{ colour }}; position: absolute; top: 0; bottom: 0; width: 100%">
         <form method="post" action="" form="form">
         {{ form.hidden_tag() }}
-            <h2 class="text-center">Delete {{ idea.Name }}</h2>
+            <h2 class="text-center">Delete idea: {{ idea.Name }}</h2>
             <a class="btn btn-outline-success text-center" style="background: #1c7430; color: white; margin: auto; display: flex; justify-content: center" href="/{{ idea.Board.id }}">Return to Board: {{ idea.Board.Name }}</a>
             <div class="form-group">
                 {% for field in form %}

@@ -137,12 +137,16 @@ def board(boardid):
     tags = models.Tag.select().where(models.Tag.Board == board)
 
     # TODO Display tags under ideas
-    # for idea in ideas:
-    #     idea.tags = models.Tag.select().join(models.Idea_Tag).where(models.Idea_Tag.Idea == idea)
+    for idea in ideas:
+        idea.tags = models.Tag.select().join(models.Idea_Tag).where(models.Idea_Tag.Idea == idea)
+
+    for idea in ideas:
+        for tag in idea.tags:
+            print(tag.Name)
 
     if board.User == current_user:
         if query:
-            return render_template('board.html', board=board, ideas=ideas, query=": {}".format(query), queryid=query, tags=tags)
+            return render_template('board.html', board=board, ideas=ideas, query=": {}".format(query), queryid=query, tags=tags, models=models)
         else:
             return render_template('board.html', board=board, ideas=ideas, query="", queryid=query, tags=tags)
     else:
@@ -246,7 +250,6 @@ def edit_idea(boardid, ideaid):
                 {models.Idea.Name: form.name.data.strip(), models.Idea.Content: form.content.data.strip(),
                  models.Idea.Colour: form.colour.data})
              .where(models.Idea.id == ideaid).execute())
-            # create tag linkers
 
             # delete all links for idea
             for todelete in models.Idea_Tag.select().where(models.Idea_Tag.Idea == idea):
@@ -254,7 +257,7 @@ def edit_idea(boardid, ideaid):
 
             # create all links from selection data
             for tagid in form.addtotag.data:
-                sample = models.Idea_Tag.create(Idea=idea, Tag=models.Tag.gettagbyid(tagid))
+                models.Idea_Tag.create(Idea=idea, Tag=models.Tag.gettagbyid(tagid))
 
             return redirect('/{}'.format(boardid))
         else:
@@ -285,13 +288,17 @@ def new_idea(boardid):
     # catches an invalid boardid
     try:
         form = forms_site.IdeaForm()
-        print("Requested idea")
+        board = models.Board.get_board(boardid)
+        tags = models.Tag.select().where(models.Tag.Board == board)
+        form.addtotag.choices = [(tag.id, tag.Name) for tag in tags]
+
         if form.validate_on_submit():
             flash("Idea Created", "success")
             models.Idea.create(Name=form.name.data.strip(), Content=form.content.data.strip(),
                                Board=models.Board.get_board(boardid), Colour=form.colour.data)
             return redirect('/{}'.format(boardid))
         # reloads page on unsuccessful form
+        form.addtotag.data = []
         return render_template('idea.html', form=form, colour=colour_create)
     except models.DoesNotExist:
         flash("error", "error")
@@ -310,7 +317,7 @@ def add_tag(boardid):
             models.Tag.create(Name=form.name.data.strip(), Colour=form.colour.data, Board=models.Board.get_board(boardid))
             return redirect('/{}'.format(boardid))
         # reloads form on unsuccessful attempt
-        return render_template('tag.html', form=form)
+        return render_template('tag.html', form=form, colour=colour_create)
     except models.DoesNotExist:
         flash("error", "error")
         return redirect('/')

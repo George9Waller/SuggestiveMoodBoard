@@ -147,6 +147,11 @@ button.hover:hover{
   transition: 0.5s;
 }
 
+.ideatable::after {
+  content: "";
+  flex: auto;
+}
+
 @media (min-height: 1000px) {
   .ideacontainor{
     padding-left: 100px;
@@ -158,4 +163,14 @@ button.hover:hover{
   .rotated-sidebar{
     padding-top: 60px!important;
   }
+}
+
+.icon-edit-hover:hover{
+  fill: #2980ef;
+  transition: 0.5s;
+}
+
+.icon-delete-hover:hover{
+  fill: red;
+  transition: 0.5s;
 }
