@@ -174,3 +174,13 @@ button.hover:hover{
   fill: red;
   transition: 0.5s;
 }
+
+.board-buttons{
+  transition: 1s;
+}
+
+@media (max-width: 1500px){
+  .board-buttons{
+    max-width: 105px;
+  }
+}

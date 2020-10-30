@@ -13,14 +13,29 @@
         <form method="post" action="" form="form">
         {{ form.hidden_tag() }}
             <h2 class="text-center">Delete {{ board.Name }}</h2>
-            <div class="col"><a class="btn btn-outline-success text-center" style="background: #1c7430; color: white; margin: auto; display: flex; justify-content: center" href="/{{ board.id }}">Return to Board</a></div>
+            <div class="col">
+                <a class="btn btn-outline-success text-center" style="background: #1c7430; color: white; margin: auto; display: flex; justify-content: center" href="/{{ board.id }}">
+                    <svg width="1.8em" height="1.8em" viewBox="0 0 16 16" class="bi bi-arrow-return-left" fill="white" xmlns="http://www.w3.org/2000/svg">
+                       <path style="font-weight: bold" fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"/>
+                    </svg>
+                    <span style="padding-left: 8px">to Board</span>
+                </a>
+            </div>
             <div class="form-group">
                 {% for field in form %}
                     {{ render_field(field) }}
                 {% endfor %}
             </div>
             <div class="form-group" style="text-align: center;">
-                <div class="col"><button class="btn btn-danger-outline" type="submit" style="text-align: center; color: white; background: red">Delete Board&nbsp;</button></div>
+                <div class="col" style="display: flex; justify-content: center">
+                    <button class="btn btn-danger-outline" type="submit" style="text-align: center; color: white; background: red; display: flex; align-items: center">
+                        <svg width="1.8em" height="1.8em" viewBox="0 0 16 16" class="bi bi-trash icon-delete-hover" fill="white" xmlns="http://www.w3.org/2000/svg">
+                           <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                           <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                        </svg>
+                        <span style="padding-left: 8px">Delete Board&nbsp;</span>
+                    </button>
+                </div>
             </div>
         </form>
     </div>

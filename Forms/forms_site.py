@@ -18,6 +18,11 @@ class NonValidatingSelectMultipleField(SelectMultipleField):
         pass
 
 
+class NonValidatingSelectField(SelectField):
+    def pre_validate(self, form):
+        pass
+
+
 class NewBoard(FlaskForm):
     """Form for creating a board"""
     name = StringField(
@@ -95,3 +100,15 @@ class AddTagForm(FlaskForm):
         'Colour',
         validators=[DataRequired()]
     )
+
+
+class DeleteTagForm(FlaskForm):
+    """Delete a tag from selection"""
+    selectTag = NonValidatingSelectField(
+        'Select Tag',
+        choices=[],
+        validators=[DataRequired(message="Must make a choice")],
+        coerce=int
+    )
+
+    confirm = BooleanField('Confirm you want to delete this tag', validators=[DataRequired()])

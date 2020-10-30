@@ -120,7 +120,6 @@ class Idea(Model):
 
     def filter(self, query, board):
         """Returns a filtered selection of ideas from the query"""
-        print("Query recieved:{}".format(query))
         if query == 'Colour':
             return Idea.select().where((Idea.Board == board) & ((Idea.Colour != 'black') & (Idea.Colour != '')))
         elif query == 'All':

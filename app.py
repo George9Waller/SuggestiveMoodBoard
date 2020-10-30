@@ -136,13 +136,8 @@ def board(boardid):
     ideas = models.Idea.filter(models.Idea, query, board)
     tags = models.Tag.select().where(models.Tag.Board == board)
 
-    # TODO Display tags under ideas
     for idea in ideas:
         idea.tags = models.Tag.select().join(models.Idea_Tag).where(models.Idea_Tag.Idea == idea)
-
-    for idea in ideas:
-        for tag in idea.tags:
-            print(tag.Name)
 
     if board.User == current_user:
         if query:
@@ -205,9 +200,12 @@ def delete_idea(ideaid):
             if models.Idea.get_owner(ideaid) == current_user.id:
                 flash("Idea Deleted", "success")
                 boardid = models.Idea.get_idea(ideaid).Board.id
+
+                # Delete all tags associated with the idea
+                models.Idea_Tag.delete().where(models.Idea_Tag.Idea.id == ideaid)
+
+                # delete the idea
                 models.Idea.delete_by_id(ideaid)
-                # Delete all tags ascociated with the idea
-                """TODO"""
                 return redirect('/{}'.format(boardid))
             else:
                 flash("Error, this is not your idea", "error")
@@ -322,6 +320,47 @@ def add_tag(boardid):
         flash("error", "error")
         return redirect('/')
 
+
+@app.route('/<int:boardid>/delete-tag', methods=['GET', 'POST'])
+@login_required
+def delete_tag(boardid):
+    """Deletes tag checking it belongs to a board the current user owns"""
+    form = forms_site.DeleteTagForm()
+    if form.validate_on_submit():
+        # checks the tag exists
+        try:
+            tag = models.Tag.gettagbyid(form.selectTag.data)
+        except models.DoesNotExist:
+            flash("Tag does not exist", "error")
+            return redirect(url_for('index'))
+        else:
+            # checks if the tag is on a board owned by the user
+            for board in models.Board.select().join(models.User).where(models.Board.User.id == current_user.id):
+                if tag.Board == board:
+                    flash("Tag Deleted", "success")
+                    boardid = tag.Board.id
+
+                    # delete all links
+                    for todelete in models.Idea_Tag.select().where(models.Idea_Tag.Tag == tag):
+                        models.Idea_Tag.delete_instance(todelete)
+
+                    # delete the tag
+                    models.Tag.delete_instance(tag)
+
+                    return redirect('/{}'.format(boardid))
+
+            flash("This is not your tag", "error")
+            return redirect(url_for('index'))
+    else:
+        try:
+            # get choices
+            board = models.Board.get_board(boardid)
+            choices = models.Tag.select().where(models.Tag.Board == board)
+            form.selectTag.choices = [(tag.id, tag.Name) for tag in choices]
+            return render_template('delete-tag.html', form=form, board=board, colour=colour_delete)
+        except models.DoesNotExist:
+            flash("Tag does not exist", "error")
+            return redirect(url_for('index'))
 
 
 @app.route('/')
