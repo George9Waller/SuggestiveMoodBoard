@@ -3,7 +3,6 @@
   text-align: center;
   padding: 15px 30px;
   border-radius: 4px;
-  color: #fff;
   width: 30%;
   margin: auto;
 }
@@ -107,25 +106,27 @@ button.hover:hover{
     flex-direction: row-reverse;
     justify-content: center;
     align-content: center;
-    width: 90vw;
+    width: 100vw;
     position: fixed!important;
-    margin: auto;
     transition: 0.5s;
-  transition-timing-function: ease-out;
+    transition-timing-function: ease-out;
+    background: rgb(255,255,255);
+    background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 60%, rgba(255,255,255,0) 100%);
 }
 
-@media (min-height: 1000px) {
+@media (min-height: 1050px) {
   .rotated-sidebar {
     justify-content: flex-end;
     align-content: flex-start;
     transform: rotate(-90deg) translate(0, 150px);
     transform-origin: right bottom;
-    left: -890px;
+    left: -950px;
     width: 900px;
     height: 150px;
     top: -10px;
     position: fixed!important;
     transition: 0.5s;
+    margin: 0;
   }
 }
 
@@ -141,6 +142,8 @@ button.hover:hover{
     top: -10px;
     position: fixed!important;
     transition: 0.5s;
+    padding-top: 0!important;
+    margin: 0;
   }
 }
 
@@ -154,7 +157,7 @@ button.hover:hover{
   flex: auto;
 }
 
-@media (min-height: 1000px) {
+@media (min-height: 1050px) {
   .ideacontainor{
     padding-left: 100px;
     padding-top: 0!important;

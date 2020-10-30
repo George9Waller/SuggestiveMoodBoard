@@ -202,7 +202,9 @@ def delete_idea(ideaid):
                 boardid = models.Idea.get_idea(ideaid).Board.id
 
                 # Delete all tags associated with the idea
-                models.Idea_Tag.delete().where(models.Idea_Tag.Idea.id == ideaid)
+                taglinks = models.Idea_Tag.select().join(models.Idea).where(models.Idea_Tag.Idea.id == ideaid)
+                for tag in taglinks:
+                    models.Idea_Tag.delete_instance(tag)
 
                 # delete the idea
                 models.Idea.delete_by_id(ideaid)

@@ -4,6 +4,7 @@
 {% block head %}
     {% block styles %}
         {{ super() }}
+        <script src="https://kit.fontawesome.com/ba83112699.js" crossorigin="anonymous"></script>
     {% endblock %}
 {% endblock %}
 
@@ -19,50 +20,23 @@
 
 
     <div class="ideacontainor">
-    <div class="flexchild" style="margin-right: 20px; width: 20%; position: fixed; left: 10px">
-            <div class="sidebar" style="display: flex; position: fixed; top: 80px; width: 5%; height: 100%; left: 0">
-                    <!--<h4>Tag Selection{{ query }}</h4>-->
-                    <div class="rotated-sidebar btn-group" role="group" style="display: flex; flex-wrap: wrap; flex-direction: row">
-                        {% for tag in tags|reverse %}
-                            <button class="btn btn-primary hover" id="{{ tag.Name }}" onclick="location.href='/{{ board.id }}?filter={{ tag.Name }}'" type="button" style="background: {{ tag.Colour }};border-color: {{ tag.Colour }};margin: 3px; size: 18pt">{{ tag.Name }}</button>
-                        {% endfor %}
-                        <button class="btn btn-primary hover" id="Colour" onclick="location.href='/{{ board.id }}?filter=Colour'" type="button" style="background: #6d28aa;border-color: #6d28aa;margin: 3px;">Colour</button>
-                        <button class="btn btn-primary hover" id="All" onclick="location.href='/{{ board.id }}?filter=All'" type="button" style="background: #0D0D0D;color: #F2F2F2;border-color: #F2F2F2;margin: 3px;">All</button>
-                        <button class="btn btn-primary hover" id="Add" onclick="location.href='/{{ board.id }}/delete-tag'" type="button" style="background: transparent;border: transparent; margin: 1px; size: 22pt; opacity: 1">
-                            <svg width="1.8em" height="1.8em" viewBox="0 0 16 16" class="bi bi-trash icon-delete-hover" fill="black" xmlns="http://www.w3.org/2000/svg">
-                               <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                               <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                            </svg>
-                        </button>
-                        <button class="btn btn-primary hover" id="Add" onclick="location.href='/{{ board.id }}/add-tag'" type="button" style="background: transparent;border: transparent; margin: 3px; size: 22pt; opacity: 1">
-                            <svg width="1.8em" height="1.8em" viewBox="0 0 16 16" class="bi bi-plus-square icon-edit-hover" fill="black" xmlns="http://www.w3.org/2000/svg">
-                               <path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
-                               <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                            </svg>
-                        </button>
-                </div>
-                <script>
-                    const urlParams = new URLSearchParams(window.location.search);
-                    const button = document.getElementById(urlParams.get('filter')).style.opacity = 1;
-                </script>
-                <br>
-            </div>
-        </div>
-        <div class="ideatable" style="display: flex; width: 90%!important; justify-content: space-between; align-items: center; padding-top: 20px; flex-wrap: wrap; align-content: stretch; padding-right: 15px; padding-left: 15px; margin-right: auto; margin-left: auto;">
+        <div class="ideatable" style="display: flex; width: 90%!important; justify-content: space-between; align-items: center; padding-top: 20px; flex-wrap: wrap; align-content: stretch; padding-right: 15px; padding-left: 15px; margin-right: auto; margin-left: auto; z-index: -2;">
                     {% for idea in ideas %}
                         <div class="idea" style="background: #f2f2f2;  border-radius: 10px; height: auto; width: auto; margin: 1%; padding: 10px; max-width: 18%;min-width: 200px; position: relative; flex: auto;display: block">
-                            <button class="btn btn-sm" style="position: absolute; top:1em; right:1em; padding: 0; margin: 5px" onclick="location.href='/{{ board.id }}/{{ idea.id }}'">
-                                <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-pencil-square icon-edit-hover" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-                                </svg>
-                            </button>
-                            <button class="btn btn-sm" style="position: absolute; top:1em; right:3.5em; padding: 0; margin: 5px" onclick="location.href='/delete/idea/{{ idea.id }}'">
-                                <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-trash icon-delete-hover" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                                    <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                                </svg>
-                            </button>
+                            <div style="float: right ">
+                                <button class="btn btn-sm" style=" padding: 0; margin: 5px" onclick="location.href='/{{ board.id }}/{{ idea.id }}'">
+                                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-pencil-square icon-edit-hover" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                    </svg>
+                                </button>
+                                <button class="btn btn-sm" style="padding: 0; margin: 5px" onclick="location.href='/delete/idea/{{ idea.id }}'">
+                                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-trash icon-delete-hover" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                    </svg>
+                                </button>
+                            </div>
                             <h4>{{ idea.Name }}</h4>
                             <p>{{ idea.Content | truncate(200) }}</p>
                             <!-- Tags -->
@@ -83,7 +57,7 @@
 {#                        <h4 style="vertical-align: center; text-align: center">New Idea</h4>#}
 {#                    </div>#}
 {#                </div>#}
-                <div style="position: fixed; top: 12px; left: 10px; display: flex; flex-wrap: wrap" class="board-buttons">
+                <div style="position: fixed; top: 12px; left: 10px; display: flex; flex-wrap: wrap; z-index: 2" class="board-buttons">
                     <button class="btn btn-success" type="button" onclick="location.href='/{{ board.id }}/new-idea'" style="display: flex; align-items: center; margin-left: 10px; margin-top: 10px">
                         <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-plus-square-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                            <path fill-rule="evenodd" d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
@@ -99,6 +73,40 @@
                     </button>
                 </div>
         </div>
+        <div class="flexchild" style="margin-right: 20px; width: 20%; position: fixed; left: 10px">
+                <div class="sidebar" style="display: flex; position: fixed; top: 0; width: 5%; height: 100%; left: 0;">
+                        <!--<h4>Tag Selection{{ query }}</h4>-->
+                        <div class="rotated-sidebar btn-group" role="group" style="display: flex; flex-wrap: wrap; flex-direction: row; padding-top: 80px; z-index: -1; padding-bottom: 80px">
+                            {% for tag in tags|reverse %}
+                                <button class="btn btn-primary hover" id="{{ tag.Name }}" onclick="location.href='/{{ board.id }}?filter={{ tag.Name }}'" type="button" style="background: {{ tag.Colour }};border-color: {{ tag.Colour }};margin: 3px; size: 18pt">{{ tag.Name }}</button>
+                            {% endfor %}
+                            <button class="btn btn-primary hover" id="Colour" onclick="location.href='/{{ board.id }}?filter=Colour'" type="button" style="background: #6d28aa;border-color: #6d28aa;margin: 3px;">Colour</button>
+                            <button class="btn btn-primary hover" id="All" onclick="location.href='/{{ board.id }}?filter=All'" type="button" style="background: #0D0D0D;color: #F2F2F2;border-color: #F2F2F2;margin: 3px;">All</button>
+{#                        TODO add vue for colour suggestions#}
+{#                        TODO add green hover css animation#}
+{#                            <button class="btn btn-primary hover" id="Add" onclick="location.href='/'" type="button" style="background: transparent;border: transparent; margin: 1px; size: 22pt; opacity: 1">#}
+{#                                <span style="color: black"><i class="fas fa-flask fa-lg"></i></span>#}
+{#                            </button>#}
+                            <button class="btn btn-primary hover" id="Add" onclick="location.href='/{{ board.id }}/delete-tag'" type="button" style="background: transparent;border: transparent; margin: 1px; size: 22pt; opacity: 1">
+                                <svg width="1.8em" height="1.8em" viewBox="0 0 16 16" class="bi bi-trash icon-delete-hover" fill="black" xmlns="http://www.w3.org/2000/svg">
+                                   <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                   <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                </svg>
+                            </button>
+                            <button class="btn btn-primary hover" id="Add" onclick="location.href='/{{ board.id }}/add-tag'" type="button" style="background: transparent;border: transparent; margin: 3px; size: 22pt; opacity: 1">
+                                <svg width="1.8em" height="1.8em" viewBox="0 0 16 16" class="bi bi-plus-square icon-edit-hover" fill="black" xmlns="http://www.w3.org/2000/svg">
+                                   <path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                                   <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                </svg>
+                            </button>
+                    </div>
+                    <script>
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const button = document.getElementById(urlParams.get('filter')).style.opacity = 1;
+                    </script>
+                    <br>
+                </div>
+            </div>
 
     </div>
         {% endblock %}
