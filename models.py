@@ -154,7 +154,7 @@ class Idea(Model):
         elif query is None:
             return Idea.select().where(Idea.Board == board)
         elif query:
-            return Idea.select().join(Idea_Tag).join(Tag).where((Tag.Name == query) & (Tag.Board == board))
+            return Idea.select().join(Idea_Tag).join(Tag).where((Tag.id == query) & (Tag.Board == board))
         else:
             flash("Tag not recognised", "error")
             ideas = Idea.select().where(Idea.Board == board)

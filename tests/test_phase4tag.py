@@ -89,7 +89,7 @@ class IdeaSortingTestCase(IdeaHelperTestCase):
     """Testing the sorting queries by checking for ideas with only that tag"""
     def test_custom_query(self):
         self.registerandlogin()
-        rv = self.app.get('/1?filter=Fixture%20Type', follow_redirects=True)
+        rv = self.app.get('/1?filter=1', follow_redirects=True)
         self.assertIn(b'To add a sense of control and searching I will use maglight torches held by each actor and '
                       b'used throughout the piece to convey their meaning.', rv.data)
 
