@@ -39,6 +39,18 @@ class User(UserMixin, Model):
         """returns user object matching given email"""
         return User.select().where(User.Email == self)
 
+    def get_user_by_id(self):
+        """returns user object matching id"""
+        return User.get(User.id == self)
+
+    def get_user_by_username(self):
+        """returns user object matching username"""
+        return User.get(User.UserName == self)
+
+    def get_id(self):
+        """returns the id for the supplied user"""
+        return self.id
+
     @classmethod
     def create_user(cls, username, email, password, usertype=0):
         """class method to create new instance of user"""
@@ -66,6 +78,14 @@ class Board(Model):
         database = DATABASE
         order_by = ('User',)
 
+    def get_user(self):
+        """returns the User object for the supplied board"""
+        return self.User
+
+    def get_id(self):
+        """returns the id of the supplied board"""
+        return self.id
+
     def get_board(self):
         """returns the board matching the supplied id"""
         return Board.get(Board.id == self)
@@ -77,18 +97,14 @@ class Board(Model):
         except DoesNotExist:
             return None
 
-    @classmethod
-    def create_board(cls, user, name, venuesize='Small', eventdate=datetime.date.today):
+    def get_boards_by_user(self):
+        """returns boards for the user of the supplied id"""
+        return Board.select().join(User).where(Board.User.id == self)
+
+    @staticmethod
+    def create_board(user, name, venuesize='Small', eventdate=datetime.date.today):
         """class method to create a new board"""
-        try:
-            cls.create(
-                User=user,
-                Name=name,
-                VenueSize=venuesize,
-                EventDate=eventdate
-            )
-        except IntegrityError:
-            raise ValueError('Invalid details')
+        return Board.create(User=user, Name=name, VenueSize=venuesize, EventDate=eventdate)
 
 
 class Idea(Model):
@@ -114,11 +130,22 @@ class Idea(Model):
         return idea.Board.User.id
 
     def get_boardid(self):
-        """returns the id of the board it is on"""
+        """returns the id of the board of the supplied ideaid"""
         idea = Idea.get_idea(self)
         return idea.Board.id
 
-    def filter(self, query, board):
+    def delete_by_board(self):
+        """deletes Ideas where the board matches the supplied"""
+        Idea.delete().where(Idea.Board == self)
+        return
+
+    def update_idea_by_id(self, name, content, colour):
+        """updates the idea with a matching id"""
+        Idea.update({Idea.Name: name, Idea.Content: content, Idea.Colour: colour}).where(Idea.id == self).execute()
+        return
+
+    @staticmethod
+    def filter(query, board):
         """Returns a filtered selection of ideas from the query"""
         if query == 'Colour':
             return Idea.select().where((Idea.Board == board) & ((Idea.Colour != 'black') & (Idea.Colour != '')))
@@ -133,6 +160,11 @@ class Idea(Model):
             ideas = Idea.select().where(Idea.Board == board)
         return ideas
 
+    @staticmethod
+    def create_idea(name, board, content, colour):
+        """method to create a new Idea"""
+        return Idea.create(Name=name, Board=board, Content=content, Colour=colour)
+
 
 class Tag(Model):
     id = PrimaryKeyField()
@@ -140,13 +172,36 @@ class Tag(Model):
     Name = CharField(max_length=30)
     Colour = CharField(max_length=7)
 
-    def gettagbyid(self):
+    @staticmethod
+    def gettagbyid(tagid):
         """returns the tag object matching the id"""
-        return Tag.get(Tag.id == self)
+        return Tag.get(Tag.id == tagid)
+
+    def get_tags_by_board(self):
+        """returns tags matching the supplied board"""
+        return Tag.select().where(Tag.Board == self)
+
+    def get_tags_by_idea(self):
+        """returns tag objects linked to the supplied idea"""
+        return Tag.select().join(Idea_Tag).where(Idea_Tag.Idea == self)
+
+    def get_board(self):
+        """returns the board of the supplied board"""
+        return self.Board
+
+    def delete_by_object(self):
+        """deletes Tag object matching supplied"""
+        Tag.delete_instance(self)
+        return
 
     class Meta:
         database = DATABASE
         order_by = ('Board',)
+
+    @staticmethod
+    def create_tag(board, name, colour):
+        """method to create a new Tag"""
+        return Tag.create(Board=board, Name=name, Colour=colour)
 
 
 class Idea_Tag(Model):
@@ -158,9 +213,35 @@ class Idea_Tag(Model):
         """gets the tag ids for the supplied idea"""
         return Idea_Tag.select(Idea_Tag.Tag).where(Idea_Tag.Idea == self).dicts()
 
+    def get_tag(self):
+        """returns tag object for supplied Idea_Tag object"""
+        return self.Tag
+
+    def get_taglinks_by_ideaid(self):
+        """returns all the Idea_Tag objects for the given ideaid"""
+        return Idea_Tag.select().join(Idea).where(Idea_Tag.Idea.id == self)
+
+    def get_taglinks_by_idea(self):
+        """returns all the Idea_Tag objects for the given idea"""
+        return Idea_Tag.select().join(Idea).where(Idea_Tag.Idea == self)
+
+    def get_taglinks_by_tag(self):
+        """returns all the Idea_Tag objects for the given tag"""
+        return Idea_Tag.select().where(Idea_Tag.Tag == self)
+
+    def delete_by_object(self):
+        """deletes the object passed"""
+        Idea_Tag.delete_instance(self)
+        return
+
     class Meta:
         database = DATABASE
         order_by = ('Board',)
+
+    @staticmethod
+    def create_idea_tag_link(idea, tag):
+        """method to create a new Idea Tag link"""
+        return Idea_Tag.create(Idea=idea, Tag=tag)
 
 
 def initialise():

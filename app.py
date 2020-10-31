@@ -31,7 +31,7 @@ colour_delete = "#F26835"  # orange
 def load_user(userid):
     """tries to load the use matching the user id, catching the error if the user does not exist"""
     try:
-        return models.User.get(models.User.id == userid)
+        return models.User.get_user_by_id(userid)
     except models.DoesNotExist:
         return None
 
@@ -72,9 +72,9 @@ def register():
             usertype=usernum
         )
         # Creates sample board to show the user an example of the solution
-        sampleboard = models.Board.create(User=models.User.get_user_by_email(form.email.data),
-                                          Name='100 in the style of Complicité',
-                                          VenueSize='Small', EventDate='2020-10-08')
+        sampleboard = models.Board.create_board(user=models.User.get_user_by_email(form.email.data),
+                                                name='100 in the style of Complicité',
+                                                venuesize='Small', eventdate='2020-10-08')
         sampleideas.addideas(sampleboard)
         # returns user to index after registration
         return redirect(url_for('index'))
@@ -89,7 +89,7 @@ def login():
     if form.validate_on_submit():
         """tries to match the username to an existing user"""
         try:
-            user = models.User.get(models.User.UserName == form.username.data)
+            user = models.User.get_user_by_username(form.username.data)
         except models.DoesNotExist:
             flash("Email and/or password do not match", "error")
         else:
@@ -120,8 +120,8 @@ def new_board():
     form = forms_site.NewBoard()
     if form.validate_on_submit():
         flash("Board Added", "success")
-        models.Board.create(User=g.user.id, Name=form.name.data,
-                            VenueSize=form.venuesize.data, EventDate=form.eventdate.data)
+        models.Board.create_board(user=g.user.id, name=form.name.data,
+                                  venuesize=form.venuesize.data, eventdate=form.eventdate.data)
         return redirect(url_for('index'))
     # reloads page on unsuccessful form
     return render_template('add-board.html', form=form, colour=colour_create)
@@ -133,15 +133,16 @@ def board(boardid):
     """loads a board - checking if the current user is owner + checks query string to filter ideas shown"""
     board = models.Board.get_board(boardid)
     query = request.args.get('filter')
-    ideas = models.Idea.filter(models.Idea, query, board)
-    tags = models.Tag.select().where(models.Tag.Board == board)
+    ideas = models.Idea.filter(query, board)
+    tags = models.Tag.get_tags_by_board(board)
 
     for idea in ideas:
-        idea.tags = models.Tag.select().join(models.Idea_Tag).where(models.Idea_Tag.Idea == idea)
+        idea.tags = models.Tag.get_tags_by_idea(idea)
 
     if board.User == current_user:
         if query:
-            return render_template('board.html', board=board, ideas=ideas, query=": {}".format(query), queryid=query, tags=tags, models=models)
+            return render_template('board.html', board=board, ideas=ideas, query=": {}".format(query), queryid=query,
+                                   tags=tags, models=models)
         else:
             return render_template('board.html', board=board, ideas=ideas, query="", queryid=query, tags=tags)
     else:
@@ -163,20 +164,20 @@ def delete_board(boardid):
             return redirect(url_for('index'))
         else:
             # checks the current user owns the board
-            board = models.Board.get(models.Board.id == boardid)
-            if board.User != current_user:
+            board = models.Board.get_board(boardid)
+            if board.get_user() != current_user:
                 flash('This is not your board!', "error")
                 return redirect(url_for('index'))
             else:
                 flash("Board Deleted", "success")
                 # deletes all ideas associated with the board
-                models.Idea.delete().where(models.Idea.Board == models.Board.get_board(boardid))
+                models.Idea.delete_by_board(models.Board.get_board(boardid))
                 models.Board.delete_by_id(boardid)
                 return redirect(url_for('index'))
         # if the form is not valid - checks if the board exists to reload the form or redirects the user to index
     else:
         try:
-            board = models.Board.get(models.Board.id == boardid)
+            board = models.Board.get_board(boardid)
             return render_template('delete-board.html', form=form, board=board, colour=colour_delete)
         except models.DoesNotExist:
             flash("Board does not exist", "error")
@@ -191,7 +192,7 @@ def delete_idea(ideaid):
     if form.validate_on_submit():
         # checks the idea exists
         try:
-            models.Idea.get(models.Idea.id == ideaid)
+            models.Idea.get_idea(ideaid)
         except models.DoesNotExist:
             flash("Idea does not exist", "error")
             return redirect(url_for('index'))
@@ -199,12 +200,12 @@ def delete_idea(ideaid):
             # check who owns the idea
             if models.Idea.get_owner(ideaid) == current_user.id:
                 flash("Idea Deleted", "success")
-                boardid = models.Idea.get_idea(ideaid).Board.id
+                boardid = models.Idea.get_boardid(ideaid)
 
                 # Delete all tags associated with the idea
-                taglinks = models.Idea_Tag.select().join(models.Idea).where(models.Idea_Tag.Idea.id == ideaid)
+                taglinks = models.Idea_Tag.get_taglinks_by_ideaid(ideaid)
                 for tag in taglinks:
-                    models.Idea_Tag.delete_instance(tag)
+                    models.Idea_Tag.delete_by_object(tag)
 
                 # delete the idea
                 models.Idea.delete_by_id(ideaid)
@@ -215,7 +216,7 @@ def delete_idea(ideaid):
         # if the form is not valid - checks if the idea exists to reload the form or redirects the user to index
     else:
         try:
-            idea = models.Idea.get(models.Idea.id == ideaid)
+            idea = models.Idea.get_idea(ideaid)
             return render_template('delete-idea.html', form=form, idea=idea, colour=colour_delete)
         except models.DoesNotExist:
             flash("Idea does not exist", "error")
@@ -229,13 +230,13 @@ def edit_idea(boardid, ideaid):
     # catches an invalid boardid or ideaid
     try:
         board = models.Board.get_board(boardid)
-        tags = models.Tag.select().where(models.Tag.Board ==board)
+        tags = models.Tag.get_tags_by_board(board)
         form = forms_site.IdeaForm()
         form.addtotag.choices = [(tag.id, tag.Name) for tag in tags]
         idea = models.Idea.get_idea(ideaid)
 
         # check current user is owner
-        if models.Board.get_board(boardid).User != current_user:
+        if models.Board.get_board(boardid).get_user() != current_user:
             flash("This is not your data", "error")
             return redirect('/')
 
@@ -246,18 +247,16 @@ def edit_idea(boardid, ideaid):
 
         if form.validate_on_submit():
             flash("Idea Updated", "success")
-            (models.Idea.update(
-                {models.Idea.Name: form.name.data.strip(), models.Idea.Content: form.content.data.strip(),
-                 models.Idea.Colour: form.colour.data})
-             .where(models.Idea.id == ideaid).execute())
+            models.Idea.update_idea_by_id(ideaid, name=form.name.data.strip(), content=form.content.data.strip(),
+                                          colour=form.colour.data)
 
             # delete all links for idea
-            for todelete in models.Idea_Tag.select().where(models.Idea_Tag.Idea == idea):
-                models.Idea_Tag.delete_instance(todelete)
+            for todelete in models.Idea_Tag.get_taglinks_by_idea(idea):
+                models.Idea_Tag.delete_by_object(todelete)
 
             # create all links from selection data
             for tagid in form.addtotag.data:
-                models.Idea_Tag.create(Idea=idea, Tag=models.Tag.gettagbyid(tagid))
+                models.Idea_Tag.create_idea_tag_link(idea=idea, tag=models.Tag.gettagbyid(tagid))
 
             return redirect('/{}'.format(boardid))
         else:
@@ -289,13 +288,13 @@ def new_idea(boardid):
     try:
         form = forms_site.IdeaForm()
         board = models.Board.get_board(boardid)
-        tags = models.Tag.select().where(models.Tag.Board == board)
+        tags = models.Tag.get_tags_by_board(board)
         form.addtotag.choices = [(tag.id, tag.Name) for tag in tags]
 
         if form.validate_on_submit():
             flash("Idea Created", "success")
-            models.Idea.create(Name=form.name.data.strip(), Content=form.content.data.strip(),
-                               Board=models.Board.get_board(boardid), Colour=form.colour.data)
+            models.Idea.create_idea(name=form.name.data.strip(), content=form.content.data.strip(),
+                                    board=models.Board.get_board(boardid), colour=form.colour.data)
             return redirect('/{}'.format(boardid))
         # reloads page on unsuccessful form
         form.addtotag.data = []
@@ -314,12 +313,13 @@ def add_tag(boardid):
         form = forms_site.AddTagForm()
         if form.validate_on_submit():
             flash("Tag added", "success")
-            models.Tag.create(Name=form.name.data.strip(), Colour=form.colour.data, Board=models.Board.get_board(boardid))
+            models.Tag.create_tag(board=models.Board.get_board(boardid), name=form.name.data.strip(),
+                                  colour=form.colour.data)
             return redirect('/{}'.format(boardid))
         # reloads form on unsuccessful attempt
         # checks current user owns board
         board = models.Board.get_board(boardid)
-        if board.User == current_user:
+        if board.get_user() == current_user:
             return render_template('tag.html', form=form, colour=colour_create)
         else:
             flash("This is not your board", "error")
@@ -343,17 +343,17 @@ def delete_tag(boardid):
             return redirect(url_for('index'))
         else:
             # checks if the tag is on a board owned by the user
-            for board in models.Board.select().join(models.User).where(models.Board.User.id == current_user.id):
-                if tag.Board == board:
+            for board in models.Board.get_boards_by_user(current_user.id):
+                if tag.get_board() == board:
                     flash("Tag Deleted", "success")
-                    boardid = tag.Board.id
+                    boardid = tag.get_board().get_id()
 
                     # delete all links
-                    for todelete in models.Idea_Tag.select().where(models.Idea_Tag.Tag == tag):
+                    for todelete in models.Idea_Tag.get_taglinks_by_tag(tag):
                         models.Idea_Tag.delete_instance(todelete)
 
                     # delete the tag
-                    models.Tag.delete_instance(tag)
+                    models.Tag.delete_by_object(tag)
 
                     return redirect('/{}'.format(boardid))
 
@@ -365,8 +365,8 @@ def delete_tag(boardid):
             board = models.Board.get_board(boardid)
 
             """Check current user owns board"""
-            if board.User == current_user:
-                choices = models.Tag.select().where(models.Tag.Board == board)
+            if board.get_user() == current_user:
+                choices = models.Tag.get_tags_by_board(board)
                 form.selectTag.choices = [(tag.id, tag.Name) for tag in choices]
                 return render_template('delete-tag.html', form=form, board=board, colour=colour_delete)
             else:
