@@ -3,7 +3,7 @@
   text-align: center;
   padding: 15px 30px;
   border-radius: 4px;
-  width: 30%;
+  width: 100%;
   margin: auto;
 }
 .success {
@@ -120,7 +120,7 @@ button.hover:hover{
     align-content: flex-start;
     transform: rotate(-90deg) translate(0, 150px);
     transform-origin: right bottom;
-    left: -950px;
+    left: -970px;
     width: 900px;
     height: 150px;
     top: -10px;

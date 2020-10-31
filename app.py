@@ -317,7 +317,13 @@ def add_tag(boardid):
             models.Tag.create(Name=form.name.data.strip(), Colour=form.colour.data, Board=models.Board.get_board(boardid))
             return redirect('/{}'.format(boardid))
         # reloads form on unsuccessful attempt
-        return render_template('tag.html', form=form, colour=colour_create)
+        # checks current user owns board
+        board = models.Board.get_board(boardid)
+        if board.User == current_user:
+            return render_template('tag.html', form=form, colour=colour_create)
+        else:
+            flash("This is not your board", "error")
+            return redirect(url_for('index'))
     except models.DoesNotExist:
         flash("error", "error")
         return redirect('/')
@@ -357,11 +363,17 @@ def delete_tag(boardid):
         try:
             # get choices
             board = models.Board.get_board(boardid)
-            choices = models.Tag.select().where(models.Tag.Board == board)
-            form.selectTag.choices = [(tag.id, tag.Name) for tag in choices]
-            return render_template('delete-tag.html', form=form, board=board, colour=colour_delete)
+
+            """Check current user owns board"""
+            if board.User == current_user:
+                choices = models.Tag.select().where(models.Tag.Board == board)
+                form.selectTag.choices = [(tag.id, tag.Name) for tag in choices]
+                return render_template('delete-tag.html', form=form, board=board, colour=colour_delete)
+            else:
+                flash("This is not your board", "error")
+                return redirect(url_for('index'))
         except models.DoesNotExist:
-            flash("Tag does not exist", "error")
+            flash("Error", "error")
             return redirect(url_for('index'))
 
 

@@ -26,9 +26,12 @@ class IdeaHelperTestCase(UserModelTestCase):
     def newidea(self):
         self.newboard()
         self.app.post('/1/new-idea',
-                      data=dict(name='Test Idea', content='This is a test new idea.', colour='white',
-                                     fixturetype='', fixtureangle='', red='', green='', blue='', yellow=''),
+                      data=dict(name='Test Idea', content='This is a test new idea.', colour='white'),
                       follow_redirects=True)
+
+    def registerandlogin(self):
+        self.register()
+        self.login('un', 'P&ssw0rd')
 
 
 class GetPagesTestCase(IdeaHelperTestCase):
@@ -89,25 +92,19 @@ class PostInvalidPagesTestCase(IdeaHelperTestCase):
         self.newboard()
         # no name
         rv = self.app.post('/1/new-idea',
-                           data=dict(name='', content='test content'),
+                           data=dict(name='', content='test content', colour='black'),
                            follow_redirects=True)
         self.assertIn(b'required', rv.data)
         # name over 30 characters
         rv = self.app.post('/1/new-idea',
-                           data=dict(name='namenamenamenamenamenamenamenam', content='test content'),
+                           data=dict(name='namenamenamenamenamenamenamenam', content='test content', colour='black'),
                            follow_redirects=True)
         self.assertIn(b'Name must be max 30 characters', rv.data)
 
-        """test content field"""
-        # no content
-        rv = self.app.post('/1/new-idea',
-                           data=dict(name='Test Idea', content=''),
-                           follow_redirects=True)
-        self.assertIn(b'required', rv.data)
         # content over 1000 characters
         string = ('a' * 1001)
         rv = self.app.post('/1/new-idea',
-                           data=dict(name='Test Idea', content=string),
+                           data=dict(name='Test Idea', content=string, colour='black'),
                            follow_redirects=True)
         self.assertIn(b'Content cannot be over 1000 characters', rv.data)
 
@@ -116,7 +113,7 @@ class PostInvalidPagesTestCase(IdeaHelperTestCase):
         self.register()
         self.login('un', 'P&ssw0rd')
         rv = self.app.post('/2/new-idea',
-                           data=dict(name='Test Idea', content='This is a test new idea.'),
+                           data=dict(name='Test Idea', content='This is a test new idea.', colour='black'),
                            follow_redirects=True)
         self.assertIn(b'error', rv.data)
 
@@ -127,7 +124,7 @@ class PostInvalidPagesTestCase(IdeaHelperTestCase):
         self.register(username='test1', email='george.waller3@gmail.com')
         self.login('test1', 'P&ssw0rd')
         rv = self.app.post('/1/new-idea',
-                           data=dict(name='Test Idea', content='This is a test new idea.'),
+                           data=dict(name='Test Idea', content='This is a test new idea.', colour='black'),
                            follow_redirects=True)
         self.assertIn(b'error', rv.data)
 
@@ -136,12 +133,12 @@ class PostInvalidPagesTestCase(IdeaHelperTestCase):
         # invalid boardid
         self.newidea()
         rv = self.app.post('/3/1',
-                           data=dict(name='Test Idea', content='This is an edited idea.'),
+                           data=dict(name='Test Idea', content='This is an edited idea.', colour='black'),
                            follow_redirects=True)
         self.assertIn(b'error', rv.data)
         # invalid ideaid
         rv = self.app.post('/1/35',
-                           data=dict(name='Test Idea', content='This is an edited idea.'),
+                           data=dict(name='Test Idea', content='This is an edited idea.', colour='black'),
                            follow_redirects=True)
         self.assertIn(b'error', rv.data)
 
@@ -152,7 +149,7 @@ class PostInvalidPagesTestCase(IdeaHelperTestCase):
         self.register(username='test1', email='george.waller3@gmail.com')
         self.login('test1', 'P&ssw0rd')
         rv = self.app.post('/1/1',
-                           data=dict(name='Test Idea', content='This is an edited idea.'),
+                           data=dict(name='Test Idea', content='This is an edited idea.', colour='black'),
                            follow_redirects=True)
         self.assertIn(b'error', rv.data)
 
