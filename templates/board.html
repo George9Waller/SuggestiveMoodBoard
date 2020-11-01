@@ -24,13 +24,13 @@
                     {% for idea in ideas %}
                         <div class="idea" style="background: #f2f2f2;  border-radius: 10px; height: auto; width: auto; margin: 1%; padding: 10px; max-width: 18%;min-width: 200px; position: relative; flex: auto;display: block">
                             <div style="float: right ">
-                                <button class="btn btn-sm" style=" padding: 0; margin: 5px" onclick="location.href='/{{ board.id }}/{{ idea.id }}'">
+                                <button class="btn btn-sm" style=" padding: 0; margin: 5px" onclick="location.href='/{{ board.id }}/{{ idea.id }}'" data-toggle="tooltip" data-placement="bottom" title="Edit this idea">
                                     <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-pencil-square icon-edit-hover" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                                         <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                                     </svg>
                                 </button>
-                                <button class="btn btn-sm" style="padding: 0; margin: 5px" onclick="location.href='/delete/idea/{{ idea.id }}'">
+                                <button class="btn btn-sm" style="padding: 0; margin: 5px" onclick="location.href='/delete/idea/{{ idea.id }}'" data-toggle="tooltip" data-placement="bottom" title="Delete this idea">
                                     <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-trash icon-delete-hover" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
                                         <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
@@ -42,7 +42,7 @@
                             <!-- Tags -->
                             <div style="display: flex; justify-content: flex-start; flex-wrap: wrap">
                                 {% for tag in idea.tags %}
-                                    <button class="btn hover btn-sm" id="{{ tag.Name }}" onclick="location.href='/{{ board.id }}?filter={{ tag.Name }}'" type="button" style="background: {{ tag.Colour }};margin: 3px; font-size: xx-small; color: white; padding: 2px">{{ tag.Name }}</button>
+                                    <button class="btn hover btn-sm" id="{{ tag.Name }}" onclick="location.href='/{{ board.id }}?filter={{ tag.Name }}'" type="button" style="background: {{ tag.Colour }};margin: 3px; font-size: xx-small; color: white; padding: 2px" data-toggle="tooltip" data-placement="bottom" title="Filter for {{ tag.Name }}">{{ tag.Name }}</button>
                                 {% endfor %}
                             </div>
                             <!--Colour-->
@@ -58,14 +58,14 @@
 {#                    </div>#}
 {#                </div>#}
                 <div style="position: fixed; top: 12px; left: 10px; display: flex; flex-wrap: wrap; z-index: 2" class="board-buttons">
-                    <button class="btn btn-success" type="button" onclick="location.href='/{{ board.id }}/new-idea'" style="display: flex; align-items: center; margin-left: 10px; margin-top: 10px">
+                    <button class="btn btn-success" type="button" onclick="location.href='/{{ board.id }}/new-idea'" style="display: flex; align-items: center; margin-left: 10px; margin-top: 10px" data-toggle="tooltip" data-placement="bottom" title="Create an Idea">
                         <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-plus-square-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                            <path fill-rule="evenodd" d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
                         </svg>
                         <span style="padding-left: 8px">Idea</span>
                     </button>
 
-                    <button class="btn btn-danger" type="button" onclick="location.href='/delete/board/{{ board.id }}'" style="display: flex; align-items: center; margin-left: 10px; margin-top: 10px">
+                    <button class="btn btn-danger" type="button" onclick="location.href='/delete/board/{{ board.id }}'" style="display: flex; align-items: center; margin-left: 10px; margin-top: 10px" data-toggle="tooltip" data-placement="bottom" title="Delete this board">
                         <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-dash-square-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                            <path fill-rule="evenodd" d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm2.5 7.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7z"/>
                         </svg>
@@ -78,22 +78,20 @@
                         <!--<h4>Tag Selection{{ query }}</h4>-->
                         <div class="rotated-sidebar btn-group" role="group" style="display: flex; flex-wrap: wrap; flex-direction: row; padding-top: 80px; z-index: -1; padding-bottom: 40px">
                             {% for tag in tags|reverse %}
-                                <button class="btn btn-primary hover" id="{{ tag.Name }}" onclick="location.href='/{{ board.id }}?filter={{ tag.id }}'" type="button" style="background: {{ tag.Colour }};border-color: {{ tag.Colour }};margin: 3px; size: 18pt">{{ tag.Name }}</button>
+                                <button class="btn btn-primary hover" id="{{ tag.Name }}" onclick="location.href='/{{ board.id }}?filter={{ tag.id }}'" type="button" style="background: {{ tag.Colour }};border-color: {{ tag.Colour }};margin: 3px; size: 18pt" data-toggle="tooltip" data-placement="bottom" title="Filter for {{ tag.Name }}">{{ tag.Name }}</button>
                             {% endfor %}
-                            <button class="btn btn-primary hover" id="Colour" onclick="location.href='/{{ board.id }}?filter=Colour'" type="button" style="background: #6d28aa;border-color: #6d28aa;margin: 3px;">Colour</button>
-                            <button class="btn btn-primary hover" id="All" onclick="location.href='/{{ board.id }}?filter=All'" type="button" style="background: #0D0D0D;color: #F2F2F2;border-color: #F2F2F2;margin: 3px;">All</button>
-{#                        TODO add vue for colour suggestions#}
-{#                        TODO add green hover css animation#}
-{#                            <button class="btn btn-primary hover" id="Add" onclick="location.href='/'" type="button" style="background: transparent;border: transparent; margin: 1px; size: 22pt; opacity: 1">#}
-{#                                <span style="color: black"><i class="fas fa-flask fa-lg"></i></span>#}
-{#                            </button>#}
-                            <button class="btn btn-primary hover" id="Add" onclick="location.href='/{{ board.id }}/delete-tag'" type="button" style="background: transparent;border: transparent; margin: 1px; size: 22pt; opacity: 1">
+                            <button class="btn btn-primary hover" id="Colour" onclick="location.href='/{{ board.id }}?filter=Colour'" type="button" style="background: #6d28aa;border-color: #6d28aa;margin: 3px;" data-toggle="tooltip" data-placement="bottom" title="Filter for Colour">Colour</button>
+                            <button class="btn btn-primary hover" id="All" onclick="location.href='/{{ board.id }}?filter=All'" type="button" style="background: #0D0D0D;color: #F2F2F2;border-color: #F2F2F2;margin: 3px;" data-toggle="tooltip" data-placement="bottom" title="Filter for All">All</button>
+                            <button class="btn btn-primary hover" id="Add" onclick="location.href='/{{ board.id }}/suggestions'" type="button" style="background: transparent;border: transparent; margin: 1px; size: 22pt; opacity: 1" data-toggle="tooltip" data-placement="right" title="Colour Suggestions">
+                                <span style="color: black" class="icon-experiment-hover"><i class="fas fa-flask fa-lg"></i></span>
+                            </button>
+                            <button class="btn btn-primary hover" id="Add" onclick="location.href='/{{ board.id }}/delete-tag'" type="button" style="background: transparent;border: transparent; margin: 1px; size: 22pt; opacity: 1" data-toggle="tooltip" data-placement="bottom" title="Delete a Tag">
                                 <svg width="1.8em" height="1.8em" viewBox="0 0 16 16" class="bi bi-trash icon-delete-hover" fill="black" xmlns="http://www.w3.org/2000/svg">
                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
                                    <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
                                 </svg>
                             </button>
-                            <button class="btn btn-primary hover" id="Add" onclick="location.href='/{{ board.id }}/add-tag'" type="button" style="background: transparent;border: transparent; margin: 3px; size: 22pt; opacity: 1">
+                            <button class="btn btn-primary hover" id="Add" onclick="location.href='/{{ board.id }}/add-tag'" type="button" style="background: transparent;border: transparent; margin: 3px; size: 22pt; opacity: 1" data-toggle="tooltip" data-placement="bottom" title="Create a Tag">
                                 <svg width="1.8em" height="1.8em" viewBox="0 0 16 16" class="bi bi-plus-square icon-edit-hover" fill="black" xmlns="http://www.w3.org/2000/svg">
                                    <path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
                                    <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
@@ -111,4 +109,7 @@
     </div>
         {% endblock %}
     {% endblock %}
+{#    {% block scripts %}#}
+{#        {{ super() }}#}
+{#    {% endblock %}#}
 {% endblock %}

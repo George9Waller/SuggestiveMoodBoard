@@ -144,6 +144,14 @@ class Idea(Model):
         Idea.update({Idea.Name: name, Idea.Content: content, Idea.Colour: colour}).where(Idea.id == self).execute()
         return
 
+    def get_colour_ideas_by_board(self):
+        """returns all the ideas with a colour from supplied board"""
+        return Idea.select().where((Idea.Board == self) & ((Idea.Colour != 'black') & (Idea.Colour != '')))
+
+    def get_colour(self):
+        """Returns the colour attribute of supplied idea"""
+        return self.Colour
+
     @staticmethod
     def filter(query, board):
         """Returns a filtered selection of ideas from the query"""

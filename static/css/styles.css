@@ -1,3 +1,8 @@
+:root{
+  --light: 80;
+  --threshold: 60;
+}
+
 /*Notifications*/
 .notification {
   text-align: center;
@@ -178,6 +183,14 @@ button.hover:hover{
 .icon-delete-hover:hover{
   fill: red;
   transition: 0.5s;
+}
+
+.fa-flask{
+  transition: all 0.5s ease-out;
+}
+
+.fa-flask:hover{
+  color: green;
 }
 
 .board-buttons{

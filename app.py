@@ -8,6 +8,7 @@ import os
 from Forms import forms_auth, forms_site
 import sampleideas
 import models
+from suggestions import suggestions_algorithm
 
 DEBUG = True
 # HOST = '127.0.0.1'
@@ -375,6 +376,14 @@ def delete_tag(boardid):
         except models.DoesNotExist:
             flash("Error", "error")
             return redirect(url_for('index'))
+
+
+@app.route('/<int:boardid>/suggestions', methods=['GET'])
+@login_required
+def suggestions(boardid):
+    board = models.Board.get_board(boardid)
+    colours = suggestions_algorithm(board)
+    return render_template('suggestions.html', colours=colours, board=board)
 
 
 @app.route('/')
