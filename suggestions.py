@@ -36,6 +36,15 @@ def generate_suggestions(data):
     suggestion_results = dict()
     for key in data:
         hex_colour = key.lstrip('#')
+
+        """If a shortened hex string is supplied this statement makes it longer"""
+        if len(hex_colour) == 3:
+            tempstring = ""
+            for char in hex_colour:
+                tempstring += char
+                tempstring += char
+                hex_colour = tempstring
+
         # https://stackoverflow.com/questions/29643352/converting-hex-to-rgb-value-in-python
         current_colour = Color(tuple(int(hex_colour[i:i + 2], 16) for i in (0, 2, 4)), "", "")
 
