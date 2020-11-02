@@ -42,7 +42,7 @@
                             <!-- Tags -->
                             <div style="display: flex; justify-content: flex-start; flex-wrap: wrap">
                                 {% for tag in idea.tags %}
-                                    <button class="btn hover btn-sm" id="{{ tag.Name }}" onclick="location.href='/{{ board.id }}?filter={{ tag.Name }}'" type="button" style="background: {{ tag.Colour }};margin: 3px; font-size: xx-small; color: white; padding: 2px" data-toggle="tooltip" data-placement="bottom" title="Filter for {{ tag.Name }}">{{ tag.Name }}</button>
+                                    <button class="btn hover btn-sm" id="{{ tag.Name }}" onclick="location.href='/{{ board.id }}?filter={{ tag.id }}'" type="button" style="background: {{ tag.Colour }};margin: 3px; font-size: xx-small; color: white; padding: 2px" data-toggle="tooltip" data-placement="bottom" title="Filter for {{ tag.Name }}">{{ tag.Name }}</button>
                                 {% endfor %}
                             </div>
                             <!--Colour-->
