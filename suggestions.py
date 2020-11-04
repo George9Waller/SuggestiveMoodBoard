@@ -3,7 +3,7 @@ from colorharmonies import (Color, complementaryColor, triadicColor, splitComple
 from models import Idea
 
 
-def suggestions_algorithm(board, number_requested=600):
+def suggestions_algorithm(board, number_requested=1000):
     """Algorithm handler"""
     weighted_ideas = get_ideas(board)  # dictionary of unique colours from ideas with their calculated weightings
     generated_suggestions = generate_suggestions(weighted_ideas)

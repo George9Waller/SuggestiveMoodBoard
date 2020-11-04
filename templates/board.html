@@ -76,7 +76,7 @@
         <div class="flexchild" style="margin-right: 20px; width: 20%; position: fixed; left: 10px">
                 <div class="sidebar" style="display: flex; position: fixed; top: 0; width: 5%; height: 100%; left: 0;">
                         <!--<h4>Tag Selection{{ query }}</h4>-->
-                        <div class="rotated-sidebar btn-group" role="group" style="display: flex; flex-wrap: wrap; flex-direction: row; padding-top: 80px; z-index: -1; padding-bottom: 40px">
+                        <div class="rotated-sidebar btn-group" role="group" style="display: flex; flex-wrap: wrap; flex-direction: row; padding-top: 87px; z-index: -1; padding-bottom: 40px">
                             {% for tag in tags|reverse %}
                                 <button class="btn btn-primary hover" id="{{ tag.Name }}" onclick="location.href='/{{ board.id }}?filter={{ tag.id }}'" type="button" style="background: {{ tag.Colour }};border-color: {{ tag.Colour }};margin: 3px; size: 18pt" data-toggle="tooltip" data-placement="bottom" title="Filter for {{ tag.Name }}">{{ tag.Name }}</button>
                             {% endfor %}

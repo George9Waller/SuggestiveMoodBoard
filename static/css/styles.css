@@ -1,9 +1,15 @@
+html{
+  height: 100%;
+}
+
 body {
   font-family: 'Quicksand', sans-serif !important;
   font-weight: 400 !important;
-  background: #a8c0ff; /* fallback for old browsers */
-  background-image: -webkit-linear-gradient(to right, #a8c0ff, #3f2b96); /* Chrome 10-25, Safari 5.1-6 */
-  background-image: linear-gradient(to right, #a8c0ff, #3f2b96); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: #2980ef !important; /* fallback for old browsers */
+  background-image: -webkit-linear-gradient(to bottom, #2980ef, #3f2b96) !important; /* Chrome 10-25, Safari 5.1-6 */
+  background-image: linear-gradient(to bottom, #2980ef, #3f2b96)!important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background-attachment: fixed !important;
+  background-repeat: no-repeat !important;
 }
 
 .title {
@@ -37,7 +43,7 @@ button {
 .idea {
   border: 2px solid transparent;
   opacity: 0.8;
-  transition: 0.5s;
+  transition: all 0.5s ease-out;
 }
 
 .idea:hover{
@@ -45,14 +51,18 @@ button {
   opacity: 1;
 }
 
+button {
+  transition: all 0.5s ease-out;
+}
+
 .navbar-brand{
-  transition: 0.5s;
+  transition: all 0.5s ease-out;
   width: 200px !important;
 }
 
 .sitename:hover a.navbar-brand span{
   display: none;
-  transition: 0.5s;
+  transition: all 0.5s ease-out;
 }
 .sitename:hover a.navbar-brand:after{
   content: "Home";
@@ -68,7 +78,7 @@ button {
 }
 
 .delete-button{
-  transition: 0.5s;
+  transition: all 0.5s ease-out;
 }
 
 .delete-button:hover{
@@ -89,7 +99,7 @@ button.hover {
 
 button.hover:hover{
   opacity: 1;
-  transition: 0.5s;
+  transition: all 0.5s ease-out;
 }
 
 .valid {
@@ -124,10 +134,10 @@ button.hover:hover{
     align-content: center;
     width: 100vw;
     position: fixed!important;
-    transition: 0.5s;
+    transition: all 0.5s ease-out;
     transition-timing-function: ease-out;
-    background: rgb(255,255,255);
-    background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 60%, rgba(255,255,255,0) 100%);
+    background: #f2f2f2;
+    background: linear-gradient(180deg, #2980efff 0%, #2980efff 85%, #2980ef00 100%);
 }
 
 @media (min-height: 1050px) {
@@ -141,8 +151,9 @@ button.hover:hover{
     height: 150px;
     top: -10px;
     position: fixed!important;
-    transition: 0.5s;
+    transition: all 0.5s ease-out;
     margin: 0;
+    background: 0;
   }
 }
 
@@ -157,7 +168,7 @@ button.hover:hover{
     height: 150px;
     top: -10px;
     position: fixed!important;
-    transition: 0.5s;
+    transition: all 0.5s ease-out;
     padding-top: 0!important;
     margin: 0;
   }
@@ -165,7 +176,7 @@ button.hover:hover{
 
 .ideacontainor{
   padding-top: 40px;
-  transition: 0.5s;
+  transition: all 0.5s ease-out;
 }
 
 .ideatable::after {
@@ -186,14 +197,24 @@ button.hover:hover{
   }
 }
 
+.icon-delete-hover,
+.icon-edit-hover{
+  transition: all 0.5s ease-out
+}
+
+.rotated-sidebar .icon-edit-hover:hover{
+  fill: white;
+  transition: all 0.5s ease-out;
+}
+
 .icon-edit-hover:hover{
   fill: #2980ef;
-  transition: 0.5s;
+  transition: all 0.5s ease-out;
 }
 
 .icon-delete-hover:hover{
   fill: red;
-  transition: 0.5s;
+  transition: all 0.5s ease-out;
 }
 
 .fa-flask{
@@ -201,15 +222,20 @@ button.hover:hover{
 }
 
 .fa-flask:hover{
-  color: green;
+  color: white;
 }
 
 .board-buttons{
-  transition: 1s;
+  transition: all 1s ease-out;
 }
 
 @media (max-width: 1500px){
   .board-buttons{
     max-width: 105px;
   }
+}
+
+.swatch:hover{
+  border: 4px solid black;
+  opacity: 1;
 }

@@ -16,19 +16,17 @@
             {{ super() }}
         {% endblock %}
         {% block pagecontent %}
-            <div style="width: 100%; background-image: linear-gradient(to top, #30cfd0 0%, #330867 100%); margin: 0; height: 25vh; display: flex; justify-content: center; align-items: center" class="">
-                <h1 class="" style="font-weight: bold; font-size: xx-large; color: #f2f2f2;">Colours for board: {{ board.Name }}</h1>
+            <div style="width: 100%; background: white; margin: 0; height: 25vh; display: flex; justify-content: center; align-items: center; column-count: 1; flex-flow: row wrap" class="">
+                <h1 class="" style="font-size: 72px; background: -webkit-linear-gradient(#30CFD0, #330867); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: bolder">Colours for board: {{ board.Name }}</h1>
+                <p>Click on a colour to make a new idea with it (or click the copy icon to copy the hex code)</p>
             </div>
-            <div class="" style="display: flex; flex-flow: row wrap; justify-content: flex-start; flex-direction: row; align-content: flex-start">
+            <div class="" style="display: flex; flex-flow: row wrap; justify-content: flex-start; flex-direction: row; align-content: flex-start; margin: auto">
                 {% for swatch in colours %}
-                    <div class="swatch" style="background: rgb({{ swatch[0] }}, {{ swatch[1] }}, {{ swatch[2] }});width: 150px; height: 100px; margin: 5px; float: right;">
+                    <div class="swatch" style="background: rgb({{ swatch[0] }}, {{ swatch[1] }}, {{ swatch[2] }});width: 150px; height: 100px; margin: 5px; float: right;" onclick="location.href='/{{ board.id }}/new-idea?colour={{ swatch[3][1:] }}'">
                         <div style="float: right; background: white; opacity: 0.8; padding: 5px;">
-                            <input style="display: inline-block; width: 55px; border: transparent" id="{{ swatch[3] }}" value="{{ swatch[3] }}" placeholder="{{ swatch[3] }}" disabled />
+                            <input style="display: inline-block; width: 65px; border: transparent; font-family: monospace" id="{{ swatch[3] }}" value="{{ swatch[3] }}" placeholder="{{ swatch[3] }}" disabled />
                             <button class="btn btn-primary hover" onclick="copyToClipboard('{{ swatch[3] }}')" type="button" style="background: transparent;border: transparent; margin: 0; size: 22pt; opacity: 1; display: inline-block;" data-toggle="tooltip" data-placement="bottom" title="Copy colour code">
-                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-clipboard" fill="black" xmlns="http://www.w3.org/2000/svg">
-                                   <path fill-rule="evenodd" d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"></path>
-                                   <path fill-rule="evenodd" d="M9.5 1h-3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"></path>
-                                </svg>
+                                <i class="far fa-copy" style="color: black"></i>
                             </button>
                         </div>
                     </div>

@@ -21,7 +21,7 @@
              {% set colour = "#F2F2F2" %}
         {% endif %}
         <nav class="navbar navbar-light navbar-expand-md navigation-clean-button" style="background: {{ colour }}; z-index: 1">
-            <div class="container sitename"><div><a class="navbar-brand text-center" href="{{ url_for('index') }}"><span class="title text-center">Suggestive Moodboard</span></a></div><!--<button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">--><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="container sitename"><div><a class="navbar-brand text-center" href="{{ url_for('index') }}"><span class="title text-center">Thought Base</span></a></div><!--<button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">--><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse"
                 id="navcol-1">
                 <ul class="nav navbar-nav mr-auto">
@@ -34,40 +34,32 @@
     {% endblock %}
     {% block messages %} {{ super() }} {% endblock %}
     {% block pagecontent %}
-        <div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-3" style="text-align: center;">
-                        <h1 style="text-align: center;font-size: 15pt;">Name</h1>
-                    </div>
-                    <div class="col-md-3" style="text-align: center;">
-                        <h1 style="text-align: center;font-size: 15pt;">Date Created</h1>
-                    </div>
-                    <div class="col-md-3">
-                        <h1 style="text-align: center;font-size: 15pt;">Event Date</h1>
-                    </div>
-                    <div class="col-md-3"></div>
+        <div class="ideacontainor">
+        <div class="ideatable" style="display: flex; width: 90%!important; justify-content: space-between; align-items: center; padding-top: 20px; flex-wrap: wrap; align-content: stretch; padding-right: 15px; padding-left: 15px; margin-right: auto; margin-left: auto; z-index: -2;">
+                    {% for board in boards %}
+                        <div class="idea" style="background: #f2f2f2;  border-radius: 10px; height: auto; width: auto; margin: 1%; padding: 10px; max-width: 18%;min-width: 200px; position: relative; flex: auto;display: block">
+                            <div style="float: right ">
+                                <button class="btn btn-sm" style=" padding: 0; margin: 5px" onclick="location.href='/{{ board.id }}'" data-toggle="tooltip" data-placement="bottom" title="Edit this board">
+                                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-pencil-square icon-edit-hover" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                    </svg>
+                                </button>
+                                <button class="btn btn-sm" style="padding: 0; margin: 5px" onclick="location.href='/delete/board/{{ board.id }}'" data-toggle="tooltip" data-placement="bottom" title="Delete this board">
+                                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-trash icon-delete-hover" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <h4 style="font-weight: 500">{{ board.Name }}</h4>
+                            <p>Board created: {{ board.Created }}</p>
+                            <p>Project date: {{ board.EventDate }}</p>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
-        </div>
         <div>
-            <div class="container">
-                {% for board in boards %}
-                    <div class="row" style="padding: 5px; margin-top: 5px; margin-bottom: 5px; background: #F2F2F2; border-radius: 5px">
-                        <div class="col-md-3" style="text-align: center">
-                            <p>{{ board.Name }}</p>
-                        </div>
-                        <div class="col-md-3" style="text-align: center;">
-                            <p>{{ board.Created }}</p>
-                        </div>
-                        <div class="col-md-3" style="text-align: center">
-                            <p>{{ board.EventDate }}</p>
-                        </div>
-                        <div class="col-md-3" style="text-align: center">
-                            <a class="btn btn-info" role="button" href="/{{ board.id }}">View</a>
-                        </div>
-                    </div>
-                {% endfor %}
                 <div class="row" style="padding: 2px">
                     <a class=" btn btn-primary" role="button" href="{{ url_for('new_board') }}" style="position: fixed; top: 22px; left: 20px; display: flex; align-items: center; z-index: 10" data-toggle="tooltip" data-placement="bottom" title="Create Board">
                         <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-plus-square-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -77,7 +69,6 @@
                     </a>
                 </div>
             </div>
-        </div>
     {% endblock %}
 {% endblock %}
 {% endblock %}

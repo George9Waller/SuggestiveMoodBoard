@@ -34,7 +34,7 @@ class NewBoard(FlaskForm):
     )
 
     venuesize = SelectField(
-        'Venue Size',
+        'Project Size',
         choices=['Small', 'Medium', 'Large'],
         validators=[
             DataRequired()
@@ -42,7 +42,7 @@ class NewBoard(FlaskForm):
     )
 
     eventdate = DateField(
-        'Event Date',
+        'Project Date',
         format='%Y-%m-%d',
         validators=[DataRequired()]
     )

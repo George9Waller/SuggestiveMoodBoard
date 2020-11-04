@@ -43,7 +43,7 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
-colour_create = "#38A67E"  # green
+colour_create = "#66cca7"  # green
 colour_view = "#F2F2F2"  # grey
 colour_update = "#78BFB8"  # teal
 colour_delete = "#F26835"  # orange
@@ -321,6 +321,7 @@ def edit_idea(boardid, ideaid):
 @login_required
 def new_idea(boardid):
     """create new idea"""
+
     # catches an invalid boardid
     try:
         form = forms_site.IdeaForm()
@@ -333,9 +334,15 @@ def new_idea(boardid):
             models.Idea.create_idea(name=form.name.data.strip(), content=form.content.data.strip(),
                                     board=models.Board.get_board(boardid), colour=form.colour.data)
             return redirect('/{}'.format(boardid))
-        # reloads page on unsuccessful form
-        form.addtotag.data = []
-        return render_template('idea.html', form=form, colour=colour_create)
+        else:
+            # reloads page on unsuccessful form
+            form.addtotag.data = []
+            # checks for query for colour
+            query = '#' + request.args.get('colour')
+            if query and len(query) == 7:
+                print('tryign to set colour to {}'.format(query))
+                form.colour.data = query
+            return render_template('idea.html', form=form, colour=colour_create)
     except models.DoesNotExist:
         flash("error", "error")
         return redirect('/')
