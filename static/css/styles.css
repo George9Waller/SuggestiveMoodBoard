@@ -1,6 +1,9 @@
 body {
   font-family: 'Quicksand', sans-serif !important;
   font-weight: 400 !important;
+  background: #a8c0ff; /* fallback for old browsers */
+  background-image: -webkit-linear-gradient(to right, #a8c0ff, #3f2b96); /* Chrome 10-25, Safari 5.1-6 */
+  background-image: linear-gradient(to right, #a8c0ff, #3f2b96); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 .title {

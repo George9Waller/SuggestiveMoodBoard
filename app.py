@@ -25,6 +25,10 @@ if not deploy:
         environment.create_app_environment_variables()
     except ModuleNotFoundError:
         pass
+else:
+    import environment
+    environment.create_app_environment_variables()
+
 
 app.secret_key = os.environ.get('SECRET_KEY')
 
