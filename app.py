@@ -337,10 +337,11 @@ def new_idea(boardid):
         else:
             # reloads page on unsuccessful form
             form.addtotag.data = []
+
             # checks for query for colour
-            query = '#' + request.args.get('colour')
-            if query and len(query) == 7:
-                print('tryign to set colour to {}'.format(query))
+            query = request.args.get('colour')
+            if query and len(query) == 6:
+                query = '#' + query
                 form.colour.data = query
             return render_template('idea.html', form=form, colour=colour_create)
     except models.DoesNotExist:
