@@ -5,7 +5,6 @@ from flask import flash
 import datetime
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 import os
-import environment
 
 testing = False
 
@@ -16,6 +15,7 @@ else:
     """For deployment use Postgres database"""
     try:
         try:
+            import environment
             environment.create_database_environment_variables()
         except ModuleNotFoundError:
             pass

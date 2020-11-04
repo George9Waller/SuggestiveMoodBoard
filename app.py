@@ -20,8 +20,11 @@ Bootstrap(app)
 deploy = True
 
 if not deploy:
-    import environment
-    environment.create_app_environment_variables()
+    try:
+        import environment
+        environment.create_app_environment_variables()
+    except ModuleNotFoundError:
+        pass
 
 app.secret_key = os.environ.get('SECRET_KEY')
 
