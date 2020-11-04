@@ -48,7 +48,7 @@ def generate_suggestions(data):
         # https://stackoverflow.com/questions/29643352/converting-hex-to-rgb-value-in-python
         current_colour = Color(tuple(int(hex_colour[i:i + 2], 16) for i in (0, 2, 4)), "", "")
 
-        # 3b calculate suggestions
+        """3b calculate suggestions"""
         # complimentary colour - returns 1
         add_colour_to_dictionary(suggestion_results, tuple(complementaryColor(current_colour)),
                                  data[key])

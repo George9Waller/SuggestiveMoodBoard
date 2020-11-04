@@ -3,6 +3,9 @@ from flask_login import UserMixin
 from flask_bcrypt import generate_password_hash
 from flask import flash
 import datetime
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+import os
+import environment
 
 testing = False
 
@@ -12,9 +15,10 @@ if testing:
 else:
     """For deployment use Postgres database"""
     try:
-        DATABASE = PostgresqlDatabase('d5o38mub306f1k', user='gankiyhoomxwod',
-                                  password='db71fb788e4548b27ff125a1d74531a46e863c384cf98aa687d124470dfc4266',
-                                  host='ec2-54-228-209-117.eu-west-1.compute.amazonaws.com', port='5432')
+        environment.create_database_environment_variables()
+        DATABASE = PostgresqlDatabase(os.environ.get('DATABASE_ID'), user=os.environ.get('DATABASE_USER'),
+                                      password=os.environ.get('DATABASE_PASSWORD'),
+                                      host=os.environ.get('DATABASE_HOST'), port='5432')
     except OperationalError:
         DATABASE = SqliteDatabase('database.db')
 
@@ -37,7 +41,7 @@ class User(UserMixin, Model):
 
     def get_user_by_email(self):
         """returns user object matching given email"""
-        return User.select().where(User.Email == self)
+        return User.get(User.Email == self)
 
     def get_user_by_id(self):
         """returns user object matching id"""
@@ -50,6 +54,35 @@ class User(UserMixin, Model):
     def get_id(self):
         """returns the id for the supplied user"""
         return self.id
+
+    def get_email(self):
+        """returns the email address of teh supplied user"""
+        return self.Email
+
+    def get_username(self):
+        """returns the username for the user"""
+        return self.UserName
+
+    def get_reset_token(self, expires_sec=3600):
+        """returns reset token for password reset"""
+        s = Serializer('`^=m%"(6"N*b3;"_u{3$5=]JAb7"tE!ttX/-8+!SG=*W`Y%.h8jgJ[!:bS6VLy@s=g"Jvq', expires_sec)
+        return s.dumps({'user_id': self.id}).decode('utf-8')
+
+    @staticmethod
+    def verify_reset_token(token):
+        """verifies a reset token"""
+        s = Serializer('`^=m%"(6"N*b3;"_u{3$5=]JAb7"tE!ttX/-8+!SG=*W`Y%.h8jgJ[!:bS6VLy@s=g"Jvq')
+        try:
+            user_id = s.loads(token)['user_id']
+        except:
+            return None
+        return User.get_user_by_id(user_id)
+
+    def set_new_password(self, new_password):
+        """Updates the password for the user"""
+        User.update(PasswordHash=generate_password_hash(new_password)).where(User == self).execute()
+        print("updated {username}'s password to {password}".format(username=self.UserName, password=new_password))
+        return
 
     @classmethod
     def create_user(cls, username, email, password, usertype=0):

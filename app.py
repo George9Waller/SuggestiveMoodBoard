@@ -2,8 +2,9 @@ from flask import Flask, g, render_template, flash, redirect, url_for, request
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_bcrypt import check_password_hash
 from flask_bootstrap import Bootstrap
-from wtforms import BooleanField
+from flask_mail import Mail, Message
 import os
+import environment
 
 from Forms import forms_auth, forms_site
 import sampleideas
@@ -15,8 +16,21 @@ DEBUG = True
 # PORT = 5000
 
 app = Flask(__name__)
-app.secret_key = '`^=m%"(6"N*b3;"_u{3$5=]JAb7"tE!ttX/-8+!SG=*W`Y%.h8jgJ[!:bS6VLy@s=g"Jvq'
 Bootstrap(app)
+
+deploy = False
+
+if not deploy:
+    environment.create_app_environment_variables()
+
+app.secret_key = os.environ.get('SECRET_KEY')
+
+app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = os.environ.get("EMAIL_USER")
+app.config['MAIL_PASSWORD'] = os.environ.get("EMAIL_PASS")
+mail = Mail(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -26,6 +40,21 @@ colour_create = "#38A67E"  # green
 colour_view = "#F2F2F2"  # grey
 colour_update = "#78BFB8"  # teal
 colour_delete = "#F26835"  # orange
+
+
+def send_reset_email(user):
+    token = user.get_reset_token()
+    msg = Message('Password Reset Link', sender='"Thought Base <thoughtbasehelp@gmail.com>"', recipients=[user.get_email()])
+    msg.html = render_template('ResetPassword-email.html', site_url='http://suggestivemoodboard.herokuapp.com',
+                               reset_url=url_for('reset_token', token=token, _external=True))
+    mail.send(msg)
+
+
+def send_username_reminder(user):
+    msg = Message('Username Reminder', sender='"Thought Base <thoughtbasehelp@gmail.com>"', recipients=[user.get_email()])
+    msg.html = render_template('UsernameReminder-email.html', site_url='http://suggestivemoodboard.herokuapp.com',
+                               username=user.get_username())
+    mail.send(msg)
 
 
 @login_manager.user_loader
@@ -384,6 +413,54 @@ def suggestions(boardid):
     board = models.Board.get_board(boardid)
     colours = suggestions_algorithm(board)
     return render_template('suggestions.html', colours=colours, board=board)
+
+
+@app.route('/reset-password', methods=['GET', 'POST'])
+def reset_request():
+    if current_user.is_authenticated:
+        flash('A user is already logged in', "error")
+        return redirect(url_for('index'))
+    form = forms_auth.RequestPasswordResetForm()
+    if form.validate_on_submit():
+        user = models.User.get_user_by_email(form.email.data)
+        send_reset_email(user)
+        flash('Sent password reset email - Please check your spam if you do not receive an email from: '
+              'thoughtbasehelp@gmail.com', "success")
+        return redirect(url_for('login'))
+    return render_template('RequestResetPassword.html', form=form, title='Request Reset Email', submit='Request Email')
+
+
+@app.route('/reset-password/<token>', methods=['GET', 'POST'])
+def reset_token(token):
+    if current_user.is_authenticated:
+        flash('A user is already logged in', "error")
+        return redirect(url_for('index'))
+    user = models.User.verify_reset_token(token)
+    if user is None:
+        flash('That token is invalid or expired', "error")
+        return redirect(url_for('reset_request'))
+    form = forms_auth.ResetPasswordForm()
+    if form.validate_on_submit():
+        user.set_new_password(form.password.data)
+        flash('Your password has been updated', "success")
+        return redirect(url_for('login'))
+    return render_template('RequestResetPassword.html', form=form, title='Set New Password', submit='Set Password')
+
+
+@app.route('/request-username', methods=['GET', 'POST'])
+def request_username():
+    if current_user.is_authenticated:
+        flash('A user is already logged in', "error")
+        return redirect(url_for('index'))
+    form = forms_auth.RequestPasswordResetForm()
+    if form.validate_on_submit():
+        user = models.User.get_user_by_email(form.email.data)
+        send_username_reminder(user)
+        flash('Sent email with your username - Please check your spam if you do not recieve an email from: '
+              'thoughtbasehelp@gmail.com', 'success')
+        return redirect(url_for('login'))
+    return render_template('RequestResetPassword.html', form=form, title='Request Username Reminder',
+                           submit='Send Reminder')
 
 
 @app.route('/')

@@ -1,6 +1,14 @@
-:root{
-  --light: 80;
-  --threshold: 60;
+body {
+  font-family: 'Quicksand', sans-serif !important;
+  font-weight: 400 !important;
+}
+
+.title {
+  font-weight: 600 !important;
+}
+
+button {
+  font-weight: 600 !important;
 }
 
 /*Notifications*/

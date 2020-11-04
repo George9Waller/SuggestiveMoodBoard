@@ -8,6 +8,7 @@
         {{ super() }}
         <link rel="stylesheet" href="{{ url_for('.static', filename='/css/Navigation-with-Button.css') }}">
         <link rel="stylesheet" href="{{ url_for('.static', filename='/css/Contact-Form-Clean.css') }}">
+        <script src="https://kit.fontawesome.com/ba83112699.js" crossorigin="anonymous"></script>
     {% endblock %}
 {% endblock %}
 
@@ -27,7 +28,7 @@
                     {% if board %}
                         <li class="nav-item boardname"><p class="nav-item" href="#">Board: {{ board.Name }}</p></li>
                     {% endif %}
-                </ul><span class="navbar-text actions" style="float: right"> <a class="login" href="#">Welcome {{ current_user.UserName }}</a><a class="btn btn-light action-button" style="background: #6610f2; border-radius: 4px; margin-left: 10px" target="_blank" href="https://github.com/George9Waller/SuggestiveMoodBoard/wiki" role="button">Help</a><a class="btn btn-light action-button" role="button" href="{{ url_for('logout') }}" style="border-radius: 4px">Logout</a></span></div>
+                </ul><span class="navbar-text actions" style="float: right"> <a class="login" href="#">Welcome {{ current_user.UserName }}</a><a class="btn btn-light action-button" style="background: #6610f2; border-radius: 4px; margin-left: 10px" target="_blank" href="https://github.com/George9Waller/SuggestiveMoodBoard/wiki" role="button"><i class="fas fa-question"></i> Help</a><a class="btn btn-light action-button" id="logout" role="button" href="{{ url_for('logout') }}" style="border-radius: 4px"><i class="fas fa-sign-out-alt"></i> Logout</a></span></div>
         </div>
     </nav>
     {% endblock %}
