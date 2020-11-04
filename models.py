@@ -15,7 +15,10 @@ if testing:
 else:
     """For deployment use Postgres database"""
     try:
-        environment.create_database_environment_variables()
+        try:
+            environment.create_database_environment_variables()
+        except ModuleNotFoundError:
+            pass
         DATABASE = PostgresqlDatabase(os.environ.get('DATABASE_ID'), user=os.environ.get('DATABASE_USER'),
                                       password=os.environ.get('DATABASE_PASSWORD'),
                                       host=os.environ.get('DATABASE_HOST'), port='5432')
