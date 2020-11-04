@@ -4,7 +4,6 @@ from flask_bcrypt import check_password_hash
 from flask_bootstrap import Bootstrap
 from flask_mail import Mail, Message
 import os
-import environment
 
 from Forms import forms_auth, forms_site
 import sampleideas
@@ -18,9 +17,10 @@ DEBUG = True
 app = Flask(__name__)
 Bootstrap(app)
 
-deploy = False
+deploy = True
 
 if not deploy:
+    import environment
     environment.create_app_environment_variables()
 
 app.secret_key = os.environ.get('SECRET_KEY')
