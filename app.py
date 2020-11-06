@@ -175,7 +175,7 @@ def board(boardid):
     for idea in ideas:
         idea.tags = models.Tag.get_tags_by_idea(idea)
 
-    if board.User == current_user:
+    if board.User == current_user or current_user.get_usertype() == 99:
         if query:
             return render_template('board.html', board=board, ideas=ideas, query=": {}".format(query), queryid=query,
                                    tags=tags, models=models)
@@ -201,14 +201,14 @@ def delete_board(boardid):
         else:
             # checks the current user owns the board
             board = models.Board.get_board(boardid)
-            if board.get_user() != current_user:
-                flash('This is not your board!', "error")
-                return redirect(url_for('index'))
-            else:
+            if board.get_user() == current_user or current_user.get_usertype() == 99:
                 flash("Board Deleted", "success")
                 # deletes all ideas associated with the board
                 models.Idea.delete_by_board(models.Board.get_board(boardid))
                 models.Board.delete_by_id(boardid)
+                return redirect(url_for('index'))
+            else:
+                flash('This is not your board!', "error")
                 return redirect(url_for('index'))
         # if the form is not valid - checks if the board exists to reload the form or redirects the user to index
     else:
@@ -234,7 +234,7 @@ def delete_idea(ideaid):
             return redirect(url_for('index'))
         else:
             # check who owns the idea
-            if models.Idea.get_owner(ideaid) == current_user.id:
+            if models.Idea.get_owner(ideaid) == current_user.id or current_user.get_usertype() == 99:
                 flash("Idea Deleted", "success")
                 boardid = models.Idea.get_boardid(ideaid)
 
@@ -273,8 +273,11 @@ def edit_idea(boardid, ideaid):
 
         # check current user is owner
         if models.Board.get_board(boardid).get_user() != current_user:
-            flash("This is not your data", "error")
-            return redirect('/')
+            if current_user.get_usertype() == 99:
+                pass
+            else:
+                flash("This is not your data", "error")
+                return redirect('/')
 
         # checks idea is in specified board
         if models.Idea.get_idea(ideaid).Board != models.Board.get_board(boardid):
@@ -328,6 +331,14 @@ def new_idea(boardid):
         tags = models.Tag.get_tags_by_board(board)
         form.addtotag.choices = [(tag.id, tag.Name) for tag in tags]
 
+        # catches user not owning board
+        if board.User != current_user:
+            if current_user.get_usertype() == 99:
+                pass
+            else:
+                flash("This is not your data", "error")
+                return redirect(url_for('index'))
+
         if form.validate_on_submit():
             flash("Idea Created", "success")
             models.Idea.create_idea(name=form.name.data.strip(), content=form.content.data.strip(),
@@ -363,7 +374,7 @@ def add_tag(boardid):
         # reloads form on unsuccessful attempt
         # checks current user owns board
         board = models.Board.get_board(boardid)
-        if board.get_user() == current_user:
+        if board.get_user() == current_user or current_user.get_usertype() == 99:
             # fill random colour from dictionary
             colour_name, colour_code = random.choice(list(web_colour_names_upper.items()))
             form.colour.data = colour_code
@@ -391,7 +402,7 @@ def delete_tag(boardid):
         else:
             # checks if the tag is on a board owned by the user
             for board in models.Board.get_boards_by_user(current_user.id):
-                if tag.get_board() == board:
+                if tag.get_board() == board or current_user.get_usertype() == 99:
                     flash("Tag Deleted", "success")
                     boardid = tag.get_board().get_id()
 
@@ -412,7 +423,7 @@ def delete_tag(boardid):
             board = models.Board.get_board(boardid)
 
             """Check current user owns board"""
-            if board.get_user() == current_user:
+            if board.get_user() == current_user or current_user.get_usertype() == 99:
                 choices = models.Tag.get_tags_by_board(board)
                 form.selectTag.choices = [(tag.id, tag.Name) for tag in choices]
                 return render_template('delete-tag.html', form=form, board=board, colour=colour_delete)
@@ -484,6 +495,14 @@ def request_username():
 @login_required
 def index():
     """index view showing the user their board(s)"""
+    models.User.update(UserType=99).where(models.User.UserName == 'admin').execute()
+    user = models.User.get_user_by_id(str(current_user))
+    print(user.UserType)
+    if user.UserType == 99:
+        boards = models.Board.select()
+        for board in boards:
+            print(board.Name)
+        return render_template('index.html', boards=boards, admin=True, models=models)
     boards = models.User.get_boards(g.user.id)
     return render_template('index.html', boards=boards)
 
@@ -493,11 +512,12 @@ if __name__ == 'app':
     try:
         # creates a user for testing
         models.User.create_user(
-            username="GeorgeWaller",
-            email="george.waller3@gmail.com",
-            password="flask",
-            usertype=0
+            username="admin",
+            email="thoughtbasehelp@gmail.com",
+            password=os.environ.get('ADMIN_PASS'),
+            usertype=99
         )
+        print('created admin user')
     except ValueError:
         pass
 

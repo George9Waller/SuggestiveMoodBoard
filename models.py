@@ -93,6 +93,10 @@ class User(UserMixin, Model):
         """returns the username for the user"""
         return self.UserName
 
+    def get_usertype(self):
+        """returns the user type number"""
+        return self.UserType
+
     def get_reset_token(self, expires_sec=3600):
         """returns reset token for password reset"""
         s = Serializer('`^=m%"(6"N*b3;"_u{3$5=]JAb7"tE!ttX/-8+!SG=*W`Y%.h8jgJ[!:bS6VLy@s=g"Jvq', expires_sec)
