@@ -16,7 +16,7 @@
         <!--<link rel="stylesheet" href="{{url_for('.static', filename='css/main.css')}}">-->
         <link rel="stylesheet" href="{{ url_for('.static', filename='css/styles.css') }}">
         <link rel="stylesheet" href="{{ url_for('.static', filename='/css/Navigation-with-Button.css') }}">
-        <link rel="stylesheet" href="{{ url_for('.static', filename='/bootstrap/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,600" rel="stylesheet">
         <!--<link rel="stylesheet" href="{{ url_for('.static', filename='/css/testingstyles.css') }}">-->
         <script src="https://unpkg.com/@popperjs/core@2"></script>
@@ -33,15 +33,15 @@
                 {% if messages %}
                     {% for category, message in messages %}
                         {% if category == "success" %}
-                            <div class="notification {{ category }} alert alert-success" role="alert" id="{{ category }}" style="z-index: 10">
+                            <div class="notification {{ category }} alert alert-success" role="alert" id="{{ category }}" style="z-index: 11">
                                     <span> {{ message }}</span>
                             <script>
-                                $("#success").fadeTo(10000, 500).slideUp(500, function(){
+                                $("#success").fadeTo(5000, 500).slideUp(500, function(){
                                 $("#success").slideUp(500);
                                 });</script>
                             </div>
                             {% else %}
-                            <div class="notification {{ category }} alert alert-warning show alert-dismissible" role="alert" id="{{ category }}" style="z-index: 10">
+                            <div class="notification {{ category }} alert alert-warning show alert-dismissible" role="alert" id="{{ category }}" style="z-index: 11">
                                 <button type="button" class="close" data-dismiss="alert">&times;</button>
                                 <span> {{ message }}</span>
                             </div>

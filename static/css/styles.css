@@ -5,6 +5,7 @@ html{
 body {
   font-family: 'Quicksand', sans-serif !important;
   font-weight: 400 !important;
+  font-size: small!important;
   background: #2980ef !important; /* fallback for old browsers */
   background-image: -webkit-linear-gradient(to bottom, #2980ef, #3f2b96) !important; /* Chrome 10-25, Safari 5.1-6 */
   background-image: linear-gradient(to bottom, #2980ef, #3f2b96)!important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
@@ -14,10 +15,17 @@ body {
 
 .title {
   font-weight: 600 !important;
+  font-size: x-large!important;
+}
+
+a {
+  font-size: medium !important;
+  font-weight: 500 !important;
 }
 
 button {
-  font-weight: 600 !important;
+  font-weight: 500 !important;
+  font-size: medium !important;
 }
 
 /*Notifications*/
@@ -60,12 +68,29 @@ button {
   width: 200px !important;
 }
 
-.sitename:hover a.navbar-brand span{
-  display: none;
+.titlehome{
+  visibility: hidden;
+  opacity: 0;
   transition: all 0.5s ease-out;
 }
-.sitename:hover a.navbar-brand:after{
-  content: "Home";
+
+.titlemain{
+  visibility: visible;
+  opacity: 1;
+  transition: all 0.5s ease-out;
+}
+
+a.navbar-brand.text-center:hover .titlemain{
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.5s ease-out;
+}
+a.navbar-brand.text-center:hover .titlehome{
+  opacity: 1;
+  visibility: visible;
+  font-size: xx-large;
+  font-weight: 600;
+  font-family: 'Quicksand', sans-serif;
   color: #2980ef !important;
 }
 
@@ -93,13 +118,22 @@ button.hover {
   opacity: 0.6;
   padding-left: 10px;
   padding-right: 10px;
-
+  transition: all 0.5s ease-out;
   left: 0;
 }
 
 button.hover:hover{
   opacity: 1;
   transition: all 0.5s ease-out;
+}
+
+.tagcontrol{
+  opacity: 0.6;
+  transition: all 0.5s ease-out;
+}
+
+.tagcontrol:hover{
+  opacity: 1;
 }
 
 .valid {
@@ -155,6 +189,9 @@ button.hover:hover{
     margin: 0;
     background: 0;
   }
+   .ideacontainor{
+    padding-top: 40px;
+  }
 }
 
 @media (min-height: 1200px) {
@@ -172,10 +209,13 @@ button.hover:hover{
     padding-top: 0!important;
     margin: 0;
   }
+  .ideacontainor{
+    padding-top: 40px;
+  }
 }
 
 .ideacontainor{
-  padding-top: 40px;
+  padding-top: 80px;
   transition: all 0.5s ease-out;
 }
 

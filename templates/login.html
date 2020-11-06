@@ -15,13 +15,13 @@
 
 {% block content %}
     <div class="login-dark" style="">
-        <div style="padding: 40px;background: #2980ef;">
-            <h1 style="text-align: center;color: #ffffff;"><strong>Suggestive Moodboard</strong></h1>
+        <div style="padding: 40px;background: #f2f2f2;">
+            <h1 style="text-align: center;color: #ffffff; font-size: 72px; background: -webkit-linear-gradient(#92FE9D, #00C9FF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: bolder"><strong>Thought Base</strong></h1>
         </div>
     {% block messages %}
         {{ super() }}
     {% endblock %}
-        <form method="post" action="" class="form">
+        <form method="post" action="" class="form" style="top: 600px">
             {{ form.hidden_tag() }}
             <h2 class="sr-only">Login Form</h2>
             <div class="illustration">

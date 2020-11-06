@@ -13,8 +13,8 @@
 
 {% block content %}
 <div class="login-dark" style="">
-        <div>
-            <h1 style="text-align: center;padding: 40px;background: #2980ef;color: #ffffff; margin-top: 0"><strong>Suggestive Moodboard</strong></h1>
+        <div style="padding: 40px;background: #f2f2f2;">
+            <h1 style="text-align: center;color: #ffffff; font-size: 72px; background: -webkit-linear-gradient(#92FE9D, #00C9FF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: bolder; font-family: 'Quicksand', sans-serif !important;"><strong>Thought Base</strong></h1>
         </div>
 {% block messages %}{{ super() }}{% endblock %}
         <form method="post" action="" form="form">
@@ -27,7 +27,7 @@
                     {{ render_field(field) }}
                 {% endfor %}
             </div>
-            <div id="message">
+            <div id="message" style="transition: all 0.5s ease-out; opacity: 0">
                 <p id="length" class="invalid">Must be 8-20 characters</p>
                 <p id="lower-case" class="invalid">Must have a lower-case</p>
                 <p id="upper-case" class="invalid">Must have an upper-case</p>
@@ -46,10 +46,10 @@
     var special = document.getElementById("special");
 
     myInput.onfocus = function() {
-        document.getElementById("message").style.display = "block";}
+        document.getElementById("message").style.opacity = "1";}
 
     myInput.onblur = function() {
-      document.getElementById("message").style.display = "none";}
+      document.getElementById("message").style.opacity = "0";}
 
   $('#password').keyup(function() {
   // Validate lowercase letters

@@ -21,7 +21,7 @@
              {% set colour = "#F2F2F2" %}
         {% endif %}
         <nav class="navbar navbar-light navbar-expand-md navigation-clean-button" style="background: {{ colour }}; z-index: 1">
-            <div class="container sitename"><div><a class="navbar-brand text-center" href="{{ url_for('index') }}"><span class="title text-center">Thought Base</span></a></div><!--<button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">--><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="container sitename"><div><a class="navbar-brand text-center" href="{{ url_for('index') }}"><span class="title titlehome"><i class="fas fa-home"></i></span><span class="title titlemain text-center">Thought Base</span></a></div><!--<button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">--></button>
             <div class="collapse navbar-collapse"
                 id="navcol-1">
                 <ul class="nav navbar-nav mr-auto">
@@ -35,7 +35,7 @@
     {% block messages %} {{ super() }} {% endblock %}
     {% block pagecontent %}
         <div class="ideacontainor">
-        <div class="ideatable" style="display: flex; width: 90%!important; justify-content: space-between; align-items: center; padding-top: 20px; flex-wrap: wrap; align-content: stretch; padding-right: 15px; padding-left: 15px; margin-right: auto; margin-left: auto; z-index: -2;">
+        <div class="ideatable" style="display: flex; width: 90%!important; justify-content: space-between; align-items: center; padding-top: 20px; flex-wrap: wrap; align-content: stretch; padding-right: 15px; padding-left: 15px; margin-right: auto; margin-left: auto; z-index: -2; padding-top: 0!important;">
                     {% for board in boards %}
                         <div class="idea" style="background: #f2f2f2;  border-radius: 10px; height: auto; width: auto; margin: 1%; padding: 10px; max-width: 18%;min-width: 200px; position: relative; flex: auto;display: block">
                             <div style="float: right ">

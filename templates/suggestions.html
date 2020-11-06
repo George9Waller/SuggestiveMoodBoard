@@ -16,9 +16,12 @@
             {{ super() }}
         {% endblock %}
         {% block pagecontent %}
-            <div style="width: 100%; background: white; margin: 0; height: 25vh; display: flex; justify-content: center; align-items: center; column-count: 1; flex-flow: row wrap" class="">
-                <h1 class="" style="font-size: 72px; background: -webkit-linear-gradient(#30CFD0, #330867); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: bolder">Colours for board: {{ board.Name }}</h1>
-                <p>Click on a colour to make a new idea with it (or click the copy icon to copy the hex code)</p>
+            <div style="width: 100%; background: white; margin: 0; height: 25vh; vertical-align: center" class="">
+                <div style="vertical-align: center">
+                    <h1 class="text-center" style="font-size: 72px; background: -webkit-linear-gradient(#30CFD0, #330867); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: bolder">Colours for board: {{ board.Name }}</h1>
+                    <br>
+                    <p class="text-center">Click on a colour to make a new idea with it (or click the copy icon to copy the hex code)</p>
+                </div>
             </div>
             <div class="" style="display: flex; flex-flow: row wrap; justify-content: flex-start; flex-direction: row; align-content: flex-start; margin: auto">
                 {% for swatch in colours %}
