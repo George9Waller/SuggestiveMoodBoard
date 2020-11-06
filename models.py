@@ -5,6 +5,7 @@ from flask import flash
 import datetime
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 import os
+from WebColourNames import web_colour_names
 
 testing = False
 
@@ -205,9 +206,20 @@ class Idea(Model):
         return ideas
 
     @staticmethod
-    def create_idea(name, board, content, colour):
+    def create_idea(name, board, content, colour: str):
         """method to create a new Idea"""
-        return Idea.create(Name=name, Board=board, Content=content, Colour=colour)
+
+        # check colour value in case of word
+        if str(colour)[0] != '#':
+            try:
+                # tries to convert it from a word to hex code using 140 colours supported by browsers
+                out_colour = web_colour_names[str(colour)]
+            except KeyError:
+                out_colour = '#000000'
+        else:
+            out_colour = colour
+
+        return Idea.create(Name=name, Board=board, Content=content, Colour=out_colour)
 
 
 class Tag(Model):
