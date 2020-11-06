@@ -5,7 +5,8 @@ from flask import flash
 import datetime
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 import os
-from WebColourNames import web_colour_names
+import math
+from WebColourNames import web_colour_names_lower, web_colour_names_upper
 
 testing = False
 
@@ -25,6 +26,31 @@ else:
                                       host=os.environ.get('DATABASE_HOST'), port='5432')
     except OperationalError:
         DATABASE = SqliteDatabase('database.db')
+
+
+def calculate_colour(c):
+    """run the contrast calculation on a rgb component"""
+    c = c / 255.0
+    if c <= 0.03928:
+        c = c / 12.92
+    else:
+        c = math.pow((c + 0.055) / 1.055, 2.4)
+    return c
+
+
+def convert_colour_name_to_hex(colour_in):
+    """Converts a colour name to hex code from look-up dictionary"""
+    if str(colour_in)[0] != '#':
+        try:
+            # tries to convert it from a word to hex code using 140 colours supported by browsers
+            return web_colour_names_lower[str(colour_in)]
+        except KeyError:
+            try:
+                return web_colour_names_upper[str(colour_in)]
+            except KeyError:
+                return '#ffffff'
+    else:
+        return '#ffffff'
 
 
 class User(UserMixin, Model):
@@ -178,7 +204,10 @@ class Idea(Model):
 
     def update_idea_by_id(self, name, content, colour):
         """updates the idea with a matching id"""
-        Idea.update({Idea.Name: name, Idea.Content: content, Idea.Colour: colour}).where(Idea.id == self).execute()
+        # checks for colour names
+        colour_out = convert_colour_name_to_hex(colour)
+
+        Idea.update({Idea.Name: name, Idea.Content: content, Idea.Colour: colour_out}).where(Idea.id == self).execute()
         return
 
     def get_colour_ideas_by_board(self):
@@ -210,14 +239,7 @@ class Idea(Model):
         """method to create a new Idea"""
 
         # check colour value in case of word
-        if str(colour)[0] != '#':
-            try:
-                # tries to convert it from a word to hex code using 140 colours supported by browsers
-                out_colour = web_colour_names[str(colour)]
-            except KeyError:
-                out_colour = '#000000'
-        else:
-            out_colour = colour
+        out_colour = convert_colour_name_to_hex(colour)
 
         return Idea.create(Name=name, Board=board, Content=content, Colour=out_colour)
 
@@ -227,6 +249,7 @@ class Tag(Model):
     Board = ForeignKeyField(Board, related_name='Tags')
     Name = CharField(max_length=30)
     Colour = CharField(max_length=7)
+    textcolour = CharField(max_length=7)
 
     @staticmethod
     def gettagbyid(tagid):
@@ -257,7 +280,36 @@ class Tag(Model):
     @staticmethod
     def create_tag(board, name, colour):
         """method to create a new Tag"""
-        return Tag.create(Board=board, Name=name, Colour=colour)
+
+        # determine TextColour based on tag colour [https://stackoverflow.com/questions/3942878/how-to-decide-font-color-in-white-or-black-depending-on-background-color]
+        # splits hex into rgb accepting both regular and shortened hex input
+        rgb = [0, 0, 0]
+        colour = str(colour)
+        colour = str(convert_colour_name_to_hex(colour))
+        if len(colour[1:]) == 6:
+            r = int(colour[1:3], 16)
+            g = int(colour[3:5], 16)
+            b = int(colour[5:7], 16)
+        elif len(colour[1:]) == 3:
+            r = int((colour[1] + colour[1]), 16)
+            g = int((colour[2] + colour[2]), 16)
+            b = int((colour[3] + colour[3]), 16)
+        else:
+            r = 255
+            g = 255
+            b = 255
+
+        r = calculate_colour(r)
+        g = calculate_colour(g)
+        b = calculate_colour(b)
+
+        L = (0.2126 * r) + (0.7152 * g) + (0.0722 * b)
+        if L > 0.179:
+            text_colour = '#000000'
+        else:
+            text_colour = '#ffffff'
+
+        return Tag.create(Board=board, Name=name, Colour=colour, textcolour=text_colour)
 
 
 class Idea_Tag(Model):
@@ -304,4 +356,5 @@ def initialise():
     DATABASE.connect()
     # DATABASE.drop_tables([User, Board, Idea, Tag, Idea_Tag])
     DATABASE.create_tables([User, Board, Idea, Tag, Idea_Tag], safe=True)
+    # DATABASE.execute_sql("UPDATE Tag SET TextColour = '#ffffff';")
     DATABASE.close()

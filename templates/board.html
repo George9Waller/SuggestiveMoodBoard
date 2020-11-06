@@ -42,7 +42,7 @@
                             <!-- Tags -->
                             <div style="display: flex; justify-content: flex-start; flex-wrap: wrap">
                                 {% for tag in idea.tags %}
-                                    <button class="btn hover btn-sm" id="{{ tag.Name }}" onclick="location.href='/{{ board.id }}?filter={{ tag.id }}'" type="button" style="background: {{ tag.Colour }};margin: 3px; font-size: xx-small; color: white; padding: 2px" data-toggle="tooltip" data-placement="bottom" title="Filter for {{ tag.Name }}">{{ tag.Name }}</button>
+                                    <button class="btn hover btn-sm" id="{{ tag.Name }}" onclick="location.href='/{{ board.id }}?filter={{ tag.id }}'" type="button" style="color: {{ tag.textcolour }};background: {{ tag.Colour }};margin: 3px; font-size: xx-small; padding: 2px" data-toggle="tooltip" data-placement="bottom" title="Filter for {{ tag.Name }}">{{ tag.Name }} {{ tag.Textcolour }}</button>
                                 {% endfor %}
                             </div>
                             <!--Colour-->
@@ -78,7 +78,7 @@
                         <!--<h4>Tag Selection{{ query }}</h4>-->
                         <div class="rotated-sidebar btn-group" role="group" style="display: flex; flex-wrap: wrap; flex-direction: row; padding-top: 87px; z-index: -1; padding-bottom: 40px">
                             {% for tag in tags|reverse %}
-                                <button class="btn btn-primary hover" id="{{ tag.Name }}" onclick="location.href='/{{ board.id }}?filter={{ tag.id }}'" type="button" style="background: {{ tag.Colour }};border-color: {{ tag.Colour }};margin: 3px; size: 18pt" data-toggle="tooltip" data-placement="bottom" title="Filter for {{ tag.Name }}">{{ tag.Name }}</button>
+                                <button class="btn btn-primary hover" id="{{ tag.Name }}" onclick="location.href='/{{ board.id }}?filter={{ tag.id }}'" type="button" style="background: {{ tag.Colour }};border-color: {{ tag.Colour }}; color: {{ tag.textcolour }};margin: 3px; size: 18pt" data-toggle="tooltip" data-placement="bottom" title="Filter for {{ tag.Name }}">{{ tag.Name }}</button>
                             {% endfor %}
                             <button class="btn btn-primary hover" id="Colour" onclick="location.href='/{{ board.id }}?filter=Colour'" type="button" style="background: #6d28aa;border-color: #6d28aa;margin: 3px;" data-toggle="tooltip" data-placement="bottom" title="Filter for Colour">Colour</button>
                             <button class="btn btn-primary hover" id="All" onclick="location.href='/{{ board.id }}?filter=All'" type="button" style="background: #0D0D0D;color: #F2F2F2;border-color: #F2F2F2;margin: 3px;" data-toggle="tooltip" data-placement="bottom" title="Filter for All">All</button>

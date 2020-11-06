@@ -3,12 +3,14 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 from flask_bcrypt import check_password_hash
 from flask_bootstrap import Bootstrap
 from flask_mail import Mail, Message
+import random
 import os
 
 from Forms import forms_auth, forms_site
 import sampleideas
 import models
 from suggestions import suggestions_algorithm
+from WebColourNames import web_colour_names_upper
 
 DEBUG = True
 # HOST = '127.0.0.1'
@@ -362,6 +364,9 @@ def add_tag(boardid):
         # checks current user owns board
         board = models.Board.get_board(boardid)
         if board.get_user() == current_user:
+            # fill random colour from dictionary
+            colour_name, colour_code = random.choice(list(web_colour_names_upper.items()))
+            form.colour.data = colour_code
             return render_template('tag.html', form=form, colour=colour_create)
         else:
             flash("This is not your board", "error")
