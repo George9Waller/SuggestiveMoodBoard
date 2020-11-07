@@ -1,0 +1,99 @@
+{% extends "layout.html" %}
+{% block title %}Tutorial{% endblock %}
+
+{% block head %}
+    {% block styles %}
+        {{ super() }}
+    {% endblock %}
+{% endblock %}
+
+{% block body %}
+    {% block content %}
+        {% block messages %}{{ super() }}{% endblock %}
+        {% block pagecontent %}
+            {# Title #}
+                <div style="width: 100%; height: 20%; padding: 3%; background: #f2f2f2; top:0">
+                    <h1 style="text-align: center; color: #ffffff; font-size: 72px; background: -webkit-linear-gradient(#92FE9D, #00C9FF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: bolder">Thought Base</h1>
+                    <h3 style="text-align: center">Tutorial</h3>
+                </div>
+
+            {# Flex containor of key steps #}
+            <div style="" class="tutorialcontainor">
+                <div style="background: darkslateblue; color: #f2f2f2!important;" class="tutorialchild">
+                    <h3 class="text-center">Logging in & Registering</h3>
+                    <br>
+                    <h3 class="text-center">Registering for an account</h3>
+                    <p class="text-center">There is a register button on the login page where you can create an account. The details you need to put in are:</p>
+                    <ul class="text-" style="color: #a9a9a9">
+                        <li class="">Username: must only have letters, numbers or underscores and be 20 characters or less</li>
+                        <li class="">Email: must be valid and you should have access to it in case you need to reset your password</li>
+                        <li class="">Password: must be 8-20 characters, contain a lowercase, uppercase, number and special character and match the confirm password</li>
+                        <li class="">User type: select a use case which best describes your use for the site, it will help direct future development plans</li>
+                    </ul>
+                    <br>
+                    <h3 class="text-center">Login</h3>
+                    <p class="text-center">You can then login with your username and password. If you forget either of these there are links on the login page to reset your password or get a username reminder via email.</p>
+                </div>
+
+                <div class="tutorialchild" style="background: slategray">
+                    <h3 class="text-center">Boards</h3>
+                    <br>
+                    <p class="text-center">A board is where you store your ideas for a particular project or event</p>
+                    <p class="text-center">A board is created by clicking the + Board button in the top left corner of the board page and it needs 3 pieces of data:</p>
+                    <ul style="color: #a9a9a9">
+                        <li>Name: must be 30 characters or less</li>
+                        <li>Project size: select small, medium or large to understand the kinds of data being stored for future development</li>
+                        <li>Project date: a date which orders how boards are displayed in your account from ones earliest to latest in date</li>
+                    </ul>
+                    <p class="text-center">You can also delete a board by pressing the icon to edit it:</p>
+                            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-pencil-square icon-edit-hover" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="margin-left: 50%">
+                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                            </svg>
+                    <p class="text-center">And then the delete board button in the top left corner</p>
+                    <p class="text-center">When you have clicked the icon to edit the board you can create new ideas and delete them using the + Idea in the top left and the trashcan on each idea</p>
+                    <p class="text-center">Fianlly, you can always click on the Thought Base title at the top of the page to return to the home page with all your boards.</p>
+                </div>
+
+                <div class="tutorialchild" style="background: steelblue">
+                    <h3 class="text-center">Ideas</h3>
+                    <br>
+                    <p class="text-center">An idea is a record of data which you make within a board. Each one has several points of data which can be recorded:</p>
+                    <ul style="color: #a9a9a9">
+                        <li>Name: must be 30 characters or less</li>
+                        <li>Content: this is an optional description where you can store upto 1000 characters about the idea</li>
+                        <li>Colour: this is a colour picker which may appear different depending on your browser, the default is black which will not be recorded. This data feeds into the colour suggestion feature of the site.</li>
+                        <li>Tags: this is a multiple select field where you can add and remove user defined tags to/from each idea, none will appear if you have not already created any.</li>
+                    </ul>
+                </div>
+
+                <div class="tutorialchild" style="background: cadetblue;">
+                    <h3 class="text-center">Tags</h3>
+                    <br>
+                    <p class="text-center">Tags are a structure to organise your ideas and filter them. The bar at the top or side of your screen contains the current tags and when clicked only ideas with that tag are displayed.</p>
+                    <p class="text-center">They can be created and deleted using the + and trash icons</p>
+                    <p class="text-center">The flask opens the colour suggestions page</p>
+                    <br>
+                    <h3 class="text-center">Colour Suggestions</h3>
+                    <br>
+                    <p class="text-center">This page shows all the related colours to the colours recorded in ideas on the current board, excluding black</p>
+                    <p class="text-center">You can click on any colour to start making a new idea with that colour</p>
+                </div>
+            </div>
+
+
+            {# Link to index #}
+            <div style="width: 100%; height: 10%; background: #f2f2f2; bottom: 0; padding-top: 3%; padding-bottom: 3%; position: absolute; display: flex; justify-content: space-evenly; align-items: center">
+                <div>
+                    <h3>Key Details</h3>
+                    <p>Make sure to email me your feedback of any difficulties big or small including the specific board, idea or tag if relevant</p>
+                    <a style="font-size: small!important;" href="mailto:thoughtbasehelp@gmail.com">Email: thoughtbasehelp@gmail.com</a>
+                    <p>You can always get back to this page by clicking the "Welcome: [username]" link at the top next to logout</p>
+                </div>
+                <div>
+                    <button style="color: white; font-size: x-large!important;" class="btn btn-success btn-lg" type="button" onclick="location.href='{{ url_for('index') }}'">Start</button>
+                </div>
+            </div>
+        {% endblock %}
+    {% endblock %}
+{% endblock %}

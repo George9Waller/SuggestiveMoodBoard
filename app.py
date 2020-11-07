@@ -108,7 +108,7 @@ def register():
         )
         # Creates sample board to show the user an example of the solution
         sampleboard = models.Board.create_board(user=models.User.get_user_by_email(form.email.data),
-                                                name='100 in the style of Complicité',
+                                                name='Example: Theatre Production',
                                                 venuesize='Small', eventdate='2020-10-08')
         sampleideas.addideas(sampleboard)
         # returns user to index after registration
@@ -488,6 +488,12 @@ def request_username():
         return redirect(url_for('login'))
     return render_template('RequestResetPassword.html', form=form, title='Request Username Reminder',
                            submit='Send Reminder')
+
+
+@app.route('/tutorial')
+def tutorial():
+    """renders tutorial page"""
+    return render_template('tutorial.html')
 
 
 @app.route('/')

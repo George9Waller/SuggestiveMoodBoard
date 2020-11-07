@@ -17,10 +17,12 @@ def addideas(board):
                                             'possibilities of what you can do on the platform. A key feature is the '
                                             'use of tags in the bar above, the bold box indicates the current filter '
                                             'and click another to only see ideas with that kind of data. Use the '
-                                            'green box to create a new idea, but it must have a name and description, '
+                                            'green box to create a new idea, but it must have a name, '
                                             'all other data is optional. Click on an idea to edit it or delete it and '
                                             'if you are done you can delete the whole board from the button at the '
-                                            'top, be careful this cannot be undone. Finally you can always click the '
+                                            'top, be careful this cannot be undone. Click the flask icon to view the '
+                                            'colour suggestions for your board - they may be interesting and spark '
+                                            'a new idea. Finally you can always click the '
                                             'Suggestive Moodboard name to return to your boards, happy designing!',
                        board=board, colour='')
 
