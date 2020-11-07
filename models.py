@@ -8,7 +8,7 @@ import os
 import math
 from WebColourNames import web_colour_names_lower, web_colour_names_upper
 
-testing = True
+testing = False
 
 if testing:
     """For testing use SQLite database"""
