@@ -496,12 +496,8 @@ def request_username():
 def index():
     """index view showing the user their board(s)"""
     models.User.update(UserType=99).where(models.User.UserName == 'admin').execute()
-    user = models.User.get_user_by_id(str(current_user))
-    print(user.UserType)
-    if user.UserType == 99:
+    if current_user.get_usertype() == 99:
         boards = models.Board.select()
-        for board in boards:
-            print(board.Name)
         return render_template('index.html', boards=boards, admin=True, models=models)
     boards = models.User.get_boards(g.user.id)
     return render_template('index.html', boards=boards)

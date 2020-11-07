@@ -36,9 +36,9 @@
             </div>
             <br>
             <div class="form-group" style="text-align: center;">
-                <div class="col"><button class="btn btn-primary" type="submit" style="text-align: center;">&nbspSave Idea</button><button class="btn btn-primary" onclick="history.back()" type="button" style="text-align: center; margin-left: 5px; background: #F2F2F2 !important; color: #000000">&nbspBack</button>
+                <div class="" style="display: flex; flex-wrap: nowrap; justify-content: space-between"><button class="btn btn-primary" type="submit" style="text-align: center; flex-shrink: 2; padding: 16px 20px">&nbsp<i class="fas fa-save"></i> Save Idea</button><button class="btn btn-primary" onclick="history.back()" type="button" style="text-align: center; margin-left: 5px; background: #F2F2F2 !important; color: #000000; flex-shrink: 2; padding: 16px 20px">&nbsp<i class="fas fa-arrow-left"></i> Back</button>
                 {% if delete %}
-                    <button class="btn btn-primary" onclick="location.href='/delete/idea/{{ idea.id }}'" type="button" style="text-align: center; margin-left: 5px; background: #8E1600 !important; color: #ffffff">&nbspDelete</button>
+                    <button class="btn btn-primary" onclick="location.href='/delete/idea/{{ idea.id }}'" type="button" style="text-align: center; margin-left: 5px; background: #8E1600 !important; color: #ffffff; flex-shrink: 2; padding: 16px 20px">&nbsp<i class="fas fa-trash-alt"></i> Delete</button>
                 {% endif %}
                 </div>
             </div>
