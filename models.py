@@ -8,7 +8,7 @@ import os
 import math
 from WebColourNames import web_colour_names_lower, web_colour_names_upper
 
-testing = False
+testing = True
 
 if testing:
     """For testing use SQLite database"""
@@ -40,16 +40,19 @@ def calculate_colour(c):
 
 def convert_colour_name_to_hex(colour_in):
     """Converts a colour name to hex code from look-up dictionary"""
-    if str(colour_in)[0] != '#':
-        try:
-            # tries to convert it from a word to hex code using 140 colours supported by browsers
-            return web_colour_names_lower[str(colour_in)]
-        except KeyError:
+    try:
+        if str(colour_in)[0] != '#':
             try:
-                return web_colour_names_upper[str(colour_in)]
+                # tries to convert it from a word to hex code using 140 colours supported by browsers
+                return web_colour_names_lower[str(colour_in)]
             except KeyError:
-                return '#ffffff'
-    else:
+                try:
+                    return web_colour_names_upper[str(colour_in)]
+                except KeyError:
+                    return '#ffffff'
+        else:
+            return '#ffffff'
+    except:
         return '#ffffff'
 
 
