@@ -81,7 +81,13 @@
                             {% endfor %}
                             <button class="btn btn-primary hover" id="Colour" onclick="location.href='/{{ board.id }}?filter=Colour'" type="button" style="background: #6d28aa;border-color: #6d28aa;margin: 3px;" data-toggle="tooltip" data-placement="bottom" title="Filter for Colour">Colour</button>
                             <button class="btn btn-primary hover" id="All" onclick="location.href='/{{ board.id }}?filter=All'" type="button" style="background: #0D0D0D;color: #F2F2F2;border-color: #F2F2F2;margin: 3px;" data-toggle="tooltip" data-placement="bottom" title="Filter for All">All</button>
-                            <div class="tagcontrol" style="background: aquamarine; border-radius: 3px; padding-right: 10px">
+                            <div class="tagcontrol" style="background: azure; border-radius: 3px; padding-right: 10px">
+                                <button class="btn btn-primary hover" id="Print" onclick="location.href='/{{ board.id }}/print'" type="button" style="background: transparent;border: transparent; margin: 1px; size: 22pt; opacity: 1" data-toggle="tooltip" data-placement="right" title="Print Board">
+                                    <span style="color: black" class="icon-experiment-hover"><i class="fas fa-print"></i></span>
+                                </button>
+                                Board
+                            </div>
+                            <div class="tagcontrol" style="background: aquamarine; border-radius: 3px; padding-right: 10px; margin-right: 5px">
                                 <button class="btn btn-primary hover" id="Add" onclick="location.href='/{{ board.id }}/suggestions'" type="button" style="background: transparent;border: transparent; margin: 1px; size: 22pt; opacity: 1" data-toggle="tooltip" data-placement="right" title="Colour Suggestions">
                                     <span style="color: black" class="icon-experiment-hover"><i class="fas fa-flask fa-lg"></i></span>
                                 </button>

@@ -1,0 +1,12 @@
+div {
+    width: 75%;
+    margin: 0 auto;
+}
+
+h2 {
+    page-break-before: always;
+}
+
+.idea{
+    page-break-inside: avoid;
+}

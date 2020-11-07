@@ -43,9 +43,9 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
-colour_create = "#66cca7"  # green
+colour_create = "#f2f2f2"  # "#66cca7"  # green
 colour_view = "#F2F2F2"  # grey
-colour_update = "#78BFB8"  # teal
+colour_update = "#f2f2f2"  # "#78BFB8"  # teal
 colour_delete = "#F26835"  # orange
 
 
@@ -182,6 +182,36 @@ def board(boardid):
             return render_template('board.html', board=board, ideas=ideas, query="", queryid=query, tags=tags)
     else:
         flash("This is not your board", "error")
+        return redirect(url_for('index'))
+
+
+@app.route('/<int:boardid>/print')
+@login_required
+def print_board(boardid):
+    """renders a page designed for print"""
+    board = models.Board.get_board(boardid)
+    tags = models.Tag.get_tags_by_board(board)
+    ideaswithtags = []
+    allideas = []
+    otherideas = []
+
+    for tag in tags:
+        ideas = models.Idea.get_ideas_by_tag(tag)
+        tag.ideas = ideas
+        for idea in ideas:
+            ideaswithtags.append(idea)
+
+    for idea in models.Board.get_ideas(board):
+        allideas.append(idea)
+
+    for idea in allideas:
+        if idea not in ideaswithtags:
+            otherideas.append(idea)
+
+    if board.User == current_user or current_user.get_usertype() == 99:
+        return render_template('printboard.html', board=board, tags=tags, otherideas=otherideas)
+    else:
+        flash('This is not your data', 'error')
         return redirect(url_for('index'))
 
 
@@ -494,6 +524,12 @@ def request_username():
 def tutorial():
     """renders tutorial page"""
     return render_template('tutorial.html')
+
+
+@app.route('/faq')
+def faq():
+    """renders static faq page"""
+    return render_template('faq.html')
 
 
 @app.route('/')

@@ -222,6 +222,10 @@ class Idea(Model):
         """Returns the colour attribute of supplied idea"""
         return self.Colour
 
+    def get_ideas_by_tag(self):
+        """returns all the ideas linked to the given tag"""
+        return Idea.select().join(Idea_Tag).where(Idea_Tag.Tag == self)
+
     @staticmethod
     def filter(query, board):
         """Returns a filtered selection of ideas from the query"""

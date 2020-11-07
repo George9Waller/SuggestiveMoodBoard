@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Print {{ board.Name }}</title>
+    <link rel="stylesheet" href="{{ url_for('.static', filename='/css/printstyle.css') }}">
+</head>
+<body>
+    <div style="margin-left: 50%"><h1>Created with Thought Base</h1></div>
+    <div style="margin-top: 50%;">
+        <h1>{{ board.Name }}</h1>
+        <h1>Created by: {{ board.User.UserName }}</h1>
+        <h1>Project size: {{ board.VenueSize }}</h1>
+        <h1>Project date: {{ board.EventDate }}</h1>
+    </div>
+    <br>
+    {% for tag in tags %}
+        <div style="width: 210mm; height: 10mm; background: {{ tag.Colour }}; padding-left: 10mm">
+            <h2 style="color: {{ tag.textcolour }}!important;">{{ tag.Name }}</h2>
+        </div>
+        {% for idea in tag.ideas %}
+            <div class="idea" style="padding: 5mm; border: solid black 2mm; width: 210mm;margin: 5mm 0">
+                <h3>{{ idea.Name }}</h3>
+                <h5>{{ idea.Content }}</h5>
+                {% if idea.Colour != '' and idea.Colour != 'black' and idea.Colour != '#000000' %}
+                    <div style="width: 100%; background: {{ idea.Colour }}; height: 10mm"></div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <div style="width: 210mm; height: 10mm; background: black; padding-left: 10mm">
+        <h2 style="color: white!important;">Other</h2>
+    </div>
+    {% for idea in otherideas %}
+        <div class="idea" style="padding: 5mm; border: solid black 2mm; width: 210mm;margin: 5mm 0">
+            <h3>{{ idea.Name }}</h3>
+            <h5>{{ idea.Content }}</h5>
+            {% if idea.Colour != '' and idea.Colour != 'black' and idea.Colour != '#000000' %}
+                <div style="width: 100%; background: {{ idea.Colour }}; height: 10mm"></div>
+            {% endif %}
+        </div>
+    {% endfor %}
+
+</body>
+</html>

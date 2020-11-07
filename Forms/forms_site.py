@@ -82,7 +82,7 @@ class IdeaForm(FlaskForm):
     )
 
     addtotag = NonValidatingSelectMultipleField(
-        'Tag (select multiple by holding down control/command)'
+        'Add Tags'
     )
 
 

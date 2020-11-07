@@ -1,0 +1,395 @@
+{% extends "layout.html" %}
+{% block title %}Tutorial{% endblock %}
+
+{% block head %}
+    {% block styles %}
+        {{ super() }}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+        <script src="https://kit.fontawesome.com/ba83112699.js" crossorigin="anonymous"></script>
+    {% endblock %}
+{% endblock %}
+
+{% block body %}
+    {% block content %}
+        {% block messages %}{{ super() }}{% endblock %}
+        {% block pagecontent %}
+            {# Title #}
+                <div style="width: 100%; height: 220px; padding: 30px; background: #f2f2f2; top:0">
+                    <h1 style="text-align: center; color: #ffffff; font-size: 72px; background: -webkit-linear-gradient(#92FE9D, #00C9FF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: bolder">Thought Base</h1>
+                    <h3 style="text-align: center">FAQ</h3>
+                </div>
+
+            {# FAQ Acordians #}
+            <div style="padding: 10px">
+                <h3 style="color: #f2f2f2">Accounts</h3>
+{#                Accounts#}
+                <div id="accordion" class="accordion" style="">
+                      <div class="card">
+                        <div class="card-header" id="headingOne">
+                          <h5 class="mb-0">
+                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                              How do I recover my username?
+                            </button>
+                          </h5>
+                        </div>
+
+                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                          <div class="card-body">
+                            If you are logged in then you can view your username at the top of the page to the left of the logout button: it will say Welcome [Username]. If you need to recover your username to login then there is a link to send a username reminder to your email, if you no longer have access to this email inbox then please contact support: <a href="mailto:thoughtbasehelp@gmail.com?subject=I am having issues recovering my username">thoughtbasehelp@gmail.com</a>
+                          </div>
+                        </div>
+                      </div>
+
+                    <div class="card">
+                        <div class="card-header" id="headingTwo">
+                          <h5 class="mb-0">
+                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                              How do I reset my password?
+                            </button>
+                          </h5>
+                        </div>
+
+                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                          <div class="card-body">
+                              If you need to reset your password due to data breech or you have forgotten it then you can use the <a href="{{ url_for('reset_request') }}">link</a> on the login page to send an email with a link to set a new password. If you do not have access to this inbox anymore then you need to contact support: <a href="mailto:thoughtbasehelp@gmail.com?subject=I am having issues resetting my password">thoughtbasehelp@gmail.com</a>
+                          </div>
+                        </div>
+
+                        <div class="card">
+                        <div class="card-header" id="headingThree">
+                          <h5 class="mb-0">
+                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                              How do I delete my account?
+                            </button>
+                          </h5>
+                        </div>
+
+                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                          <div class="card-body">
+                              We respect that you may wish to delete your account and have your personal data removed from the site. While this is not an action a user can make within the site you can contact support: <a href="mailto:thoughtbasehelp@gmail.com?subject=I want to delete my account">thoughtbasehelp@gmail.com</a> where there will be a 30 day cool-off period (in case you change your mind) before all your personal data will be deleted.
+                          </div>
+                        </div>
+
+                      </div>
+
+                </div>
+                </div>
+
+{#            Boards#}
+                <br>
+                <h3 style="color: #f2f2f2">Boards</h3>
+                <div id="accordion" class="accordion" style="">
+                      <div class="card">
+                        <div class="card-header" id="headingFour">
+                          <h5 class="mb-0">
+                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                              How do I make a new board?
+                            </button>
+                          </h5>
+                        </div>
+
+                        <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+                          <div class="card-body">
+                              From the home page you click the blue '<span style="background: #007bff; color: white; padding: 3px"><svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-plus-square-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
+                        </svg> Board</span>' button in the top left corner. You can always access the home page by clicking the 'Thought Base' title at the top of the page. Alternatively you can make a new board via this <a href="{{ url_for('new_board') }}">link</a>.
+                          </div>
+                        </div>
+                      </div>
+
+                    <div class="card">
+                        <div class="card-header" id="headingFive">
+                          <h5 class="mb-0">
+                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                              How do I delete a board?
+                            </button>
+                          </h5>
+                        </div>
+
+                        <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
+                          <div class="card-body">
+                              From the home page (accessed by clicking the 'Thought Base' page title) you can click the notepad icon
+                                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-pencil-square icon-edit-hover" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                    </svg>
+                              to view a board and its ideas. Here there is a red <span style="background: red; color: white; padding: 3px">
+                              <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-dash-square-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                 <path fill-rule="evenodd" d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm2.5 7.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7z"/>
+                              </svg> Board</span> button where you must confirm you really want to delete the board and its ideas <span style="color: red">(this cannot be undone)</span> by ticking the checkbox.
+                          </div>
+                        </div>
+                    </div>
+
+                        <div class="card">
+                        <div class="card-header" id="headingSix">
+                          <h5 class="mb-0">
+                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                              How do I edit the details of a board?
+                            </button>
+                          </h5>
+                        </div>
+
+                        <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordion">
+                          <div class="card-body">
+                              By clicking on the notepad
+                              <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-pencil-square icon-edit-hover" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                            </svg>
+                              you can view the board and its ideas, however, you cannot change the name, project size or project date of a board once it has been created.
+                          </div>
+                        </div>
+                            
+                        <div class="card">
+                        <div class="card-header" id="headingSeven">
+                          <h5 class="mb-0">
+                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                              How do I share my board?
+                            </button>
+                          </h5>
+                        </div>
+
+                        <div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="#accordion">
+                          <div class="card-body">
+                              At this point in time you are not able to share your board with others or send them a link to allow them to view or edit the board. This is on the # TODO list and we hope to make it possible by making a link to your board so the user with the username you specify will be able to edit your board for 30 days.
+                          </div>
+                        </div>
+
+                      </div>
+                        <div class="card">
+                        <div class="card-header" id="headingSevenone">
+                          <h5 class="mb-0">
+                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseSevenOne" aria-expanded="false" aria-controls="collapseSevenOne">
+                              How do I print my board?
+                            </button>
+                          </h5>
+                        </div>
+
+                        <div id="collapseSevenOne" class="collapse" aria-labelledby="headingSevenOne" data-parent="#accordion">
+                          <div class="card-body">
+                              To print the ideas press the <i class="fas fa-print"></i> icon in the tag bar to open a new page which will layout the ideas and their data in a more printer friendly way, on this page just use your browser to print the page or press control/command + P.
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                </div>
+            
+{#                Ideas#}
+                <br>
+                <h3 style="color: #f2f2f2">Ideas</h3>
+                <div id="accordion" class="accordion" style="">
+                      <div class="card">
+                        <div class="card-header" id="headingEight">
+                          <h5 class="mb-0">
+                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+                              How do I make an idea?
+                            </button>
+                          </h5>
+                        </div>
+
+                        <div id="collapseEight" class="collapse" aria-labelledby="headingEight" data-parent="#accordion">
+                          <div class="card-body">
+                            Once you are viewing a board [see: How do I edit the details of a board?] you can see all of its ideas if it has any. To add a new one there is a button in the top left corner <span style="background: #28a745; color: white; padding: 3px">
+                              <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-plus-square-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                 <path fill-rule="evenodd" d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
+                              </svg>
+                           Idea</span> to create a new idea. The idea must then have a name (30 characters or less). It can also have a description of up to 1000 characters, a colour and be added to any of the board's tags.
+                          </div>
+                        </div>
+                      </div>
+
+                    <div class="card">
+                        <div class="card-header" id="headingNine">
+                          <h5 class="mb-0">
+                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
+                              How do I edit an Idea?
+                            </button>
+                          </h5>
+                        </div>
+
+                        <div id="collapseNine" class="collapse" aria-labelledby="headingNine" data-parent="#accordion">
+                          <div class="card-body">
+                              Much like a board you use the notepad icon where a page containing all the data already stored about the idea will appear. You can change any of the data as long as the idea still has a name but if you do not press the blue <span style="background: #007bff; padding: 3px; color: white"><i class="fas fa-save"></i> Save</span> button at the bottom then your changes will be discarded.
+                          </div>
+                        </div>
+
+                        <div class="card">
+                        <div class="card-header" id="headingTen">
+                          <h5 class="mb-0">
+                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseTen" aria-expanded="false" aria-controls="collapseTen">
+                              How do I delete an idea?
+                            </button>
+                          </h5>
+                        </div>
+
+                        <div id="collapseTen" class="collapse" aria-labelledby="headingTen" data-parent="#accordion">
+                          <div class="card-body">
+                              There are two ways to do this. 1: when viewing a board of ideas you can press the
+                              <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-trash icon-delete-hover" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                            </svg>
+                              icon in the top right of an idea or you can press the notepad icon
+                              <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-pencil-square icon-edit-hover" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                            </svg>
+                              to the left of it and then press the <span style="background: red; padding: 3px; color: white"><i class="fas fa-trash-alt"></i> Delete</span> button. A page with a checkbox will open which you must tick to confirm you can to delete the idea <span style="color: red;">(This cannot be undone)</span>
+                          </div>
+                        </div>
+
+                      </div>
+
+                </div>
+
+            </div>
+                
+{#            Tags + Suggestions#}
+                        <br>
+                <h3 style="color: #f2f2f2">Tags & Suggestions</h3>
+                <div id="accordion" class="accordion" style="">
+                      <div class="card">
+                        <div class="card-header" id="headingEleven">
+                          <h5 class="mb-0">
+                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseEleven" aria-expanded="false" aria-controls="collapseEleven">
+                              How do I make a custom tag?
+                            </button>
+                          </h5>
+                        </div>
+
+                        <div id="collapseEleven" class="collapse" aria-labelledby="headingEleven" data-parent="#accordion">
+                          <div class="card-body">
+                              Tag controls are separated from tags in an <span style="background: aquamarine; color: black; padding: 3px">aquamarine box</span> here the
+                              <svg width="1.8em" height="1.8em" viewBox="0 0 16 16" class="bi bi-plus-square icon-edit-hover" fill="black" xmlns="http://www.w3.org/2000/svg">
+                                       <path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                                       <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                    </svg>
+                               button should be pressed to make a new tag. A tag needs a name and will automatically be given a colour, however, this can be changed to suit the user's preference.
+                          </div>
+                        </div>
+                      </div>
+
+                    <div class="card">
+                        <div class="card-header" id="headingTwelve">
+                          <h5 class="mb-0">
+                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseTwelve" aria-expanded="false" aria-controls="collapseTwelve">
+                              How do I edit a tag or add it to ideas?
+                            </button>
+                          </h5>
+                        </div>
+
+                        <div id="collapseTwelve" class="collapse" aria-labelledby="headingTwelve" data-parent="#accordion">
+                          <div class="card-body">
+                              At this point in time the name or colour of a tag cannot be changed once it has been created, the only solution to this is to delete it and create a new one and re-assign any ideas. Once a tag has been created it can be added to ideas, to do this begin editing an ideas [see: How do I edit an idea?] and the user can select tags using the multiple select box before saving the idea again. Once ideas have been added to tag then the board can be filtered using the tag buttons to only show ideas containing that tag. The 'All' button shows all ideas and the 'Colours' button shows all ideas with a colour not set to black.
+                          </div>
+                        </div>
+                    </div>
+
+                        <div class="card">
+                        <div class="card-header" id="headingThirteen">
+                          <h5 class="mb-0">
+                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseThirteen" aria-expanded="false" aria-controls="collapseThirteen">
+                              How do I delete a tag?
+                            </button>
+                          </h5>
+                        </div>
+
+                        <div id="collapseThirteen" class="collapse" aria-labelledby="headingThirteen" data-parent="#accordion">
+                          <div class="card-body">
+                              By clicking on the 
+                              <svg width="1.8em" height="1.8em" viewBox="0 0 16 16" class="bi bi-trash icon-delete-hover" fill="black" xmlns="http://www.w3.org/2000/svg">
+                                       <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                       <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                    </svg>
+                               icon in the tag bar you can then select which tag you want to delete and tick the confirmation box to delete it. All ideas with that tag will no longer be linked to it.
+                          </div>
+                        </div>
+                            
+                        <div class="card">
+                        <div class="card-header" id="headingFourteen">
+                          <h5 class="mb-0">
+                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseFourteen" aria-expanded="false" aria-controls="collapseFourteen">
+                              How do I view my suggestions?
+                            </button>
+                          </h5>
+                        </div>
+
+                        <div id="collapseFourteen" class="collapse" aria-labelledby="headingFourteen" data-parent="#accordion">
+                          <div class="card-body">
+                              If you have some ideas with colours then the algoithm will generate related colours for you, to view these press the <i class="fas fa-flask fa-lg"></i> icon on the tag bar where the first 1000 suggestions will be displayed. You can click on any colour to start making a new idea with that colour.
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                </div>
+                
+{#                Other#}
+                <br>
+                <h3 style="color:#f2f2f2">Other</h3>
+                <div id="accordion" class="accordion" style="">
+                      <div class="card">
+                        <div class="card-header" id="headingFifthteen">
+                          <h5 class="mb-0">
+                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseFifthteen" aria-expanded="false" aria-controls="collapseFifthteen">
+                              How do I see the tutorial again?
+                            </button>
+                          </h5>
+                        </div>
+
+                        <div id="collapseFifthteen" class="collapse" aria-labelledby="headingFifthteen" data-parent="#accordion">
+                          <div class="card-body">
+                            You can click the link at the top of most pages with says 'Welcome [username]' or simply visit this <a href="{{ url_for('tutorial') }}">link</a>
+                          </div>
+                        </div>
+                      </div>
+
+                        <div class="card">
+                        <div class="card-header" id="headingSixteen">
+                          <h5 class="mb-0">
+                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseSixteen" aria-expanded="false" aria-controls="collapseSixteen">
+                              I still have a question that hasn't been answered?
+                            </button>
+                          </h5>
+                        </div>
+
+                        <div id="collapseSixteen" class="collapse" aria-labelledby="headingSixteen" data-parent="#accordion">
+                          <div class="card-body">
+                              We want to make this site as helpful & productive as possible so please contact support: <a href="mailto:thoughtbasehelp@gmail.com?subject=I still need help">thoughtbasehelp@gmail.com</a> where we will get back to you regarding your question.
+                          </div>
+                        </div>
+
+                      </div>
+
+                </div>
+                </div>
+
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            </div>
+
+
+            {# Link to index #}
+            <div style="width: 100%; height: 130px; background: #f2f2f2; bottom: 0; padding-top: 3%; padding-bottom: 3%; position: absolute; display: flex; justify-content: space-evenly; align-items: center">
+                <div>
+                    <p>Make sure to email me your feedback of any difficulties big or small including the specific board, idea or tag if relevant</p>
+                    <a style="font-size: small!important;" href="mailto:thoughtbasehelp@gmail.com">Email: thoughtbasehelp@gmail.com</a>
+                    <p>You can always get back to this page by clicking the help button at the top next to logout</p>
+                </div>
+                <div>
+                    <button style="color: white; font-size: x-large!important;" class="btn btn-info btn-lg" type="button" onclick="history.back()">Back</button>
+                </div>
+
+        {% endblock %}
+    {% endblock %}
+{% endblock %}

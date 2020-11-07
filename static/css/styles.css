@@ -321,3 +321,13 @@ button.hover:hover{
   color: #f2f2f2;
   flex-basis: 33%;
 }
+
+.card-body a {
+  font-size: small!important;
+}
+
+@media print {
+  body {
+    background: white!important;
+  }
+}
