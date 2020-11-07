@@ -3,6 +3,7 @@ from wtforms import StringField, PasswordField, SelectField
 from wtforms.validators import DataRequired, Regexp, ValidationError, Email, Length, EqualTo
 
 from models import User
+from StaticLookupDictionaries import usertype_to_num
 
 
 # custom validators to verify if the username or email is already in use
@@ -60,8 +61,9 @@ class RegisterFrom(FlaskForm):
     )
     usertype = SelectField(
         'User Type',
-        choices=['Designer', 'Technician', 'Student'],
-        validators=[DataRequired()]
+        choices=[*usertype_to_num],
+        validators=[DataRequired()],
+        render_kw={"placeholder": "Select User Type"}
     )
 
 

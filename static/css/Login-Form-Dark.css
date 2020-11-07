@@ -1,3 +1,25 @@
+body{
+  font-family: 'Quicksand', sans-serif!important;
+}
+
+select {
+  background: #1e2833!important;
+  color: #ccc!important;
+}
+
+select option{
+  background: #1e2833!important;
+  color: #ccc!important;
+}
+
+label{
+  color: white;
+}
+
+input {
+  color: #fff !important;
+}
+
 .login-dark {
   height: 1000px;
   background-size: cover;
@@ -5,6 +27,7 @@
 }
 
 .login-dark form {
+  font-family: 'Quicksand', sans-serif!important;
   max-width: 320px;
   width: 90%;
   background-color: #1e2833;
@@ -14,7 +37,7 @@
   position: absolute;
   top: 600px;
   left: 50%;
-  color: #fff;
+  /*color: #fff;*/
   box-shadow: 3px 3px 4px rgba(0,0,0,0.2);
 }
 
@@ -68,4 +91,3 @@
 .login-dark form .btn-primary:active {
   transform: translateY(1px);
 }
-

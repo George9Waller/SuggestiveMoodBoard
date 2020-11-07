@@ -11,6 +11,7 @@ import sampleideas
 import models
 from suggestions import suggestions_algorithm
 from WebColourNames import web_colour_names_upper
+from StaticLookupDictionaries import usertype_to_num
 
 DEBUG = True
 # HOST = '127.0.0.1'
@@ -94,11 +95,9 @@ def register():
     form = forms_auth.RegisterFrom()
     if form.validate_on_submit():
         flash("Registration successful, a sample board has been created for you", "success")
-        if form.usertype.data == 'Technician':
-            usernum = 1
-        elif form.usertype.data == 'Student':
-            usernum = 2
-        else:
+        try:
+            usernum = usertype_to_num[form.usertype.data]
+        except KeyError:
             usernum = 0
         """created new user"""
         user = models.User.create_user(

@@ -1,7 +1,12 @@
-    $('#content').keyup(function() {
+    $(document).ready(function () {
+        countchars();
+        $('#content').keyup(countchars);
+});
+
+        function countchars() {
         console.log('keyup function run')
 
-    var characterCount = $(this).val().length,
+    var characterCount = $('#content').val().length,
       current = $('#current'),
       max = $('#maximum'),
       theCount = $('#the-count');
@@ -51,33 +56,13 @@
     }
 
 
-    });
+    }
 
     function limittext(charactercount, limit, id){
         content = document.getElementById(id)
         if (charactercount > limit)
         {content.value = content.value.substring(0, limit)}
     }
-
-    $('#red').keyup(function() {
-        console.log('keyup function run')
-        let characterCount = $(this).val().length;
-        limittext(characterCount, 20, 'red')});
-
-    $('#green').keyup(function() {
-        console.log('keyup function run')
-        let characterCount = $(this).val().length;
-        limittext(characterCount, 20, 'green')});
-
-    $('#blue').keyup(function() {
-        console.log('keyup function run')
-        let characterCount = $(this).val().length;
-        limittext(characterCount, 20, 'blue')});
-
-    $('#yellow').keyup(function() {
-        console.log('keyup function run')
-        let characterCount = $(this).val().length;
-        limittext(characterCount, 20, 'yellow')});
 
     $('#name').keyup(function() {
         console.log('keyup function run')
