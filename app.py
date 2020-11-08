@@ -281,6 +281,7 @@ def delete_board(boardid):
                 flash("Board Deleted", "success")
                 # deletes all ideas associated with the board
                 models.Idea.delete_by_board(models.Board.get_board(boardid))
+
                 models.Board.delete_by_id(boardid)
                 return redirect(url_for('index'))
             else:

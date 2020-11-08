@@ -219,8 +219,14 @@ class Idea(Model):
         return idea.Board.id
 
     def delete_by_board(self):
-        """deletes Ideas where the board matches the supplied"""
-        Idea.delete().where(Idea.Board == self)
+        """deletes Ideas, Idea_tag links & tags where the board matches the supplied"""
+        tags = Tag.select().where(Tag.Board == self)
+        # delete idea_tag links
+        for tag in tags:
+            Idea_Tag.delete().where(Idea_Tag.Tag == tag).execute()
+            Tag.delete_instance(tag)
+
+        Idea.delete().where(Idea.Board == self).execute()
         return
 
     def update_idea_by_id(self, name, content, colour):
