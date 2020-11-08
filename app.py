@@ -64,6 +64,27 @@ def send_username_reminder(user):
     mail.send(msg)
 
 
+def get_untaggedideas(board, tags):
+    ideaswithtags = []
+    allideas = []
+    otherideas = []
+
+    for tag in tags:
+        ideas = models.Idea.get_ideas_by_tag(tag)
+        tag.ideas = ideas
+        for idea in ideas:
+            ideaswithtags.append(idea)
+
+    for idea in models.Board.get_ideas(board):
+        allideas.append(idea)
+
+    for idea in allideas:
+        if idea not in ideaswithtags:
+            otherideas.append(idea)
+
+    return otherideas
+
+
 @login_manager.user_loader
 def load_user(userid):
     """tries to load the use matching the user id, catching the error if the user does not exist"""
@@ -191,25 +212,51 @@ def print_board(boardid):
     """renders a page designed for print"""
     board = models.Board.get_board(boardid)
     tags = models.Tag.get_tags_by_board(board)
-    ideaswithtags = []
-    allideas = []
-    otherideas = []
-
-    for tag in tags:
-        ideas = models.Idea.get_ideas_by_tag(tag)
-        tag.ideas = ideas
-        for idea in ideas:
-            ideaswithtags.append(idea)
-
-    for idea in models.Board.get_ideas(board):
-        allideas.append(idea)
-
-    for idea in allideas:
-        if idea not in ideaswithtags:
-            otherideas.append(idea)
 
     if board.User == current_user or current_user.get_usertype() == 99:
-        return render_template('printboard.html', board=board, tags=tags, otherideas=otherideas)
+        return render_template('printboard.html', board=board, tags=tags, otherideas=get_untaggedideas(board, tags))
+    else:
+        flash('This is not your data', 'error')
+        return redirect(url_for('index'))
+
+
+@app.route('/public/<int:boardid>')
+def view_publicboard(boardid):
+    """renders a readonly copy of a public board"""
+    board = models.Board.get_board(boardid)
+
+    if board.get_publicreadonly():
+        tags = models.Tag.get_tags_by_board(board)
+        return render_template('readonly-board.html', board=board, tags=tags, otherideas=get_untaggedideas(board, tags))
+
+    flash('This board is not set to public readonly', 'error')
+    return redirect(url_for('index'))
+
+
+@app.route('/updatetoggle/<int:boardid>', methods=['GET', 'POST'])
+@login_required
+def update_publicreadonly(boardid):
+    """updates the publicreadonly state of a board"""
+    board = models.Board.get_board(boardid)
+
+    # check for get request
+    if request.method == 'GET':
+        flash('This page does not accept get requests', 'error')
+        return redirect('index')
+
+    # checks current user owns board
+    if board.User == current_user or current_user.get_usertype() == 99:
+        if request.form['publicreadonly'] == 'true':
+            flash('This board is now avaiable as a public readonly project - anyone with the link can view it and its '
+                  'ideas, the link is available by pressing the share button next to the public readonly button',
+                  'success')
+            models.Board.set_publicreadonly(board, 'true')
+        elif request.form['publicreadonly'] == 'false':
+            flash('This board is no longer available as a public readonly project, the public link will no longer work.',
+                  'success')
+            models.Board.set_publicreadonly(board, 'false')
+
+        return redirect('/{}'.format(boardid))
     else:
         flash('This is not your data', 'error')
         return redirect(url_for('index'))

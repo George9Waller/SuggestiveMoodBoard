@@ -269,11 +269,11 @@ button.hover:hover{
   transition: all 0.5s ease-out;
 }
 
-.fa-flask{
+.fa-share-square, .fa-print, .fa-flask{
   transition: all 0.5s ease-out;
 }
 
-.fa-flask:hover{
+.fa-share-square:hover, .fa-print:hover, .fa-flask:hover{
   color: white;
 }
 
@@ -330,4 +330,8 @@ button.hover:hover{
   body {
     background: white!important;
   }
+}
+
+label {
+  font-size: small!important;
 }

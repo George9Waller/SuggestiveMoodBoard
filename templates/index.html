@@ -55,6 +55,11 @@
                             <h4 style="font-weight: 500">{{ board.Name }}</h4>
                             <p>Board created: {{ board.Created }}</p>
                             <p>Project date: {{ board.EventDate }}</p>
+                            {% if board.publicreadonly %}
+                                <p>Availability: Public read-only</p>
+                            {% else %}
+                                <p>Availability: Private</p>
+                            {% endif %}
                             {% if admin %}
                                 <p>Owner: {{ board.User.UserName }}</p>
                             {% endif %}

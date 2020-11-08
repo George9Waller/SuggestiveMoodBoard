@@ -5,6 +5,8 @@
     {% block styles %}
         {{ super() }}
         <script src="https://kit.fontawesome.com/ba83112699.js" crossorigin="anonymous"></script>
+        <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+        <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     {% endblock %}
 {% endblock %}
 
@@ -63,13 +65,6 @@
                         </svg>
                         <span style="padding-left: 8px">Idea</span>
                     </button>
-
-                    <button class="btn btn-danger" type="button" onclick="location.href='/delete/board/{{ board.id }}'" style="display: flex; align-items: center; margin-left: 10px; margin-top: 10px" data-toggle="tooltip" data-placement="bottom" title="Delete this board">
-                        <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-dash-square-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                           <path fill-rule="evenodd" d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm2.5 7.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7z"/>
-                        </svg>
-                        <span style="padding-left: 8px">Board</span>
-                    </button>
                 </div>
         </div>
         <div class="flexchild" style="margin-right: 20px; width: 20%; position: fixed; left: 10px">
@@ -80,13 +75,28 @@
                                 <button class="btn btn-primary hover" id="{{ tag.Name }}" onclick="location.href='/{{ board.id }}?filter={{ tag.id }}'" type="button" style="background: {{ tag.Colour }};border-color: {{ tag.Colour }}; color: {{ tag.textcolour }};margin: 3px; size: 18pt" data-toggle="tooltip" data-placement="bottom" title="Filter for {{ tag.Name }}">{{ tag.Name }}</button>
                             {% endfor %}
                             <button class="btn btn-primary hover" id="Colour" onclick="location.href='/{{ board.id }}?filter=Colour'" type="button" style="background: #6d28aa;border-color: #6d28aa;margin: 3px;" data-toggle="tooltip" data-placement="bottom" title="Filter for Colour">Colour</button>
+
                             <button class="btn btn-primary hover" id="All" onclick="location.href='/{{ board.id }}?filter=All'" type="button" style="background: #0D0D0D;color: #F2F2F2;border-color: #F2F2F2;margin: 3px;" data-toggle="tooltip" data-placement="bottom" title="Filter for All">All</button>
-                            <div class="tagcontrol" style="background: azure; border-radius: 3px; padding-right: 10px">
+{#                            Board controls#}
+                            <div class="tagcontrol" style="background: lightslategray; border-radius: 3px; padding: 0 10px; margin-right: 10px">
+                                <input type="checkbox" id="publictoggle" data-toggle="toggle" data-on="Public Readonly" data-off="Private" style="font-size: small!important;" onclick="post_update_publicreadonly()" {% if board.publicreadonly %} checked {% endif %} >
+                                {% if board.publicreadonly %}
+                                    <a class="btn btn-primary hover" id="Add" target="_blank" href="/public/{{ board.id }}" type="button" style="background: transparent;border: transparent; margin: 1px; size: 22pt; opacity: 1" data-toggle="tooltip" data-placement="right" title="Share board">
+                                        <span style="color: black" class="icon-experiment-hover"><i class="fas fa-share-square"></i></span>
+                                    </a>
+                                {% endif %}
                                 <button class="btn btn-primary hover" id="Print" onclick="location.href='/{{ board.id }}/print'" type="button" style="background: transparent;border: transparent; margin: 1px; size: 22pt; opacity: 1" data-toggle="tooltip" data-placement="right" title="Print Board">
                                     <span style="color: black" class="icon-experiment-hover"><i class="fas fa-print"></i></span>
                                 </button>
+                                <button class="btn btn-primary hover" id="Add" onclick="location.href='/delete/board/{{ board.id }}'" type="button" style="background: transparent;border: transparent; margin: 1px; size: 22pt; opacity: 1" data-toggle="tooltip" data-placement="bottom" title="Delete a Tag">
+                                    <svg width="1.8em" height="1.8em" viewBox="0 0 16 16" class="bi bi-trash icon-delete-hover" fill="black" xmlns="http://www.w3.org/2000/svg">
+                                       <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                       <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                    </svg>
+                                </button>
                                 Board
                             </div>
+{#                            Tag Controls#}
                             <div class="tagcontrol" style="background: aquamarine; border-radius: 3px; padding-right: 10px; margin-right: 5px">
                                 <button class="btn btn-primary hover" id="Add" onclick="location.href='/{{ board.id }}/suggestions'" type="button" style="background: transparent;border: transparent; margin: 1px; size: 22pt; opacity: 1" data-toggle="tooltip" data-placement="right" title="Colour Suggestions">
                                     <span style="color: black" class="icon-experiment-hover"><i class="fas fa-flask fa-lg"></i></span>
@@ -109,6 +119,24 @@
                     <script>
                         const urlParams = new URLSearchParams(window.location.search);
                         const button = document.getElementById(urlParams.get('filter')).style.opacity = 1;
+                    </script>
+                    <script>
+                        $('#publictoggle').change(function () {post_update_publicreadonly()});
+
+                        function post_update_publicreadonly() {
+                            const form = document.createElement('form');
+                            form.method = 'post';
+                            form.action = '/updatetoggle/{{ board.id }}';
+
+                            const hiddenField = document.createElement('input');
+                            hiddenField.type = 'hidden';
+                            hiddenField.name = 'publicreadonly';
+                            hiddenField.value = $('#publictoggle').prop('checked');
+
+                            form.appendChild(hiddenField)
+                            document.body.appendChild(form);
+                            form.submit();
+                        }
                     </script>
                     <br>
                 </div>

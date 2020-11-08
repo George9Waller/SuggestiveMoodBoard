@@ -143,6 +143,7 @@ class Board(Model):
     VenueSize = CharField(default='Small')
     EventDate = DateField(default=datetime.date.today)
     Created = DateField(default=datetime.date.today)
+    publicreadonly = BooleanField(default=False)
 
     class Meta:
         database = DATABASE
@@ -170,6 +171,19 @@ class Board(Model):
     def get_boards_by_user(self):
         """returns boards for the user of the supplied id"""
         return Board.select().join(User).where(Board.User.id == self)
+
+    def set_publicreadonly(self, value):
+        """sets the value of publicreadonly"""
+        if value == 'true':
+            return Board.update(publicreadonly=True).where(Board.id == self.id).execute()
+        elif value == 'false':
+            return Board.update(publicreadonly=False).where(Board.id == self.id).execute()
+        else:
+            return None
+
+    def get_publicreadonly(self):
+        """returns the value for publicreadonly"""
+        return self.publicreadonly
 
     @staticmethod
     def create_board(user, name, venuesize='Small', eventdate=datetime.date.today):
@@ -367,5 +381,5 @@ def initialise():
     DATABASE.connect()
     # DATABASE.drop_tables([User, Board, Idea, Tag, Idea_Tag])
     DATABASE.create_tables([User, Board, Idea, Tag, Idea_Tag], safe=True)
-    # DATABASE.execute_sql("UPDATE Tag SET TextColour = '#ffffff';")
+    # DATABASE.execute_sql("UPDATE Board SET publicreadonly = False")
     DATABASE.close()

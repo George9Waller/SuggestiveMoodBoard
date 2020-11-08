@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Share {{ board.Name }}</title>
+    <link rel="stylesheet" href="{{ url_for('.static', filename='/css/styles.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,600" rel="stylesheet">
+    <style>body{font-family: 'Quicksand', sans-serif!important;}</style>
+</head>
+<body>
+    <div style="margin-top: 20px; background: #f2f2f2; padding: 10px;">
+        <h1>{{ board.Name }}</h1>
+        <h1>Created by: {{ board.User.UserName }}</h1>
+        <h1>Project size: {{ board.VenueSize }}</h1>
+        <h1>Project date: {{ board.EventDate }}</h1>
+    </div>
+    <br>
+    <div style="display: flex; flex-flow: row wrap; align-items: stretch; justify-content: space-evenly">
+    {% for tag in tags %}
+        <div style="width: 400px; background: {{ tag.Colour }}; padding: 5px; border: solid {{ tag.Colour }} 2px; margin:10px 0;">
+            <h2 style="color: {{ tag.textcolour }}!important;" class="text-center">{{ tag.Name }}</h2>
+        </div>
+        {% for idea in tag.ideas %}
+            <div class="idea" style="padding: 5px; border: solid #f2f2f2 2px; border-bottom: solid {{ tag.Colour }} 10px; width: 400px;margin: 10px 0; background: #f2f2f2">
+                <h3>{{ idea.Name }}</h3>
+                <h5>{{ idea.Content }}</h5>
+                {% if idea.Colour != '' and idea.Colour != 'black' and idea.Colour != '#000000' %}
+                    <div style="width: 100%; background: {{ idea.Colour }}; height: 10mm"></div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+
+    {% if otherideas|length != 0 %}
+        <div style="width: 400px; background: black; padding: 5px; border: solid black 2px; margin:10px 0;">
+            <h2 style="color: white" class="text-center">Untagged Ideas</h2>
+        </div>
+        {% for idea in otherideas %}
+            <div class="idea" style="padding: 5px; border: solid #f2f2f2 2px; border-bottom: solid black 10px; width: 400px;margin: 10px 0; background: #f2f2f2">
+                <h3>{{ idea.Name }}</h3>
+                <h5>{{ idea.Content }}</h5>
+                {% if idea.Colour != '' and idea.Colour != 'black' and idea.Colour != '#000000' %}
+                    <div style="width: 100%; background: {{ idea.Colour }}; height: 10mm"></div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% endif %}
+    </div>
+
+</body>
+</html>
