@@ -9,11 +9,11 @@
             {{ field.label }}
         {% endif %}
         {% if field.label.text == 'Name' %}
-            {{ field(placeholder=field.label.text, class="form-control", autocomplete="off") }}
+            {{ field(placeholder=field.label.text, class="form-control", autocomplete="off", style="font-size: small") }}
         {% elif field.label.text == 'Content' %}
-            {{ field(placeholder='Optional description', class="form-control", autocomplete="off") }}
+            {{ field(placeholder='Optional description', class="form-control", autocomplete="off", style="font-size: small") }}
         {% else %}
-            {{ field(placeholder=field.label.text, class="form-control") }}
+            {{ field(placeholder=field.label.text, class="form-control", style="font-size: small") }}
         {% endif %}
     </div>
 {% endmacro %}
