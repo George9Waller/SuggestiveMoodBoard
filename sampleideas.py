@@ -43,7 +43,7 @@ def addideas(board):
                                        'I will use them in an abstract way to present conflict and control '
                                        'in the shoadows they create on actors and the strong harsh light '
                                        'for the audience.',
-                               board=board, colour='')
+                               board=board, colour='#f0ffff')
     models.Idea_Tag.create_idea_tag_link(idea=idea3, tag=FixtureType)
     models.Idea_Tag.create_idea_tag_link(idea=idea3, tag=FixtureAngle)
 
@@ -54,7 +54,7 @@ def addideas(board):
                                                'They will be revealed in the opening of the piece in the void and and '
                                                'then left at the end when one character is left alone confused and '
                                                'paniced by their discovery.',
-                       board=board, colour='')
+                       board=board, colour='#daa520')
     models.Idea_Tag.create_idea_tag_link(idea=idea4, tag=FixtureType)
 
     models.Idea.create_idea(name='The Void', content='The void is a very sterile and harsh environment where no shadows '
@@ -73,7 +73,7 @@ def addideas(board):
                                               'tense moments e.g. the void I use level 4/5 whites whereas in more '
                                               'familiar and pleasant moments e.g. graduation I use level 2 - its '
                                               'like the 7 levels of tension',
-                       board=board, colour='#ffffff')
+                       board=board, colour='#f8f8ff')
 
     # Graduation scene
     idea5 = models.Idea.create_idea(name='Shuttering', content='In the graduation the while the teachers are on the blocks I '
@@ -91,7 +91,7 @@ def addideas(board):
                                               'coupled with the torches, I created a dimly it jungle using back '
                                               'breakups and very dim single source green LED to show positional '
                                               'awareness through lighting.',
-                       board=board, colour='')
+                       board=board, colour='#2e8b57')
     models.Idea_Tag.create_idea_tag_link(idea=idea6, tag=FixtureType)
     models.Idea_Tag.create_idea_tag_link(idea=idea6, tag=FixtureAngle)
     models.Idea_Tag.create_idea_tag_link(idea=idea6, tag=Scene1)
@@ -99,14 +99,14 @@ def addideas(board):
     idea7 = models.Idea.create_idea(name='Death', content='When it is revealed Edie has died there is a strong change in tension, '
                                              'which I emphasised through a snap change to much colder lighting and '
                                              'strong isolation on his mother center stage.',
-                       board=board, colour='#0000ff')
+                       board=board, colour='#483d8b')
     models.Idea_Tag.create_idea_tag_link(idea=idea7, tag=FixtureAngle)
     models.Idea_Tag.create_idea_tag_link(idea=idea7, tag=Scene1)
 
     idea8 = models.Idea.create_idea(name='Blood', content='When edie has died on the floor I used rear LED single source red '
                                              'lights which fade up to represent the blood pooling on the floor after '
                                              'being stabbed, this is then referenced in the dialogue.',
-                       board=board, colour='#ff0000')
+                       board=board, colour='#b22222')
     models.Idea_Tag.create_idea_tag_link(idea=idea8, tag=FixtureType)
     models.Idea_Tag.create_idea_tag_link(idea=idea8, tag=FixtureAngle)
     models.Idea_Tag.create_idea_tag_link(idea=idea8, tag=Scene1)
@@ -115,7 +115,7 @@ def addideas(board):
     idea9 = models.Idea.create_idea(name='Boat scene colour', content='In the second scene the setting is on a boat which catches '
                                                          'fire and sinks, to highlight this I used very strong hues '
                                                          'of blue throughout the scene and cold white for face light.',
-                       board=board, colour='#0020ff')
+                       board=board, colour='#4682b4')
     models.Idea_Tag.create_idea_tag_link(idea=idea9, tag=FixtureType)
     models.Idea_Tag.create_idea_tag_link(idea=idea9, tag=Scene2)
 
@@ -138,7 +138,7 @@ def addideas(board):
     idea12 = models.Idea.create_idea(name='Cloth', content='The blue cloth is used to represent the waves and moved as such, '
                                              'when the waves finally drown the character they shine their torch down '
                                              'the cloth as if they were a dot sinking to the bottom of the sea.',
-                       board=board, colour='#0030ff')
+                       board=board, colour='#40e0d0')
     models.Idea_Tag.create_idea_tag_link(idea=idea12, tag=FixtureType)
     models.Idea_Tag.create_idea_tag_link(idea=idea12, tag=Scene2)
 
@@ -148,7 +148,7 @@ def addideas(board):
                                                       'void-like lighting, especially from the back, to show again the '
                                                       'lack of power the characters face in their death which they '
                                                       'are searching for the meaning of.',
-                       board=board, colour='#ffffff')
+                       board=board, colour='#f8f8ff')
     models.Idea_Tag.create_idea_tag_link(idea=idea13, tag=FixtureType)
     models.Idea_Tag.create_idea_tag_link(idea=idea13, tag=Scene3)
 
@@ -157,7 +157,7 @@ def addideas(board):
                                                  'driving. I used the LED tape as the lane markings on the road which '
                                                  'gave more context and meaning to their movements, especially when '
                                                  'overtaking.',
-                       board=board, colour='#ffffcf')
+                       board=board, colour='#ffebcd')
     models.Idea_Tag.create_idea_tag_link(idea=idea14, tag=FixtureType)
     models.Idea_Tag.create_idea_tag_link(idea=idea14, tag=FixtureAngle)
     models.Idea_Tag.create_idea_tag_link(idea=idea14, tag=Scene3)
@@ -166,7 +166,7 @@ def addideas(board):
                                               'the power of the crash even through they were analysing it slowly, '
                                               'when they announced each stage I had a really bright pulse of back '
                                               'light at the audience to show this power and significance in the event.',
-                       board=board, colour='#ffffff')
+                       board=board, colour='#f8f8ff')
     models.Idea_Tag.create_idea_tag_link(idea=idea15, tag=FixtureType)
     models.Idea_Tag.create_idea_tag_link(idea=idea15, tag=FixtureAngle)
     models.Idea_Tag.create_idea_tag_link(idea=idea15, tag=Scene3)
@@ -176,7 +176,7 @@ def addideas(board):
                                                  'dim for the heart to stop (torches used to show heart stopping as a '
                                                  'fist) when it finally snapped to back for the next scene. It '
                                                  'craeted the effect of the body shutting down.',
-                       board=board, colour='#111111')
+                       board=board, colour='#708090')
     models.Idea_Tag.create_idea_tag_link(idea=idea16, tag=FixtureType)
     models.Idea_Tag.create_idea_tag_link(idea=idea16, tag=Scene3)
 
@@ -186,7 +186,7 @@ def addideas(board):
                                                              'atmosphere in lighting through back amber lighting from '
                                                              'lights on the floor at the back which lit the haze and '
                                                              'the beams were split by the blocks infront.',
-                       board=board, colour='#ff2200')
+                       board=board, colour='#daa520')
     models.Idea_Tag.create_idea_tag_link(idea=idea17, tag=FixtureType)
     models.Idea_Tag.create_idea_tag_link(idea=idea17, tag=FixtureAngle)
     models.Idea_Tag.create_idea_tag_link(idea=idea17, tag=Scene4)
@@ -208,7 +208,7 @@ def addideas(board):
                                                            'highlight the higher power and add to the '
                                                            'tension/abstraction before snapping to a white void state '
                                                            '(peak tension) before the crash',
-                       board=board, colour='#1000ff')
+                       board=board, colour='#2f4f4f')
     models.Idea_Tag.create_idea_tag_link(idea=idea19, tag=FixtureType)
     models.Idea_Tag.create_idea_tag_link(idea=idea19, tag=FixtureAngle)
     models.Idea_Tag.create_idea_tag_link(idea=idea19, tag=Scene4)
@@ -220,7 +220,7 @@ def addideas(board):
                                                  'across the acors faces and sihlouettes from behind. It is meant to '
                                                  'be the most painful moment of the whole piece before snapping back '
                                                  'to the final void.',
-                       board=board, colour='#ff2220')
+                       board=board, colour='#e6e6fa')
     models.Idea_Tag.create_idea_tag_link(idea=idea20, tag=FixtureType)
     models.Idea_Tag.create_idea_tag_link(idea=idea20, tag=FixtureAngle)
     models.Idea_Tag.create_idea_tag_link(idea=idea20, tag=Scene4)
