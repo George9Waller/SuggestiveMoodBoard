@@ -51,7 +51,7 @@ def convert_colour_name_to_hex(colour_in):
                 except KeyError:
                     return '#ffffff'
         else:
-            return '#ffffff'
+            return colour_in
     except:
         return '#ffffff'
 

@@ -22,6 +22,18 @@ Bootstrap(app)
 
 deploy = True
 
+# userid_todelete = []
+#
+# user = models.User.select()
+# for elem in user:
+#     if elem.id in userid_todelete:
+#
+#         for board in models.Board.select():
+#             if board.User == elem:
+#                 models.Idea.delete_by_board(board)
+#                 models.Board.delete_instance(board)
+#         models.User.delete_instance(elem)
+
 
 try:
     import environment
@@ -123,7 +135,7 @@ def register():
         """created new user"""
         user = models.User.create_user(
             username=form.username.data,
-            email=form.email.data,
+            email=form.email.data.lower(),
             password=form.password.data,
             usertype=usernum
         )
