@@ -15,7 +15,7 @@
     </div>
     <br>
     {% for tag in tags %}
-        <div style="width: 210mm; height: 10mm; background: {{ tag.Colour }}; padding-left: 10mm">
+        <div class="background-element" style="width: 210mm; height: 10mm; background: {{ tag.Colour }}; padding-left: 10mm">
             <h2 style="color: {{ tag.textcolour }}!important;">{{ tag.Name }}</h2>
         </div>
         {% for idea in tag.ideas %}
@@ -38,7 +38,7 @@
                 <h3>{{ idea.Name }}</h3>
                 <h5>{{ idea.Content }}</h5>
                 {% if idea.Colour != '' and idea.Colour != 'black' and idea.Colour != '#000000' %}
-                    <div style="width: 100%; background: {{ idea.Colour }}; height: 10mm"></div>
+                    <div class="background-element" style="width: 100%; background: {{ idea.Colour }}; height: 10mm"></div>
                 {% endif %}
             </div>
         {% endfor %}

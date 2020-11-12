@@ -10,3 +10,8 @@ h2 {
 .idea{
     page-break-inside: avoid;
 }
+
+.background-element{
+    -webkit-print-color-adjust: exact !important;   /* Chrome, Safari */
+    color-adjust: exact !important;                 /*Firefox*/
+}
