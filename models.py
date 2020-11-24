@@ -21,9 +21,10 @@ else:
             environment.create_database_environment_variables()
         except ModuleNotFoundError:
             pass
-        DATABASE = PostgresqlDatabase(os.environ.get('DATABASE_ID'), user=os.environ.get('DATABASE_USER'),
-                                      password=os.environ.get('DATABASE_PASSWORD'),
-                                      host=os.environ.get('DATABASE_HOST'), port='5432')
+        DATABASE = PostgresqlDatabase(os.environ.get('DATABASE_URL').split('/')[-1],
+                                      user=os.environ.get('DATABASE_URL')[11:25],
+                                      password=os.environ.get('DATABASE_URL')[26:90],
+                                      host=os.environ.get('DATABASE_URL').split('@')[1].split(':')[0], port='5432')
     except OperationalError:
         DATABASE = SqliteDatabase('database.db')
 

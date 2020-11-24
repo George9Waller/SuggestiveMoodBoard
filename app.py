@@ -623,3 +623,6 @@ if __name__ == 'app':
         app.run(debug=DEBUG, port=int(os.environ.get('PORT', 5000)), use_reloader=True, host='127.0.0.1')
     else:
         app.run(debug=DEBUG, port=int(os.environ.get('PORT', 5000)), use_reloader=True, host='0.0.0.0')
+
+    # TODO Save Tags When Create Idea is the error to test for
+    # TODO Evaluate AccessKey for user button shortcuts
