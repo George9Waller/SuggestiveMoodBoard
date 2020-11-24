@@ -22,9 +22,10 @@ else:
         except ModuleNotFoundError:
             pass
         DATABASE = PostgresqlDatabase(os.environ.get('DATABASE_URL').split('/')[-1],
-                                      user=os.environ.get('DATABASE_URL')[11:25],
-                                      password=os.environ.get('DATABASE_URL')[26:90],
-                                      host=os.environ.get('DATABASE_URL').split('@')[1].split(':')[0], port='5432')
+                                      user=os.environ.get('DATABASE_URL').split('/')[2].split(':')[0],
+                                      password=os.environ.get('DATABASE_URL').split(':')[2].split('@')[0],
+                                      host=os.environ.get('DATABASE_URL').split('@')[1].split(':')[0],
+                                      port=os.environ.get('DATABASE_URL').split(':')[3].split('/')[0])
     except OperationalError:
         DATABASE = SqliteDatabase('database.db')
 
