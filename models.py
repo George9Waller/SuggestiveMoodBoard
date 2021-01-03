@@ -51,11 +51,11 @@ def convert_colour_name_to_hex(colour_in):
                 try:
                     return web_colour_names_upper[str(colour_in)]
                 except KeyError:
-                    return '#ffffff'
+                    return '#000000'
         else:
             return colour_in
     except:
-        return '#ffffff'
+        return '#000000'
 
 
 class User(UserMixin, Model):
@@ -241,7 +241,7 @@ class Idea(Model):
 
     def get_colour_ideas_by_board(self):
         """returns all the ideas with a colour from supplied board"""
-        return Idea.select().where((Idea.Board == self) & ((Idea.Colour != 'black') & (Idea.Colour != '')))
+        return Idea.select().where((Idea.Board == self) & ((Idea.Colour != '#000000') & (Idea.Colour != '')))
 
     def get_colour(self):
         """Returns the colour attribute of supplied idea"""
@@ -255,7 +255,7 @@ class Idea(Model):
     def filter(query, board):
         """Returns a filtered selection of ideas from the query"""
         if query == 'Colour':
-            return Idea.select().where((Idea.Board == board) & ((Idea.Colour != 'black') & (Idea.Colour != '')))
+            return Idea.select().where((Idea.Board == board) & ((Idea.Colour != '#000000') & (Idea.Colour != '')))
         elif query == 'All':
             return Idea.select().where(Idea.Board == board)
         elif query is None:

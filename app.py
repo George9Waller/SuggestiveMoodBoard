@@ -145,7 +145,7 @@ def register():
                                                 venuesize='Small', eventdate='2020-10-08')
         sampleideas.addideas(sampleboard)
         # returns user to index after registration
-        return redirect(url_for('index'))
+        return redirect(url_for('tutorial'))
     # reloads page on unsuccessful registration
     return render_template('register.html', form=form)
 

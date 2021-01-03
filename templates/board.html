@@ -47,7 +47,7 @@
                                 {% endfor %}
                             </div>
                             <!--Colour-->
-                            {% if idea.Colour != 'black' and idea.Colour != '' %}
+                            {% if idea.Colour != '#000000' and idea.Colour != '' %}
                                 <canvas style="background: {{ idea.Colour }}; width: 100%; height: 10px"></canvas>
                             {% endif %}
                         </div>
