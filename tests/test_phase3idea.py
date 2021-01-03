@@ -3,7 +3,6 @@ import os
 from peewee import *
 import time
 
-import app
 from models import User, Board, Idea
 from tests.test_auth import UserModelTestCase
 

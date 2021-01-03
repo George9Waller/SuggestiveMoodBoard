@@ -3,7 +3,6 @@ import os
 from peewee import *
 import time
 
-import app
 from models import User, Board, Idea, Idea_Tag, Tag
 from tests.test_phase3idea import IdeaHelperTestCase
 
