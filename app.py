@@ -401,6 +401,7 @@ def edit_idea(boardid, ideaid):
             form.content.data = idea.Content
             form.colour.data = idea.Colour
             form.addtotag.data = linkstr
+            print(linkstr)
         # reloads page on unsuccessful form
         return render_template('idea.html', form=form, idea=idea, delete=True, colour=colour_update)
     except models.DoesNotExist:
